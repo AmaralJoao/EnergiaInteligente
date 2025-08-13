@@ -1,4 +1,4 @@
-package com.br.EnergiaInteligente.Controller.RestController;
+package com.br.EnergiaInteligente.Controller.Auth;
 
 import com.br.EnergiaInteligente.Dto.Request.MedicaoRequestDto;
 import com.br.EnergiaInteligente.Service.MedicaoService;
@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/medicao")
+@RequestMapping("/auth/api/medicao")
 public class MedicaoController {
 
     @Autowired

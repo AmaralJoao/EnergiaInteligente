@@ -78,4 +78,12 @@ public class DispositivoModel {
     public void setVersaoDoDispositivo(long versaoDoDispositivo) {
         this.versaoDoDispositivo = versaoDoDispositivo;
     }
+
+    public UsuarioModel getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioModel usuario) {
+        this.usuario = usuario;
+    }
 }

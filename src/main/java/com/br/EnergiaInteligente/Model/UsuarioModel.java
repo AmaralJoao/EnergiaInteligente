@@ -15,14 +15,26 @@ public class UsuarioModel {
     @Column(name = "cdUsuario")
     private Long id;
 
-    @Column(name = "nmusuario")
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "senha")
+    private String senha;
+
+    @Column(name = "dtCriacao")
+    private LocalDateTime dataCriacao;
+
+    @Column(name = "dtAtualizacao")
+    private LocalDateTime atualizacao;
+
+    @Column(name = "nmUsuario")
     private String nomeDoUsuario;
+
+    @Column(name = "nmDeUsuario")
+    private String nomeDeUsuario;
 
     @Column(name = "contato")
     private String contato;
-
-    @Column(name = "dtCriacao")
-    private LocalDateTime dataCriacaoUsuario;
 
     @Column(name = "dtNascimento")
     private LocalDateTime dataNascimento;
@@ -30,11 +42,23 @@ public class UsuarioModel {
     public UsuarioModel() {
     }
 
-    public UsuarioModel(Long id, String nomeDoUsuario, String contato, LocalDateTime dataCriacaoUsuario, LocalDateTime dataNascimento) {
+    public UsuarioModel(Long id, String nomeDoUsuario, String email, String contato, LocalDateTime dataNascimento, String nomeDeUsuario) {
         this.id = id;
         this.nomeDoUsuario = nomeDoUsuario;
+        this.email = email;
         this.contato = contato;
-        this.dataCriacaoUsuario = dataCriacaoUsuario;
+        this.dataNascimento = dataNascimento;
+        this.nomeDeUsuario = nomeDeUsuario;
+    }
+
+    public UsuarioModel(Long id, String senha, LocalDateTime dataCriacao, LocalDateTime atualizacao, String nomeDoUsuario, String email, String contato, LocalDateTime dataNascimento) {
+        this.id = id;
+        this.senha = senha;
+        this.dataCriacao = dataCriacao;
+        this.atualizacao = atualizacao;
+        this.nomeDoUsuario = nomeDoUsuario;
+        this.email = email;
+        this.contato = contato;
         this.dataNascimento = dataNascimento;
     }
 
@@ -62,19 +86,51 @@ public class UsuarioModel {
         this.contato = contato;
     }
 
-    public LocalDateTime getDataCriacaoUsuario() {
-        return dataCriacaoUsuario;
-    }
-
-    public void setDataCriacaoUsuario(LocalDateTime dataCriacaoUsuario) {
-        this.dataCriacaoUsuario = dataCriacaoUsuario;
-    }
-
     public LocalDateTime getDataNascimento() {
         return dataNascimento;
     }
 
     public void setDataNascimento(LocalDateTime dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public LocalDateTime getAtualizacao() {
+        return atualizacao;
+    }
+
+    public void setAtualizacao(LocalDateTime atualizacao) {
+        this.atualizacao = atualizacao;
+    }
+
+    public String getNomeDeUsuario() {
+        return nomeDeUsuario;
+    }
+
+    public void setNomeDeUsuario(String nomeDeUsuario) {
+        this.nomeDeUsuario = nomeDeUsuario;
     }
 }
