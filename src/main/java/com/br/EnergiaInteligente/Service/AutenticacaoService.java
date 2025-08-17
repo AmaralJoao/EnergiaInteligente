@@ -1,6 +1,7 @@
 package com.br.EnergiaInteligente.Service;
 
 import com.br.EnergiaInteligente.Model.SessaoModel;
+import com.br.EnergiaInteligente.Model.UsuarioModel;
 import com.br.EnergiaInteligente.Repository.SessaoRepository;
 import com.br.EnergiaInteligente.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,16 @@ public class AutenticacaoService {
             sessao.setAtiva(false);
             sessaoRepository.save(sessao);
         });
+    }
+
+    public UsuarioModel autenticarParaDispositivo(String email, String senha){
+        var usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(()-> new RuntimeException("Credenciais invalidas"));
+
+        if (!new BCryptPasswordEncoder().matches(senha, usuario.getSenha())){
+            throw new RuntimeException("Credenciais incorretas");
+        }
+
+        return usuario;
     }
 }

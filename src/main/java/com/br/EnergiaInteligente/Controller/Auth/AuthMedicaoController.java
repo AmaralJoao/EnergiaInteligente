@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth/api/medicao")
-public class MedicaoController {
+public class AuthMedicaoController {
 
     @Autowired
     private MedicaoService medicaoService;

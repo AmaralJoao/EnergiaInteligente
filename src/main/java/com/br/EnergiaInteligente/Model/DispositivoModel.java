@@ -11,6 +11,12 @@ public class DispositivoModel {
     @Column(name = "cdDispositivo")
     private long id;
 
+    @Column(name = "macAddres")
+    private String macAddres;
+
+    @Column(name = "chipId")
+    private long chipId;
+
     @Column(name = "idDispositivo")
     private long identificadorDispositivo;
 
@@ -23,6 +29,9 @@ public class DispositivoModel {
     @Column(name = "nrVersaoDispositivo")
     private long versaoDoDispositivo;
 
+    @Column(name = "apiKey")
+    private String apiKey;
+
     @ManyToOne
     @JoinColumn(name = "cdUsuario")
     private UsuarioModel usuario;
@@ -31,12 +40,16 @@ public class DispositivoModel {
     public DispositivoModel() {
     }
 
-    public DispositivoModel(long id, long identificadorDispositivo, String nomeDoDispositivo, String modeloDispositivo, long versaoDoDispositivo) {
+    public DispositivoModel(long id, String macAddres, long chipId, long identificadorDispositivo, String nomeDoDispositivo, String modeloDispositivo, long versaoDoDispositivo, String apiKey, UsuarioModel usuario) {
         this.id = id;
+        this.macAddres = macAddres;
+        this.chipId = chipId;
         this.identificadorDispositivo = identificadorDispositivo;
         this.nomeDoDispositivo = nomeDoDispositivo;
         this.modeloDispositivo = modeloDispositivo;
         this.versaoDoDispositivo = versaoDoDispositivo;
+        this.apiKey = apiKey;
+        this.usuario = usuario;
     }
 
     public long getId() {
@@ -45,6 +58,22 @@ public class DispositivoModel {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getMacAddres() {
+        return macAddres;
+    }
+
+    public void setMacAddres(String macAddres) {
+        this.macAddres = macAddres;
+    }
+
+    public long getChipId() {
+        return chipId;
+    }
+
+    public void setChipId(long chipId) {
+        this.chipId = chipId;
     }
 
     public long getIdentificadorDispositivo() {
@@ -85,5 +114,13 @@ public class DispositivoModel {
 
     public void setUsuario(UsuarioModel usuario) {
         this.usuario = usuario;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 }

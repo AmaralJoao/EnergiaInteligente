@@ -15,7 +15,13 @@ public class CadastrarDispositivoRequesDto {
 
     private long versaoDoDispositivo;
 
-    private long cdUsuario;
+    private String macAddres;
+
+    private long chipId;
+
+    private String emailusuario;
+
+    private String senhaUsuario;
 
     public long getIdentificadorDispositivo() {
         return identificadorDispositivo;
@@ -49,11 +55,35 @@ public class CadastrarDispositivoRequesDto {
         this.versaoDoDispositivo = versaoDoDispositivo;
     }
 
-    public long getCdUsuario() {
-        return cdUsuario;
+    public String getMacAddres() {
+        return macAddres;
     }
 
-    public void setCdUsuario(long cdUsuario) {
-        this.cdUsuario = cdUsuario;
+    public void setMacAddres(String macAddres) {
+        this.macAddres = macAddres;
+    }
+
+    public long getChipId() {
+        return chipId;
+    }
+
+    public void setChipId(long chipId) {
+        this.chipId = chipId;
+    }
+
+    public String getEmailusuario() {
+        return emailusuario;
+    }
+
+    public void setEmailusuario(String emailusuario) {
+        this.emailusuario = emailusuario;
+    }
+
+    public String getSenhaUsuario() {
+        return senhaUsuario;
+    }
+
+    public void setSenhaUsuario(String senhaUsuario) {
+        this.senhaUsuario = senhaUsuario;
     }
 }

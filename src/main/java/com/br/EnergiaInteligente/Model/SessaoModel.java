@@ -12,7 +12,7 @@ public class SessaoModel {
     private String token; // UUID como chave primária
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cdEstabelecimento")
+    @JoinColumn(name = "cdUsuario")
     private UsuarioModel usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)

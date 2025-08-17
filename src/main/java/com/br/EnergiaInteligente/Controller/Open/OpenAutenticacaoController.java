@@ -14,7 +14,7 @@ public class OpenAutenticacaoController {
     @Autowired
     private AutenticacaoService authService;
 
-    @PostMapping("/loginusuario")
+    @PostMapping("/usuario/login")
     public ResponseEntity<LoginUsuarioResponseDto> logar(@RequestBody LoginUsuarioResquestDto loginRequestDto, HttpServletRequest request){
         String token = authService.autenticar(loginRequestDto.getEmaiUsuario(), loginRequestDto.getSenha(),
                 request.getRemoteAddr(),

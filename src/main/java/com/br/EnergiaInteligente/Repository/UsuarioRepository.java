@@ -13,6 +13,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
 
     Optional<UsuarioModel> findByEmail(String email);
 
-    /*@Query("SELECT u FROM UsuarioModel u WHERE u.token = :token AND u.ativo = true")
-    Optional<Long> findByToken(@Param(("token")) String token);*/
+    @Query("SELECT u FROM UsuarioModel u JOIN SessaoModel s on s.usuario.id = u.id WHERE s.token = :token AND s.ativa = true AND s.expiraEm > CURRENT_TIMESTAMP")
+    Optional<UsuarioModel> findUsuarioByTokenAtivo(@Param("token") String token);
 }
