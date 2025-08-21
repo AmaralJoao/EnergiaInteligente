@@ -1,6 +1,7 @@
 package com.br.EnergiaInteligente.Service;
 
 import com.br.EnergiaInteligente.Dto.Request.CadastrarDispositivoRequesDto;
+import com.br.EnergiaInteligente.Dto.Request.VincularDispositivoRequestDto;
 import com.br.EnergiaInteligente.Dto.Response.DispositivoResponseDto;
 import com.br.EnergiaInteligente.Mapper.DispositivoMapper;
 import com.br.EnergiaInteligente.Model.DispositivoModel;
@@ -20,6 +21,8 @@ public class DispositivoService {
     @Autowired
     private DispositivoRepository dispositivoRepository;
     @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
     private AutenticacaoService autenticacaoService;
     @Autowired
     private DispositivoMapper dispositivoMapper;
@@ -32,18 +35,26 @@ public class DispositivoService {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        UsuarioModel usuarioDoDispositivo = autenticacaoService.autenticarParaDispositivo(
-                dispositivoRequesDto.getEmailusuario(),
-                dispositivoRequesDto.getSenhaUsuario()
-        );
-
         DispositivoModel novoDispositivel = dispositivoMapper.requestToModel(dispositivoRequesDto);
         String apiKey = generateApiKey(32);
         novoDispositivel.setApiKey(encoder.encode(apiKey));
-        novoDispositivel.setUsuario(usuarioDoDispositivo);
         DispositivoModel salvarDispositivo = dispositivoRepository.save(novoDispositivel);
 
         return apiKey;
+    }
+
+    public DispositivoResponseDto listarPorChipId(Long chipId){
+        DispositivoModel dispositivo = dispositivoRepository.findByChipId(chipId);
+        return dispositivoMapper.toDto(dispositivo);
+    }
+
+    public DispositivoResponseDto vincularDispositivoUsuario(VincularDispositivoRequestDto vincularDispositivoRequestDto){
+        DispositivoModel dispositivo = dispositivoRepository.findByChipId(vincularDispositivoRequestDto.getChipId());
+        UsuarioModel usuarioDispositivo = usuarioRepository.findById(vincularDispositivoRequestDto.getCdUsuario()).orElseThrow();
+
+        dispositivo.setUsuario(usuarioDispositivo);
+
+        return dispositivoMapper.toDto(dispositivoRepository.save(dispositivo));
     }
 
     public static String generateApiKey(int length) {

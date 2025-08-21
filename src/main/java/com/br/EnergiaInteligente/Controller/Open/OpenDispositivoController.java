@@ -1,7 +1,6 @@
 package com.br.EnergiaInteligente.Controller.Open;
 
 import com.br.EnergiaInteligente.Dto.Request.CadastrarDispositivoRequesDto;
-import com.br.EnergiaInteligente.Dto.Response.DispositivoIdentificadoResposeDto;
 import com.br.EnergiaInteligente.Service.DispositivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,16 +23,4 @@ public class OpenDispositivoController {
         return ResponseEntity.ok().body(novoDispositivo);
     }
 
-    @GetMapping("/identificar/{chipId}")
-    public ResponseEntity<Boolean> identificarDispositivo(@PathVariable Long chipId) {
-        try {
-            boolean response = dispositivoService.dispositivoExiste(chipId);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Dispositivo não encontrado com chipId: " + chipId
-            );
-        }
-    }
 }

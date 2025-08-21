@@ -19,10 +19,6 @@ public class CadastrarDispositivoRequesDto {
 
     private long chipId;
 
-    private String emailusuario;
-
-    private String senhaUsuario;
-
     public long getIdentificadorDispositivo() {
         return identificadorDispositivo;
     }
@@ -71,19 +67,4 @@ public class CadastrarDispositivoRequesDto {
         this.chipId = chipId;
     }
 
-    public String getEmailusuario() {
-        return emailusuario;
-    }
-
-    public void setEmailusuario(String emailusuario) {
-        this.emailusuario = emailusuario;
-    }
-
-    public String getSenhaUsuario() {
-        return senhaUsuario;
-    }
-
-    public void setSenhaUsuario(String senhaUsuario) {
-        this.senhaUsuario = senhaUsuario;
-    }
 }

@@ -14,11 +14,6 @@ public class LocalizacaoDispositivoModel {
     @Column(name = "nmLocalizacao")
     private String nomeDaLocalizacao;
 
-    /*
-    @Column(name = "nmusuario")
-    private int local;
-    */
-
     @OneToOne
     @JoinColumn(name = "cdDispositivo")
     private DispositivoModel dispositivo;

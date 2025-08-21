@@ -26,6 +26,9 @@ public class MedicaoModel {
     @Column(name = "corrente")
     private int corrente;
 
+    @JoinColumn(name = "cdTipoMedicao")
+    private TipoMedicaoModel tipoMedicao;
+
     @Column(name = "dataHoraFimMedicao")
     private LocalDateTime dataHoraFimMedicao;
 
@@ -38,12 +41,13 @@ public class MedicaoModel {
     public MedicaoModel() {
     }
 
-    public MedicaoModel(long id, DispositivoModel dispositivo, long consumo, int tensao, int corrente, LocalDateTime dataHoraFimMedicao, LocalDateTime dataHoraInicioMedicao) {
+    public MedicaoModel(long id, DispositivoModel dispositivo, long consumo, int tensao, int corrente, TipoMedicaoModel tipoMedicao, LocalDateTime dataHoraFimMedicao, LocalDateTime dataHoraInicioMedicao) {
         this.id = id;
         this.dispositivo = dispositivo;
         this.consumo = consumo;
         this.tensao = tensao;
         this.corrente = corrente;
+        this.tipoMedicao = tipoMedicao;
         this.dataHoraFimMedicao = dataHoraFimMedicao;
         this.dataHoraInicioMedicao = dataHoraInicioMedicao;
     }
@@ -86,6 +90,14 @@ public class MedicaoModel {
 
     public void setCorrente(int corrente) {
         this.corrente = corrente;
+    }
+
+    public TipoMedicaoModel getTipoMedicao() {
+        return tipoMedicao;
+    }
+
+    public void setTipoMedicao(TipoMedicaoModel tipoMedicao) {
+        this.tipoMedicao = tipoMedicao;
     }
 
     public LocalDateTime getDataHoraFimMedicao() {
