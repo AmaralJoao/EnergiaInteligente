@@ -1,6 +1,9 @@
 package com.br.EnergiaInteligente.Model;
 
+import com.br.EnergiaInteligente.Utils.GeradoIdentificadorUtil;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "localizacaoDispositivo")
@@ -10,6 +13,9 @@ public class LocalizacaoDispositivoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cdLocalizacaoDispositivo")
     private long id;
+
+    @Column(name = "cdPublico", unique = true, nullable = false, updatable = false, length = 20)
+    private String codigoPublico;
 
     @Column(name = "nmLocalizacao")
     private String nomeDaLocalizacao;
@@ -33,6 +39,12 @@ public class LocalizacaoDispositivoModel {
     @Column(name = "nrLongitude")
     private Double longitude;
 
+    @Column(name = "dtFim")
+    private LocalDateTime dataInicio;
+
+    @Column(name = "dtInicio")
+    private LocalDateTime dataFim;
+
     public LocalizacaoDispositivoModel() {
     }
 
@@ -45,6 +57,7 @@ public class LocalizacaoDispositivoModel {
         this.numero = numero;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
     }
 
     public long getId() {
@@ -53,6 +66,14 @@ public class LocalizacaoDispositivoModel {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getCodigoPublico() {
+        return codigoPublico;
+    }
+
+    public void setCodigoPublico(String codigoPublico) {
+        this.codigoPublico = codigoPublico;
     }
 
     public String getNomeDaLocalizacao() {
@@ -109,5 +130,21 @@ public class LocalizacaoDispositivoModel {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public LocalDateTime getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(LocalDateTime dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public LocalDateTime getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(LocalDateTime dataFim) {
+        this.dataFim = dataFim;
     }
 }

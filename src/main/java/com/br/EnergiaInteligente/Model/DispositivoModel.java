@@ -1,5 +1,6 @@
 package com.br.EnergiaInteligente.Model;
 
+import com.br.EnergiaInteligente.Utils.GeradoIdentificadorUtil;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,6 +11,9 @@ public class DispositivoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cdDispositivo")
     private long id;
+
+    @Column(name = "cdPublico", unique = true, nullable = false, updatable = false, length = 20)
+    private String codigoPublico;
 
     @Column(name = "macAddres")
     private String macAddres;
@@ -50,6 +54,7 @@ public class DispositivoModel {
         this.versaoDoDispositivo = versaoDoDispositivo;
         this.apiKey = apiKey;
         this.usuario = usuario;
+        this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
     }
 
     public long getId() {
@@ -122,5 +127,13 @@ public class DispositivoModel {
 
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
+    }
+
+    public String getCodigoPublico() {
+        return codigoPublico;
+    }
+
+    public void setCodigoPublico(String codigoPublico) {
+        this.codigoPublico = codigoPublico;
     }
 }

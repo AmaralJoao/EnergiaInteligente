@@ -1,10 +1,12 @@
 package com.br.EnergiaInteligente.Mapper;
 
 import com.br.EnergiaInteligente.Dto.Request.CadastrarDispositivoRequesDto;
-import com.br.EnergiaInteligente.Dto.Request.DispositivoRequesDto;
+import com.br.EnergiaInteligente.Dto.Request.LocalizacaoDispositivoRequestDto;
 import com.br.EnergiaInteligente.Dto.Request.MedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Response.DispositivoResponseDto;
+import com.br.EnergiaInteligente.Dto.Response.LocalizacaoDispositivoResponseDto;
 import com.br.EnergiaInteligente.Model.DispositivoModel;
+import com.br.EnergiaInteligente.Model.LocalizacaoDispositivoModel;
 import com.br.EnergiaInteligente.Model.MedicaoModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -13,17 +15,13 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,  nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface DispositivoMapper {
+public interface LocalizacaoDispositivoMapper {
 
-    DispositivoMapper INSTANCE = Mappers.getMapper(DispositivoMapper.class);
+    LocalizacaoDispositivoMapper INSTANCE = Mappers.getMapper(LocalizacaoDispositivoMapper.class);
 
-    //DispositivoModel requestToModel(DispositivoRequesDto dto);
+    LocalizacaoDispositivoModel requestToModel(LocalizacaoDispositivoRequestDto dto);
 
-    DispositivoModel requestToModel(CadastrarDispositivoRequesDto dto);
+    LocalizacaoDispositivoResponseDto toDto(LocalizacaoDispositivoModel model);
 
-    DispositivoResponseDto toDto(DispositivoModel model);
-
-    //void updateModelFromDto(DispositivoRequesDto dto, @MappingTarget DispositivoModel model);
-    void updateModelFromDto(CadastrarDispositivoRequesDto dto, @MappingTarget DispositivoModel model);
-
+    void updateModelFromDto(LocalizacaoDispositivoRequestDto dto, @MappingTarget LocalizacaoDispositivoModel model);
 }

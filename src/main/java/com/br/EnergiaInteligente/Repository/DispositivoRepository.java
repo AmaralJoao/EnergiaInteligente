@@ -1,6 +1,7 @@
 package com.br.EnergiaInteligente.Repository;
 
 import com.br.EnergiaInteligente.Model.DispositivoModel;
+import com.br.EnergiaInteligente.Model.MedicaoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,9 @@ public interface DispositivoRepository extends JpaRepository<DispositivoModel, L
 
     DispositivoModel findByIdentificadorDispositivo(long identificadorPedido);
 
-
     DispositivoModel findByChipId(Long chipId);
+
+    Optional<DispositivoModel> findByCodigoPublico(String codigoPublico);
+
+    boolean existsByCodigoPublico(String codigoPublico);
 }

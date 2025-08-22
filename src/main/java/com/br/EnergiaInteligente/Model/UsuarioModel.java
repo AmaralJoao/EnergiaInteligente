@@ -1,5 +1,6 @@
 package com.br.EnergiaInteligente.Model;
 
+import com.br.EnergiaInteligente.Utils.GeradoIdentificadorUtil;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -14,6 +15,9 @@ public class UsuarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cdUsuario")
     private Long id;
+
+    @Column(name = "cdPublico", unique = true, nullable = false, updatable = false, length = 20)
+    private String codigoPublico;
 
     @Column(name = "email")
     private String email;
@@ -42,15 +46,6 @@ public class UsuarioModel {
     public UsuarioModel() {
     }
 
-    public UsuarioModel(Long id, String nomeDoUsuario, String email, String contato, LocalDateTime dataNascimento, String nomeDeUsuario) {
-        this.id = id;
-        this.nomeDoUsuario = nomeDoUsuario;
-        this.email = email;
-        this.contato = contato;
-        this.dataNascimento = dataNascimento;
-        this.nomeDeUsuario = nomeDeUsuario;
-    }
-
     public UsuarioModel(Long id, String senha, LocalDateTime dataCriacao, LocalDateTime atualizacao, String nomeDoUsuario, String email, String contato, LocalDateTime dataNascimento) {
         this.id = id;
         this.senha = senha;
@@ -60,6 +55,7 @@ public class UsuarioModel {
         this.email = email;
         this.contato = contato;
         this.dataNascimento = dataNascimento;
+        this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
     }
 
     public Long getId() {
@@ -132,5 +128,13 @@ public class UsuarioModel {
 
     public void setNomeDeUsuario(String nomeDeUsuario) {
         this.nomeDeUsuario = nomeDeUsuario;
+    }
+
+    public String getCodigoPublico() {
+        return codigoPublico;
+    }
+
+    public void setCodigoPublico(String codigoPublico) {
+        this.codigoPublico = codigoPublico;
     }
 }

@@ -1,5 +1,6 @@
 package com.br.EnergiaInteligente.Model;
 
+import com.br.EnergiaInteligente.Utils.GeradoIdentificadorUtil;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,9 @@ public class MedicaoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cdMedicacao")
     private long id;
+
+    @Column(name = "cdPublico", unique = true, nullable = false, updatable = false, length = 20)
+    private String codigoPublico;
 
     @ManyToOne
     @JoinColumn(name = "cdDispositivo")
@@ -50,6 +54,7 @@ public class MedicaoModel {
         this.tipoMedicao = tipoMedicao;
         this.dataHoraFimMedicao = dataHoraFimMedicao;
         this.dataHoraInicioMedicao = dataHoraInicioMedicao;
+        this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
     }
 
     public long getId() {
@@ -114,5 +119,13 @@ public class MedicaoModel {
 
     public void setDataHoraInicioMedicao(LocalDateTime dataHoraInicioMedicao) {
         this.dataHoraInicioMedicao = dataHoraInicioMedicao;
+    }
+
+    public String getCodigoPublico() {
+        return codigoPublico;
+    }
+
+    public void setCodigoPublico(String codigoPublico) {
+        this.codigoPublico = codigoPublico;
     }
 }

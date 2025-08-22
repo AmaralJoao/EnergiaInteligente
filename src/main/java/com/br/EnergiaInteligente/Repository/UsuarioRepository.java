@@ -15,4 +15,8 @@ public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
 
     @Query("SELECT u FROM UsuarioModel u JOIN SessaoModel s on s.usuario.id = u.id WHERE s.token = :token AND s.ativa = true AND s.expiraEm > CURRENT_TIMESTAMP")
     Optional<UsuarioModel> findUsuarioByTokenAtivo(@Param("token") String token);
+
+    Optional<UsuarioModel> findByCodigoPublico(String codigoPublico);
+
+    boolean existsByCodigoPublico(String codigoPublico);
 }
