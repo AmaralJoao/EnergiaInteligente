@@ -10,14 +10,15 @@ public class TipoMedicaoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String descicao;
+    @Column(name = "dsTipoMedicao")
+    private String descricao;
 
     public TipoMedicaoModel() {
     }
 
-    public TipoMedicaoModel(Long id, String descicao) {
+    public TipoMedicaoModel(Long id, String descricao) {
         this.id = id;
-        this.descicao = descicao;
+        this.descricao = descricao;
     }
 
     public Long getId() {
@@ -28,11 +29,11 @@ public class TipoMedicaoModel {
         this.id = id;
     }
 
-    public String getDescicao() {
-        return descicao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescicao(String descicao) {
-        this.descicao = descicao;
+    public void setDescricao(String descicao) {
+        this.descricao = descicao;
     }
 }

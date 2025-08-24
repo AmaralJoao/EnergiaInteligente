@@ -69,4 +69,12 @@ public class LocalizacaoDispositivoService {
             return localizacaoDispositivoMapper.toDto(salva);
         }
     }
+
+    public LocalizacaoDispositivoResponseDto encontrarLocalizacaoAtivaDoDispositivo(String codigoPublicoDoDispositivo) {
+
+        LocalizacaoDispositivoModel localizacaoAtivaDoDispositivo = localizacaoDispositivoRepository.findLocalizacaoAtivaByCodigoPublicoDispositivo(codigoPublicoDoDispositivo)
+                .orElseThrow(() -> new RuntimeException("Dispositivo nao possui localizacao ativa"));
+
+        return localizacaoDispositivoMapper.toDto(localizacaoAtivaDoDispositivo);
+    }
 }

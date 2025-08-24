@@ -1,68 +1,69 @@
 package com.br.EnergiaInteligente.Dto.Request;
 
-import com.br.EnergiaInteligente.Model.DispositivoModel;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MedicaoRequestDto {
 
-    private Long idDispositivo;
+    @NotNull(message = "Data de início é obrigatória")
+    @FutureOrPresent(message = "Data de início não pode ser no passado")
+    private LocalDateTime dataInicio;
 
-    private long consumo;
+    @NotNull(message = "Data de fim é obrigatória")
+    @FutureOrPresent(message = "Data de fim não pode ser no passado")
+    private LocalDateTime dataFim;
 
-    private int tensao;
+    @NotNull(message = "Data de fim é obrigatória")
+    private String codigoUsuario;
 
-    private int corrente;
+    // Opcional: caso queira filtrar por dispositivos específicos
+    private List<String> dispositivosIds;
 
-    private LocalDateTime dataHoraFimMedicao;
+    // Construtores
+    public MedicaoRequestDto() {}
 
-    private LocalDateTime dataHoraInicioMedicao;
-
-    public Long getIdDispositivo() {
-        return idDispositivo;
+    public MedicaoRequestDto(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
     }
 
-    public void setIdDispositivo(Long idDispositivo) {
-        this.idDispositivo = idDispositivo;
+    public LocalDateTime getDataInicio() {
+        return dataInicio;
     }
 
-    public long getConsumo() {
-        return consumo;
+    public void setDataInicio(LocalDateTime dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public void setConsumo(long consumo) {
-        this.consumo = consumo;
+    public LocalDateTime getDataFim() {
+        return dataFim;
     }
 
-    public int getTensao() {
-        return tensao;
+    public void setDataFim(LocalDateTime dataFim) {
+        this.dataFim = dataFim;
     }
 
-    public void setTensao(int tensao) {
-        this.tensao = tensao;
+    public String getCodigoUsuario() {
+        return codigoUsuario;
     }
 
-    public int getCorrente() {
-        return corrente;
+    public void setCodigoUsuario(String codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 
-    public void setCorrente(int corrente) {
-        this.corrente = corrente;
+    public List<String> getDispositivosIds() {
+        return dispositivosIds;
     }
 
-    public LocalDateTime getDataHoraFimMedicao() {
-        return dataHoraFimMedicao;
+    public void setDispositivosIds(List<String> dispositivosIds) {
+        this.dispositivosIds = dispositivosIds;
     }
 
-    public void setDataHoraFimMedicao(LocalDateTime dataHoraFimMedicao) {
-        this.dataHoraFimMedicao = dataHoraFimMedicao;
-    }
-
-    public LocalDateTime getDataHoraInicioMedicao() {
-        return dataHoraInicioMedicao;
-    }
-
-    public void setDataHoraInicioMedicao(LocalDateTime dataHoraInicioMedicao) {
-        this.dataHoraInicioMedicao = dataHoraInicioMedicao;
+    // Método de validação adicional
+    public boolean isValidDateRange() {
+        return dataInicio != null && dataFim != null && !dataInicio.isAfter(dataFim);
     }
 }

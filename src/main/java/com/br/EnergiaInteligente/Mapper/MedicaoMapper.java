@@ -1,7 +1,8 @@
 package com.br.EnergiaInteligente.Mapper;
 
-import com.br.EnergiaInteligente.Dto.Request.MedicaoRequestDto;
+import com.br.EnergiaInteligente.Dto.Request.NovaMedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Request.UsuarioRequestDto;
+import com.br.EnergiaInteligente.Dto.Response.MedicaoResponseDto;
 import com.br.EnergiaInteligente.Model.MedicaoModel;
 import com.br.EnergiaInteligente.Model.UsuarioModel;
 import org.mapstruct.Mapper;
@@ -15,10 +16,14 @@ public interface MedicaoMapper {
 
     MedicaoMapper INSTANCE = Mappers.getMapper(MedicaoMapper.class);
 
-    MedicaoModel requestToModel(MedicaoRequestDto dto);
 
-    //UsuarioResponseDto toDto(UsuarioModel model);
+    // Para novas medicoes
+    MedicaoModel requestToModel(NovaMedicaoRequestDto dto);
 
-    void updateModelFromDto(MedicaoRequestDto dto, @MappingTarget MedicaoModel model);
+    MedicaoResponseDto toDto(MedicaoModel model);
+
+    void updateModelFromDto(NovaMedicaoRequestDto dto, @MappingTarget MedicaoModel model);
+
+
 
 }

@@ -30,14 +30,16 @@ public class MedicaoModel {
     @Column(name = "corrente")
     private int corrente;
 
+    @ManyToOne
     @JoinColumn(name = "cdTipoMedicao")
     private TipoMedicaoModel tipoMedicao;
+
+    @Column(name = "dataHoraInicioMedicao")
+    private LocalDateTime dataHoraInicioMedicao;
 
     @Column(name = "dataHoraFimMedicao")
     private LocalDateTime dataHoraFimMedicao;
 
-    @Column(name = "dataHoraInicioMedicao")
-    private LocalDateTime dataHoraInicioMedicao;
 
     //private Float fatorCorrente;  // Fator de calibração do sensor SCT-013
 
