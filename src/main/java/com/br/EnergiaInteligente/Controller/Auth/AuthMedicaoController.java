@@ -1,5 +1,6 @@
 package com.br.EnergiaInteligente.Controller.Auth;
 
+import com.br.EnergiaInteligente.Dto.Request.LocalizarMedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Request.MedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Request.NovaMedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Response.MedicaoPorDispositivoResponseDto;
@@ -28,7 +29,7 @@ public class AuthMedicaoController {
     }
 
     @GetMapping("/listarmedicoes")
-    public ResponseEntity<List<MedicaoPorDispositivoResponseDto>> listarMedicoesDoUsuario(@RequestBody MedicaoRequestDto medicaoRequestDto){
+    public ResponseEntity<List<MedicaoPorDispositivoResponseDto>> listarMedicoesDoUsuario(@RequestBody LocalizarMedicaoRequestDto medicaoRequestDto){
         List<MedicaoPorDispositivoResponseDto> medicoes = medicaoService.listarMedicoesPorUsuario(medicaoRequestDto);
 
         return ResponseEntity.ok().body(medicoes);

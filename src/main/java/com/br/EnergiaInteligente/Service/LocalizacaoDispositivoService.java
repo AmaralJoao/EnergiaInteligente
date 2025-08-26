@@ -5,7 +5,9 @@ import com.br.EnergiaInteligente.Dto.Response.LocalizacaoDispositivoResponseDto;
 import com.br.EnergiaInteligente.Mapper.LocalizacaoDispositivoMapper;
 import com.br.EnergiaInteligente.Model.DispositivoModel;
 import com.br.EnergiaInteligente.Model.LocalizacaoDispositivoModel;
+import com.br.EnergiaInteligente.Model.LocalizacaoModel;
 import com.br.EnergiaInteligente.Repository.LocalizacaoDispositivoRepository;
+import com.br.EnergiaInteligente.Repository.LocalizacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,57 +19,52 @@ public class LocalizacaoDispositivoService {
     @Autowired
     private LocalizacaoDispositivoRepository localizacaoDispositivoRepository;
     @Autowired
+    private LocalizacaoRepository localizacaoRepository;
+    @Autowired
     private LocalizacaoDispositivoMapper localizacaoDispositivoMapper;
 
-    public LocalizacaoDispositivoResponseDto cadastrarLocalizacao(LocalizacaoDispositivoRequestDto request) {
+    public LocalizacaoDispositivoResponseDto cadastrarLocalizacaoDoDispositivo(LocalizacaoDispositivoRequestDto request) {
+
+        if (request.getCodigoPublicoLocalizacaoDoDispositivo() != null){
+            throw new RuntimeException("Para criar uma nova localizacao do dispositivo o Codigo Publico deve ser NULL");
+        }
 
         DispositivoModel dispositivo = localizacaoDispositivoRepository.findByCodigoPublico(request.getCodigoPublicoDispositivo())
                 .orElseThrow(()-> new RuntimeException("Dispositivo nao localizado")).getDispositivo();
 
-        LocalizacaoDispositivoModel novaLocalizacao = localizacaoDispositivoMapper.requestToModel(request);
-        novaLocalizacao.setDispositivo(dispositivo);
-        novaLocalizacao.setDataInicio(LocalDateTime.now());
-        LocalizacaoDispositivoModel salvarNovaLocalizacao = localizacaoDispositivoRepository.save(novaLocalizacao);
-        return localizacaoDispositivoMapper.toDto(salvarNovaLocalizacao);
+        LocalizacaoModel localizacao = localizacaoRepository.findByCodigoPublico(request.getCodigoPublicoLocalizacao())
+                .orElseThrow(()-> new RuntimeException("Localizacao nao localizado"));
+
+
+        LocalizacaoDispositivoModel novaLocalizacaoDoDispositivo = localizacaoDispositivoMapper.requestToModel(request);
+        novaLocalizacaoDoDispositivo.setLocalizacao(localizacao);
+        novaLocalizacaoDoDispositivo.setDispositivo(dispositivo);
+        novaLocalizacaoDoDispositivo.setDataInicio(LocalDateTime.now());
+        LocalizacaoDispositivoModel salvarNovaLocalizacaoDoDispositivo = localizacaoDispositivoRepository.save(novaLocalizacaoDoDispositivo);
+        return localizacaoDispositivoMapper.toDto(salvarNovaLocalizacaoDoDispositivo);
     }
 
-    public LocalizacaoDispositivoResponseDto editarLocalizacao(LocalizacaoDispositivoRequestDto request) {
-        if (request == null) {
-            throw new RuntimeException("localizacao deve ser preenchida");
+    public LocalizacaoDispositivoResponseDto editarLocalizacaoDoDispositivo(LocalizacaoDispositivoRequestDto request) {
+        if (request.getCodigoPublicoLocalizacaoDoDispositivo() == null){
+            throw new RuntimeException("Não foi possivel localiza a localizacao do dispositivo, Codigo Publico não deve ser NULL");
         }
 
-        LocalizacaoDispositivoModel localizacaoAtual = localizacaoDispositivoRepository
-                .findByCodigoPublico(request.getCodigoPublicoLocalizacao())
-                .orElseThrow(() -> new RuntimeException("Erro, nao foi possivel localizar a localizacao do dispositivo"));
+        LocalizacaoDispositivoModel localizacaoDispositivoAtual = localizacaoDispositivoRepository.findByCodigoPublico(request.getCodigoPublicoLocalizacaoDoDispositivo())
+                .orElseThrow(() -> new RuntimeException("Erro ao encontrar localizacao do dispositivo para editar"));
 
-        LocalizacaoDispositivoModel localizacaoParaEditar = localizacaoDispositivoMapper.requestToModel(request);
+        localizacaoDispositivoAtual.setDataFim(LocalDateTime.now());
+        localizacaoDispositivoRepository.save(localizacaoDispositivoAtual);
 
-        if (localizacaoAtual.getCep().equals(localizacaoParaEditar.getCep()) &&
-                localizacaoAtual.getNumero() == localizacaoParaEditar.getNumero()) {
+        LocalizacaoDispositivoModel novaLocalizacao = localizacaoDispositivoMapper.requestToModel(request);
+        novaLocalizacao.setDispositivo(localizacaoDispositivoAtual.getDispositivo());
+        novaLocalizacao.setDataInicio(LocalDateTime.now());
+        novaLocalizacao.setDataFim(null);
+        novaLocalizacao.setId(0);
+        novaLocalizacao.setCodigoPublico(null);
 
-            localizacaoDispositivoMapper.updateModelFromDto(request, localizacaoAtual);
-            LocalizacaoDispositivoModel atualizada = localizacaoDispositivoRepository.save(localizacaoAtual);
-            return localizacaoDispositivoMapper.toDto(atualizada);
+        LocalizacaoDispositivoModel salva = localizacaoDispositivoRepository.save(novaLocalizacao);
 
-        } else {
-
-            // 1. Finaliza o registro atual
-            localizacaoAtual.setDataFim(LocalDateTime.now());
-            localizacaoDispositivoRepository.save(localizacaoAtual);
-
-            // 2. Cria uma nova localização com os dados editados
-            LocalizacaoDispositivoModel novaLocalizacao = localizacaoDispositivoMapper.requestToModel(request);
-            novaLocalizacao.setDispositivo(localizacaoAtual.getDispositivo()); // Mantém o mesmo dispositivo
-            novaLocalizacao.setDataInicio(LocalDateTime.now());
-            novaLocalizacao.setDataFim(null); // Novo registro ativo
-            novaLocalizacao.setId(0); // Garante que será um novo registro
-            novaLocalizacao.setCodigoPublico(null); // Será gerado automaticamente pelo @PrePersist
-
-            // 3. Salva a nova localização
-            LocalizacaoDispositivoModel salva = localizacaoDispositivoRepository.save(novaLocalizacao);
-
-            return localizacaoDispositivoMapper.toDto(salva);
-        }
+        return localizacaoDispositivoMapper.toDto(salva);
     }
 
     public LocalizacaoDispositivoResponseDto encontrarLocalizacaoAtivaDoDispositivo(String codigoPublicoDoDispositivo) {

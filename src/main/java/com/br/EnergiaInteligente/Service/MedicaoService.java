@@ -1,5 +1,6 @@
 package com.br.EnergiaInteligente.Service;
 
+import com.br.EnergiaInteligente.Dto.Request.LocalizarMedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Request.MedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Request.NovaMedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Response.MedicaoPorDispositivoResponseDto;
@@ -33,7 +34,7 @@ public class MedicaoService {
         medicaoRepository.save(novaMedicao);
     }
 
-    public List<MedicaoPorDispositivoResponseDto> listarMedicoesPorUsuario(MedicaoRequestDto request) {
+    public List<MedicaoPorDispositivoResponseDto> listarMedicoesPorUsuario(LocalizarMedicaoRequestDto request) {
         return medicaoRepository.findMedicoesPorUsuarioCodigoPublicoEPeriodo(request.getCodigoUsuario(), request.getDataInicio(), request.getDataFim());
     }
 }

@@ -10,6 +10,10 @@ public class DispositivoResponseDto {
 
     private long versaoDoDispositivo;
 
+    private LocalizacaoDispositivoResponseDto localizacaoDispositivo;
+
+    private LocalizacaoResponseDto localizacao;
+
     public String getNomeDoDispositivo() {
         return nomeDoDispositivo;
     }
@@ -32,5 +36,21 @@ public class DispositivoResponseDto {
 
     public void setVersaoDoDispositivo(long versaoDoDispositivo) {
         this.versaoDoDispositivo = versaoDoDispositivo;
+    }
+
+    public LocalizacaoDispositivoResponseDto getLocalizacaoDispositivo() {
+        return localizacaoDispositivo;
+    }
+
+    public void setLocalizacaoDispositivo(LocalizacaoDispositivoResponseDto localizacaoDispositivo) {
+        this.localizacaoDispositivo = localizacaoDispositivo;
+    }
+
+    public LocalizacaoResponseDto getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(LocalizacaoResponseDto localizacao) {
+        this.localizacao = localizacao;
     }
 }

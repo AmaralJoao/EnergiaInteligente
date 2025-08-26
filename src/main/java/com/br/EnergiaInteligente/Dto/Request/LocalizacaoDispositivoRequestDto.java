@@ -7,28 +7,28 @@ import jakarta.persistence.OneToOne;
 
 public class LocalizacaoDispositivoRequestDto {
 
-    private String codigoPublicoLocalizacao;
+    private String codigoPublicoLocalizacaoDoDispositivo;
 
-    private String nomeDaLocalizacao;
+    private String codigoPublicoLocalizacao;
 
     private String codigoPublicoDispositivo;
 
-    private String cep;
+    private String nomeDaLocalizacaoDoDispositivo;
 
-    private String nomeDaRua;
-
-    private int numero;
-
-    private Double latitude;
-
-    private Double longitude;
-
-    public String getNomeDaLocalizacao() {
-        return nomeDaLocalizacao;
+    public String getCodigoPublicoLocalizacaoDoDispositivo() {
+        return codigoPublicoLocalizacaoDoDispositivo;
     }
 
-    public void setNomeDaLocalizacao(String nomeDaLocalizacao) {
-        this.nomeDaLocalizacao = nomeDaLocalizacao;
+    public void setCodigoPublicoLocalizacaoDoDispositivo(String codigoPublicoLocalizacaoDoDispositivo) {
+        this.codigoPublicoLocalizacaoDoDispositivo = codigoPublicoLocalizacaoDoDispositivo;
+    }
+
+    public String getCodigoPublicoLocalizacao() {
+        return codigoPublicoLocalizacao;
+    }
+
+    public void setCodigoPublicoLocalizacao(String codigoPublicoLocalizacao) {
+        this.codigoPublicoLocalizacao = codigoPublicoLocalizacao;
     }
 
     public String getCodigoPublicoDispositivo() {
@@ -39,51 +39,11 @@ public class LocalizacaoDispositivoRequestDto {
         this.codigoPublicoDispositivo = codigoPublicoDispositivo;
     }
 
-    public String getCep() {
-        return cep;
+    public String getNomeDaLocalizacaoDoDispositivo() {
+        return nomeDaLocalizacaoDoDispositivo;
     }
 
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getNomeDaRua() {
-        return nomeDaRua;
-    }
-
-    public void setNomeDaRua(String nomeDaRua) {
-        this.nomeDaRua = nomeDaRua;
-    }
-
-    public int getNumero() {
-        return numero;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getCodigoPublicoLocalizacao() {
-        return codigoPublicoLocalizacao;
-    }
-
-    public void setCodigoPublicoLocalizacao(String codigoPublicoLocalizacao) {
-        this.codigoPublicoLocalizacao = codigoPublicoLocalizacao;
+    public void setNomeDaLocalizacaoDoDispositivo(String nomeDaLocalizacaoDoDispositivo) {
+        this.nomeDaLocalizacaoDoDispositivo = nomeDaLocalizacaoDoDispositivo;
     }
 }

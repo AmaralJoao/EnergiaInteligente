@@ -1,5 +1,9 @@
 package com.br.EnergiaInteligente.Dto.Request;
 
+import com.br.EnergiaInteligente.Model.TipoMedicaoModel;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
@@ -8,62 +12,78 @@ import java.util.List;
 
 public class MedicaoRequestDto {
 
-    @NotNull(message = "Data de início é obrigatória")
-    @FutureOrPresent(message = "Data de início não pode ser no passado")
-    private LocalDateTime dataInicio;
+    private String apiKey;
 
-    @NotNull(message = "Data de fim é obrigatória")
-    @FutureOrPresent(message = "Data de fim não pode ser no passado")
-    private LocalDateTime dataFim;
+    private long consumo;
 
-    @NotNull(message = "Data de fim é obrigatória")
-    private String codigoUsuario;
+    private int tensao;
 
-    // Opcional: caso queira filtrar por dispositivos específicos
-    private List<String> dispositivosIds;
+    private int corrente;
 
-    // Construtores
-    public MedicaoRequestDto() {}
+    private int tipoMedicao;
 
-    public MedicaoRequestDto(LocalDateTime dataInicio, LocalDateTime dataFim) {
-        this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
+    private LocalDateTime dataHoraInicioMedicao;
+
+    private LocalDateTime dataHoraFimMedicao;
+
+    public String getApiKey() {
+        return apiKey;
     }
 
-    public LocalDateTime getDataInicio() {
-        return dataInicio;
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 
-    public void setDataInicio(LocalDateTime dataInicio) {
-        this.dataInicio = dataInicio;
+    public long getConsumo() {
+        return consumo;
     }
 
-    public LocalDateTime getDataFim() {
-        return dataFim;
+    public void setConsumo(long consumo) {
+        this.consumo = consumo;
     }
 
-    public void setDataFim(LocalDateTime dataFim) {
-        this.dataFim = dataFim;
+    public int getTensao() {
+        return tensao;
     }
 
-    public String getCodigoUsuario() {
-        return codigoUsuario;
+    public void setTensao(int tensao) {
+        this.tensao = tensao;
     }
 
-    public void setCodigoUsuario(String codigoUsuario) {
-        this.codigoUsuario = codigoUsuario;
+    public int getCorrente() {
+        return corrente;
     }
 
-    public List<String> getDispositivosIds() {
-        return dispositivosIds;
+    public void setCorrente(int corrente) {
+        this.corrente = corrente;
     }
 
-    public void setDispositivosIds(List<String> dispositivosIds) {
-        this.dispositivosIds = dispositivosIds;
+    public int getTipoMedicao() {
+        return tipoMedicao;
+    }
+
+    public void setTipoMedicao(int tipoMedicao) {
+        this.tipoMedicao = tipoMedicao;
+    }
+
+    public LocalDateTime getDataHoraInicioMedicao() {
+        return dataHoraInicioMedicao;
+    }
+
+    public void setDataHoraInicioMedicao(LocalDateTime dataHoraInicioMedicao) {
+        this.dataHoraInicioMedicao = dataHoraInicioMedicao;
+    }
+
+    public LocalDateTime getDataHoraFimMedicao() {
+        return dataHoraFimMedicao;
+    }
+
+    public void setDataHoraFimMedicao(LocalDateTime dataHoraFimMedicao) {
+        this.dataHoraFimMedicao = dataHoraFimMedicao;
     }
 
     // Método de validação adicional
     public boolean isValidDateRange() {
-        return dataInicio != null && dataFim != null && !dataInicio.isAfter(dataFim);
+        return dataHoraInicioMedicao != null && dataHoraFimMedicao != null && !dataHoraInicioMedicao.isAfter(dataHoraFimMedicao);
     }
 }

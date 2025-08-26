@@ -2,28 +2,18 @@ package com.br.EnergiaInteligente.Dto.Response;
 
 public class LocalizacaoDispositivoResponseDto {
 
-    private String codigoPublicoLocalizacao;
+    private String codigoPublicoLocalizacaoDoDispositivo;
 
-    private String nomeDaLocalizacao;
-
-    private String nomeDaRua;
+    private String nomeDaLocalizacaoDoDispositivo;
 
     private int numero;
 
-    public String getNomeDaLocalizacao() {
-        return nomeDaLocalizacao;
+    public String getNomeDaLocalizacaoDoDispositivo() {
+        return nomeDaLocalizacaoDoDispositivo;
     }
 
-    public void setNomeDaLocalizacao(String nomeDaLocalizacao) {
-        this.nomeDaLocalizacao = nomeDaLocalizacao;
-    }
-
-    public String getNomeDaRua() {
-        return nomeDaRua;
-    }
-
-    public void setNomeDaRua(String nomeDaRua) {
-        this.nomeDaRua = nomeDaRua;
+    public void setNomeDaLocalizacaoDoDispositivo(String nomeDaLocalizacao) {
+        this.nomeDaLocalizacaoDoDispositivo = nomeDaLocalizacao;
     }
 
     public int getNumero() {
@@ -34,11 +24,11 @@ public class LocalizacaoDispositivoResponseDto {
         this.numero = numero;
     }
 
-    public String getCodigoPublicoLocalizacao() {
-        return codigoPublicoLocalizacao;
+    public String getCodigoPublicoLocalizacaoDoDispositivo() {
+        return codigoPublicoLocalizacaoDoDispositivo;
     }
 
-    public void setCodigoPublicoLocalizacao(String codigoPublicoLocalizacao) {
-        this.codigoPublicoLocalizacao = codigoPublicoLocalizacao;
+    public void setCodigoPublicoLocalizacaoDoDispositivo(String codigoPublicoLocalizacao) {
+        this.codigoPublicoLocalizacaoDoDispositivo = codigoPublicoLocalizacao;
     }
 }

@@ -1,7 +1,9 @@
 package com.br.EnergiaInteligente.Service;
 
 import com.br.EnergiaInteligente.Dto.Request.CadastrarDispositivoRequesDto;
+import com.br.EnergiaInteligente.Dto.Request.DispositivoRequesDto;
 import com.br.EnergiaInteligente.Dto.Request.VincularDispositivoRequestDto;
+import com.br.EnergiaInteligente.Dto.Response.DispositivoComLocalizacaoResponseDto;
 import com.br.EnergiaInteligente.Dto.Response.DispositivoResponseDto;
 import com.br.EnergiaInteligente.Mapper.DispositivoMapper;
 import com.br.EnergiaInteligente.Model.DispositivoModel;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 public class DispositivoService {
@@ -68,4 +71,7 @@ public class DispositivoService {
         return dispositivoRepository.findByChipId(chipId) != null;
     }
 
+    public List<DispositivoComLocalizacaoResponseDto> listarDispositivosPorUsuario(DispositivoRequesDto dispositivoRequesDto) {
+        return dispositivoRepository.findDispositivosCompletosByUsuario(dispositivoRequesDto.getCodigoPublicoUsuario());
+    }
 }

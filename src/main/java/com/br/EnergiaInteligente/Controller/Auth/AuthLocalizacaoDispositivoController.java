@@ -15,15 +15,15 @@ public class AuthLocalizacaoDispositivoController {
     private LocalizacaoDispositivoService localizacaoDispositivoService;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<LocalizacaoDispositivoResponseDto> cadastroLocalizacao(@RequestBody LocalizacaoDispositivoRequestDto request){
-        LocalizacaoDispositivoResponseDto dispositivoLocalizado = localizacaoDispositivoService.cadastrarLocalizacao(request);
+    public ResponseEntity<LocalizacaoDispositivoResponseDto> cadastroLocalizacaoDoDispositivo(@RequestBody LocalizacaoDispositivoRequestDto request){
+        LocalizacaoDispositivoResponseDto dispositivoLocalizado = localizacaoDispositivoService.cadastrarLocalizacaoDoDispositivo(request);
 
         return ResponseEntity.ok().body(dispositivoLocalizado);
     }
 
     @PostMapping("/editar")
-    public ResponseEntity<LocalizacaoDispositivoResponseDto> editarLocalizacao(@RequestBody LocalizacaoDispositivoRequestDto request){
-        LocalizacaoDispositivoResponseDto localizacaoEditada = localizacaoDispositivoService.editarLocalizacao(request);
+    public ResponseEntity<LocalizacaoDispositivoResponseDto> editarLocalizacaoDoDispositivo(@RequestBody LocalizacaoDispositivoRequestDto request){
+        LocalizacaoDispositivoResponseDto localizacaoEditada = localizacaoDispositivoService.editarLocalizacaoDoDispositivo(request);
 
         return ResponseEntity.ok().body(localizacaoEditada);
     }
