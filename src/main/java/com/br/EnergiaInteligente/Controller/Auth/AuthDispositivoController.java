@@ -22,21 +22,24 @@ public class AuthDispositivoController {
     private DispositivoService dispositivoService;
 
     @PostMapping("/vincular")
-    public ResponseEntity<DispositivoResponseDto>cadastrarDispositivo(VincularDispositivoRequestDto vincularDispositivoRequestDto){
+    public ResponseEntity<DispositivoResponseDto>vincularDispositivo(VincularDispositivoRequestDto vincularDispositivoRequestDto){
 
         DispositivoResponseDto dispositivo = dispositivoService.vincularDispositivoUsuario(vincularDispositivoRequestDto);
         return ResponseEntity.ok().body(dispositivo);
     }
 
     @GetMapping("/dispositivos")
-    public ResponseEntity<List<DispositivoComLocalizacaoResponseDto>> listarDispositivosDoUsuario(@RequestBody DispositivoRequesDto dispositivoRequesDto){
-        List<DispositivoComLocalizacaoResponseDto> dispositivoResponseDto = dispositivoService.listarDispositivosPorUsuario(dispositivoRequesDto);
+    public ResponseEntity<List<DispositivoComLocalizacaoResponseDto>> listarDispositivosDoUsuario(@RequestHeader("Authetication") String authHeader){
+
+        String token = authHeader.replace("Bearer","");
+
+        List<DispositivoComLocalizacaoResponseDto> dispositivoResponseDto = dispositivoService.listarDispositivosPorUsuario(token);
 
 
         return ResponseEntity.ok().body(dispositivoResponseDto);
     }
 
-    @GetMapping("/identificar/{chipId}")
+    /*@GetMapping("/identificar/{chipId}")
     public ResponseEntity<Boolean> identificarDispositivo(@PathVariable Long chipId) {
         try {
             boolean response = dispositivoService.dispositivoExiste(chipId);
@@ -47,5 +50,5 @@ public class AuthDispositivoController {
                     "Dispositivo não encontrado com chipId: " + chipId
             );
         }
-    }
+    }*/
 }

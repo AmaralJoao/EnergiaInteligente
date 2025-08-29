@@ -10,6 +10,7 @@ import com.br.EnergiaInteligente.Model.DispositivoModel;
 import com.br.EnergiaInteligente.Model.UsuarioModel;
 import com.br.EnergiaInteligente.Repository.DispositivoRepository;
 import com.br.EnergiaInteligente.Repository.UsuarioRepository;
+import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,8 @@ public class DispositivoService {
     private AutenticacaoService autenticacaoService;
     @Autowired
     private DispositivoMapper dispositivoMapper;
+    @Autowired
+    private AutenticacaoUtils autenticacaoUtils;
 
     public String novoDispositivo(CadastrarDispositivoRequesDto dispositivoRequesDto) {
 
@@ -71,7 +74,7 @@ public class DispositivoService {
         return dispositivoRepository.findByChipId(chipId) != null;
     }
 
-    public List<DispositivoComLocalizacaoResponseDto> listarDispositivosPorUsuario(DispositivoRequesDto dispositivoRequesDto) {
-        return dispositivoRepository.findDispositivosCompletosByUsuario(dispositivoRequesDto.getCodigoPublicoUsuario());
+    public List<DispositivoComLocalizacaoResponseDto> listarDispositivosPorUsuario(String token) {
+        return dispositivoRepository.findDispositivosCompletosByUsuario((autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token)));
     }
 }

@@ -56,7 +56,13 @@ public class MedicaoModel {
         this.tipoMedicao = tipoMedicao;
         this.dataHoraFimMedicao = dataHoraFimMedicao;
         this.dataHoraInicioMedicao = dataHoraInicioMedicao;
-        this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.codigoPublico == null) {
+            this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
+        }
     }
 
     public long getId() {

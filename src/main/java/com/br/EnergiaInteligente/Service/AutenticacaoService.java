@@ -1,5 +1,6 @@
 package com.br.EnergiaInteligente.Service;
 
+import com.br.EnergiaInteligente.Dto.Response.LoginUsuarioResponseDto;
 import com.br.EnergiaInteligente.Model.SessaoModel;
 import com.br.EnergiaInteligente.Model.UsuarioModel;
 import com.br.EnergiaInteligente.Repository.SessaoRepository;
@@ -36,8 +37,8 @@ public class AutenticacaoService {
         sessao.setAtiva(true);
         sessao.setIp(ip);
         sessao.setUserAgent(userAgent);
-
         sessaoRepository.save(sessao);
+
         return token;
     }
 

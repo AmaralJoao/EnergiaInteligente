@@ -7,6 +7,7 @@ import com.br.EnergiaInteligente.Model.LocalizacaoModel;
 import com.br.EnergiaInteligente.Model.UsuarioModel;
 import com.br.EnergiaInteligente.Repository.LocalizacaoRepository;
 import com.br.EnergiaInteligente.Repository.UsuarioRepository;
+import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +24,23 @@ public class LocalizacaoService {
     private LocalizacaoRepository localizacaoRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private AutenticacaoUtils autenticacaoUtils;
 
-    public LocalizacaoResponseDto criarLocalizacao(LocalizacaoRequestDto novaLocalizacao) {
+    public LocalizacaoResponseDto criarLocalizacao(LocalizacaoRequestDto novaLocalizacao, String token) {
 
         if (novaLocalizacao.getCodigoPublicoLocalizacao() != null){
             throw new RuntimeException("para criar uma localizacao o campo Codigo Publico deve ser NULL");
         }
 
-        UsuarioModel usuario = usuarioRepository.findByCodigoPublico(novaLocalizacao.getCodigoPublicoUsuario())
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+
+
+        UsuarioModel usuario = usuarioRepository.findByCodigoPublico(codigoPublicoUsuario)
                 .orElseThrow(() -> new RuntimeException("Erro ao identificar usuario"));
         LocalizacaoModel localizacao = localizacaoMapper.requestToModel(novaLocalizacao);
         localizacao.setUsuario(usuario);
+        localizacao.setDataInicio(LocalDateTime.now());
         localizacao.setStatus(true);
         LocalizacaoModel salvarLocalizacao = localizacaoRepository.save(localizacao);
 
@@ -78,9 +85,9 @@ public class LocalizacaoService {
 
     }
 
-    public List<LocalizacaoResponseDto> LocalizacoesPorUsuario(LocalizacaoRequestDto localizacaoRequestDto) {
+    public List<LocalizacaoResponseDto> LocalizacoesPorUsuario(String token) {
 
-        List<LocalizacaoModel> localizacoesDoUsuario = localizacaoRepository.findLocalizacoesPorusuario(localizacaoRequestDto.getCodigoPublicoUsuario());
+        List<LocalizacaoModel> localizacoesDoUsuario = localizacaoRepository.findLocalizacoesPorusuario(autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token));
 
         return localizacoesDoUsuario.stream()
                 .map(localizacaoMapper::toDto)

@@ -17,7 +17,7 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioResponseDto criarEstabelecimento(UsuarioRequestDto usuarioRequestDto){
+    public UsuarioResponseDto criarUsuario(UsuarioRequestDto usuarioRequestDto){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         UsuarioModel novoUsuario = usuarioMapper.requestToModel(usuarioRequestDto);
 

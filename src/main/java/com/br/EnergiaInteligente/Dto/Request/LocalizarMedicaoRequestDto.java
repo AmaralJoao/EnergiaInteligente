@@ -1,5 +1,6 @@
 package com.br.EnergiaInteligente.Dto.Request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,10 +10,12 @@ import java.util.List;
 public class LocalizarMedicaoRequestDto {
     @NotNull(message = "Data de início é obrigatória")
     @FutureOrPresent(message = "Data de início não pode ser no passado")
+    @JsonFormat(pattern = "dd-mm+yyyy HH:mm:ss")
     private LocalDateTime dataInicio;
 
     @NotNull(message = "Data de fim é obrigatória")
     @FutureOrPresent(message = "Data de fim não pode ser no passado")
+    @JsonFormat(pattern = "dd-mm+yyyy HH:mm:ss")
     private LocalDateTime dataFim;
 
     @NotNull(message = "Data de fim é obrigatória")

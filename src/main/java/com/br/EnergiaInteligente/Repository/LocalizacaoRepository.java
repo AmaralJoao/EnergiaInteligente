@@ -13,6 +13,6 @@ public interface LocalizacaoRepository extends JpaRepository<LocalizacaoModel, L
 
     Optional<LocalizacaoModel> findByCodigoPublico(String codigoPublico);
 
-    @Query("SELECT l FROM LocalizacaoModel l WHERE l.usuario.id = :codigoPublicoUsuario")
+    @Query("SELECT l FROM LocalizacaoModel l WHERE l.usuario.codigoPublico = :codigoPublicoUsuario")
     List<LocalizacaoModel> findLocalizacoesPorusuario(@Param("codigoPublicoUsuario") String codigoPublicoUsuario);
 }

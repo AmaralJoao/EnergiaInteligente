@@ -3,7 +3,6 @@ package com.br.EnergiaInteligente.Dto.Request;
 public class LocalizacaoRequestDto {
 
     private String codigoPublicoLocalizacao;
-    private String codigoPublicoUsuario;
     private String descricao;
     private String cep;
     private String cidade;
@@ -67,11 +66,4 @@ public class LocalizacaoRequestDto {
         this.complemento = complemento;
     }
 
-    public String getCodigoPublicoUsuario() {
-        return codigoPublicoUsuario;
-    }
-
-    public void setCodigoPublicoUsuario(String codigoPublicoUsuario) {
-        this.codigoPublicoUsuario = codigoPublicoUsuario;
-    }
 }

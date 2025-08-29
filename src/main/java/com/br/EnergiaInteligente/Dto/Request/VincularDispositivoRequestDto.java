@@ -2,16 +2,16 @@ package com.br.EnergiaInteligente.Dto.Request;
 
 public class VincularDispositivoRequestDto {
 
-    private Long cdUsuario;
+    private Long codigoPublicoUsuario;
 
     private Long chipId;
 
     public Long getCdUsuario() {
-        return cdUsuario;
+        return codigoPublicoUsuario;
     }
 
     public void setCdUsuario(Long cdUsuario) {
-        this.cdUsuario = cdUsuario;
+        this.codigoPublicoUsuario = cdUsuario;
     }
 
     public Long getChipId() {

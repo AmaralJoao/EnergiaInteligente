@@ -39,12 +39,18 @@ public class LocalizacaoDispositivoModel {
 
     public LocalizacaoDispositivoModel(long id, LocalizacaoModel localizacao, DispositivoModel dispositivo, String nomeDaLocalizacaoDoDispositivo, LocalDateTime dataInicio, LocalDateTime dataFim) {
         this.id = id;
-        this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
         this.localizacao = localizacao;
         this.dispositivo = dispositivo;
         this.nomeDaLocalizacaoDoDispositivo = nomeDaLocalizacaoDoDispositivo;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.codigoPublico == null) {
+            this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
+        }
     }
 
     public long getId() {

@@ -54,7 +54,13 @@ public class DispositivoModel {
         this.versaoDoDispositivo = versaoDoDispositivo;
         this.apiKey = apiKey;
         this.usuario = usuario;
-        this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.codigoPublico == null) {
+            this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
+        }
     }
 
     public long getId() {

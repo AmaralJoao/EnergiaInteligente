@@ -12,4 +12,9 @@ import java.util.Optional;
 @Repository
 public interface SessaoRepository extends JpaRepository<SessaoModel, String> {
 
+    @Query("SELECT u.codigoPublico FROM SessaoModel s " +
+            "INNER JOIN s.usuario u " +
+            "WHERE s.token = :token AND s.ativa = true")
+    String findCodigoPublicoByToken(@Param("token") String token);
+
 }

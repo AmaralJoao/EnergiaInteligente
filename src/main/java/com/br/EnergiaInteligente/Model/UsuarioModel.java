@@ -55,7 +55,13 @@ public class UsuarioModel {
         this.email = email;
         this.contato = contato;
         this.dataNascimento = dataNascimento;
-        this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.codigoPublico == null) {
+            this.codigoPublico = GeradoIdentificadorUtil.generateSecureId().toUpperCase();
+        }
     }
 
     public Long getId() {
