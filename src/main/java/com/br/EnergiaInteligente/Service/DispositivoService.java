@@ -81,7 +81,10 @@ public class DispositivoService {
     }
 
     public List<DispositivoComLocalizacaoResponseDto> listarDispositivosPorUsuario(String token) {
-        return dispositivoRepository.findDispositivosCompletosByUsuario((autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token)));
+
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+
+        return dispositivoRepository.findDispositivosCompletosByUsuario(codigoPublicoUsuario);
     }
 
     public DispositivoResponseDto editarDispositivo(DispositivoRequesDto dispositivoRequesDto) {

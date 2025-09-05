@@ -26,12 +26,13 @@ public interface DispositivoRepository extends JpaRepository<DispositivoModel, L
     boolean existsByCodigoPublico(String codigoPublico);
 
     @Query("SELECT NEW com.br.EnergiaInteligente.Dto.Response.DispositivoComLocalizacaoResponseDto(" +
-            "d.nomeDoDispositivo, d.modeloDispositivo, d.versaoDoDispositivo, " +
+            "d.codigoPublico, d.nomeDoDispositivo, d.modeloDispositivo, d.versaoDoDispositivo, " +
             "ld.nomeDaLocalizacaoDoDispositivo, " +
             "l.cidade, l.nomeDaRua, l.numero, l.complemento) " +
             "FROM DispositivoModel d " +
-            "JOIN LocalizacaoDispositivoModel ld ON ld.dispositivo.id = d.id " +
-            "JOIN LocalizacaoModel l ON ld.localizacao.id = l.id " +
-            "WHERE d.usuario.codigoPublico = :codigoPublico")
+            "LEFT JOIN LocalizacaoDispositivoModel ld ON ld.dispositivo.id = d.id " +
+            "LEFT JOIN LocalizacaoModel l ON ld.localizacao.id = l.id " +
+            "LEFT JOIN UsuarioModel u ON d.usuario.id = u.id " +
+            "WHERE u.codigoPublico = :codigoPublico")
     List<DispositivoComLocalizacaoResponseDto> findDispositivosCompletosByUsuario(String codigoPublico);
 }

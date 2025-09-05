@@ -2,31 +2,21 @@ package com.br.EnergiaInteligente.Dto.Response;
 
 public class DispositivoComLocalizacaoResponseDto {
 
+    private String codigoPublicoDispositivo;
     private String nomeDoDispositivo;
-
     private String modeloDispositivo;
-
-    private long versaoDoDispositivo;
-
+    private Long versaoDoDispositivo; // trocado de long -> Long
     private String nomeDaLocalizacaoDoDispositivo;
-
     private String cidade;
-
     private String nomeDaRua;
-
-    private int numero;
-
+    private Integer numero; // trocado de int -> Integer
     private String complemento;
 
     // Construtor para a JPQL
-    public DispositivoComLocalizacaoResponseDto(String nomeDoDispositivo,
-                                                String modeloDispositivo,
-                                                long versaoDoDispositivo,
-                                                String nomeDaLocalizacaoDoDispositivo,
-                                                String cidade,
-                                                String nomeDaRua,
-                                                int numero,
-                                                String complemento) {
+
+
+    public DispositivoComLocalizacaoResponseDto(String codigoPublicoDispositivo, String nomeDoDispositivo, String modeloDispositivo, Long versaoDoDispositivo, String nomeDaLocalizacaoDoDispositivo, String cidade, String nomeDaRua, Integer numero, String complemento) {
+        this.codigoPublicoDispositivo = codigoPublicoDispositivo;
         this.nomeDoDispositivo = nomeDoDispositivo;
         this.modeloDispositivo = modeloDispositivo;
         this.versaoDoDispositivo = versaoDoDispositivo;
@@ -56,11 +46,11 @@ public class DispositivoComLocalizacaoResponseDto {
         this.modeloDispositivo = modeloDispositivo;
     }
 
-    public long getVersaoDoDispositivo() {
+    public Long getVersaoDoDispositivo() {
         return versaoDoDispositivo;
     }
 
-    public void setVersaoDoDispositivo(long versaoDoDispositivo) {
+    public void setVersaoDoDispositivo(Long versaoDoDispositivo) {
         this.versaoDoDispositivo = versaoDoDispositivo;
     }
 
@@ -88,11 +78,11 @@ public class DispositivoComLocalizacaoResponseDto {
         this.nomeDaRua = nomeDaRua;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 
@@ -102,5 +92,14 @@ public class DispositivoComLocalizacaoResponseDto {
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
+    }
+
+
+    public String getCodigoPublicoDispositivo() {
+        return codigoPublicoDispositivo;
+    }
+
+    public void setCodigoPublicoDispositivo(String codigoPublicoDispositivo) {
+        this.codigoPublicoDispositivo = codigoPublicoDispositivo;
     }
 }
