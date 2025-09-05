@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth/api/localizacaodispositivo")
 public class AuthLocalizacaoDispositivoController {
@@ -28,10 +30,10 @@ public class AuthLocalizacaoDispositivoController {
         return ResponseEntity.ok().body(localizacaoEditada);
     }
 
-    @GetMapping("/listarlocalizacaoativa/{codigoPublicoDoDispositivo}")
-    public ResponseEntity<LocalizacaoDispositivoResponseDto> localizacaoAtivaDoDispositivo(@RequestParam String codigoPublicoDoDispositivo){
+    @GetMapping("/listarlocalizacoes")
+    public ResponseEntity<List<LocalizacaoDispositivoResponseDto>> todasLocalizacoesDoDispositivo(@RequestBody LocalizacaoDispositivoRequestDto localizacaoDispositivoRequestDto){
 
-        LocalizacaoDispositivoResponseDto localizacaoDoDispositivo = localizacaoDispositivoService.encontrarLocalizacaoAtivaDoDispositivo(codigoPublicoDoDispositivo);
+        List<LocalizacaoDispositivoResponseDto> localizacaoDoDispositivo = localizacaoDispositivoService.localizacoesAntigasDoDispositivo(localizacaoDispositivoRequestDto);
 
         return ResponseEntity.ok().body(localizacaoDoDispositivo);
     }

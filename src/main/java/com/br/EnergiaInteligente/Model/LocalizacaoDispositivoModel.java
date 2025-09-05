@@ -21,7 +21,7 @@ public class LocalizacaoDispositivoModel {
     @JoinColumn(name = "cdLocalizacao")
     private LocalizacaoModel localizacao;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cdDispositivo")
     private DispositivoModel dispositivo;
 

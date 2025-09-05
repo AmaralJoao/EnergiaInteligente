@@ -54,9 +54,11 @@ public class DispositivoService {
         return dispositivoMapper.toDto(dispositivo);
     }
 
-    public DispositivoResponseDto vincularDispositivoUsuario(VincularDispositivoRequestDto vincularDispositivoRequestDto){
+    public DispositivoResponseDto vincularDispositivoUsuario(VincularDispositivoRequestDto vincularDispositivoRequestDto, String token){
+        String codigoPublicousuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+
         DispositivoModel dispositivo = dispositivoRepository.findByChipId(vincularDispositivoRequestDto.getChipId());
-        UsuarioModel usuarioDispositivo = usuarioRepository.findById(vincularDispositivoRequestDto.getCdUsuario()).orElseThrow();
+        UsuarioModel usuarioDispositivo = usuarioRepository.findByCodigoPublico(codigoPublicousuario).orElseThrow();
 
         dispositivo.setUsuario(usuarioDispositivo);
 
@@ -70,11 +72,19 @@ public class DispositivoService {
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
 
+    public boolean apiKeyIsValida(String apiKey){
+        return true;
+    }
+
     public boolean dispositivoExiste(Long chipId) {
         return dispositivoRepository.findByChipId(chipId) != null;
     }
 
     public List<DispositivoComLocalizacaoResponseDto> listarDispositivosPorUsuario(String token) {
         return dispositivoRepository.findDispositivosCompletosByUsuario((autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token)));
+    }
+
+    public DispositivoResponseDto editarDispositivo(DispositivoRequesDto dispositivoRequesDto) {
+        return null;
     }
 }

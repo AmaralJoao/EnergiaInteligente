@@ -22,22 +22,37 @@ public class AuthDispositivoController {
     private DispositivoService dispositivoService;
 
     @PostMapping("/vincular")
-    public ResponseEntity<DispositivoResponseDto>vincularDispositivo(VincularDispositivoRequestDto vincularDispositivoRequestDto){
+    public ResponseEntity<DispositivoResponseDto>vincularDispositivo(@RequestHeader("Authorization") String authHeader,
+                                                                     @RequestBody VincularDispositivoRequestDto vincularDispositivoRequestDto){
 
-        DispositivoResponseDto dispositivo = dispositivoService.vincularDispositivoUsuario(vincularDispositivoRequestDto);
+        String token = authHeader.replace("Bearer ","");
+
+        DispositivoResponseDto dispositivo = dispositivoService.vincularDispositivoUsuario(vincularDispositivoRequestDto, token);
         return ResponseEntity.ok().body(dispositivo);
     }
 
     @GetMapping("/dispositivos")
-    public ResponseEntity<List<DispositivoComLocalizacaoResponseDto>> listarDispositivosDoUsuario(@RequestHeader("Authetication") String authHeader){
+    public ResponseEntity<List<DispositivoComLocalizacaoResponseDto>> listarDispositivosDoUsuario(@RequestHeader("Authorization") String authHeader){
 
-        String token = authHeader.replace("Bearer","");
+        String token = authHeader.replace("Bearer ","");
 
         List<DispositivoComLocalizacaoResponseDto> dispositivoResponseDto = dispositivoService.listarDispositivosPorUsuario(token);
 
 
         return ResponseEntity.ok().body(dispositivoResponseDto);
     }
+
+    @GetMapping("/editar")
+    public ResponseEntity<DispositivoResponseDto> editarDispositivo(@RequestHeader("Authorization") String authHeader, @RequestBody DispositivoRequesDto dispositivoRequesDto){
+
+        String token = authHeader.replace("Bearer ","");
+
+        DispositivoResponseDto dispositivoResponseDto = dispositivoService.editarDispositivo(dispositivoRequesDto);
+
+
+        return ResponseEntity.ok().body(dispositivoResponseDto);
+    }
+
 
     /*@GetMapping("/identificar/{chipId}")
     public ResponseEntity<Boolean> identificarDispositivo(@PathVariable Long chipId) {

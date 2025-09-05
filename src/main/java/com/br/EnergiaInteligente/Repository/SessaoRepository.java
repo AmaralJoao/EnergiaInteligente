@@ -13,8 +13,10 @@ import java.util.Optional;
 public interface SessaoRepository extends JpaRepository<SessaoModel, String> {
 
     @Query("SELECT u.codigoPublico FROM SessaoModel s " +
-            "INNER JOIN s.usuario u " +
-            "WHERE s.token = :token AND s.ativa = true")
+            "JOIN s.usuario u " +
+            "WHERE s.token = :token " +
+            "AND s.ativa = true " +
+            "AND s.expiraEm > CURRENT_TIMESTAMP")
     String findCodigoPublicoByToken(@Param("token") String token);
 
 }

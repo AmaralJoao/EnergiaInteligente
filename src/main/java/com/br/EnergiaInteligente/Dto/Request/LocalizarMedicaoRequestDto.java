@@ -10,16 +10,13 @@ import java.util.List;
 public class LocalizarMedicaoRequestDto {
     @NotNull(message = "Data de início é obrigatória")
     @FutureOrPresent(message = "Data de início não pode ser no passado")
-    @JsonFormat(pattern = "dd-mm+yyyy HH:mm:ss")
+    //@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataInicio;
 
     @NotNull(message = "Data de fim é obrigatória")
     @FutureOrPresent(message = "Data de fim não pode ser no passado")
-    @JsonFormat(pattern = "dd-mm+yyyy HH:mm:ss")
+    //@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataFim;
-
-    @NotNull(message = "Data de fim é obrigatória")
-    private String codigoUsuario;
 
     // Opcional: caso queira filtrar por dispositivos específicos
     private List<String> dispositivosIds;
@@ -46,14 +43,6 @@ public class LocalizarMedicaoRequestDto {
 
     public void setDataFim(LocalDateTime dataFim) {
         this.dataFim = dataFim;
-    }
-
-    public String getCodigoUsuario() {
-        return codigoUsuario;
-    }
-
-    public void setCodigoUsuario(String codigoUsuario) {
-        this.codigoUsuario = codigoUsuario;
     }
 
     public List<String> getDispositivosIds() {

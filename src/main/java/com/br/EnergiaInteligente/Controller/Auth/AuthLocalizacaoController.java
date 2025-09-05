@@ -20,7 +20,7 @@ public class AuthLocalizacaoController {
     public ResponseEntity<LocalizacaoResponseDto> cadastrarNovaLocalizacao(@RequestHeader("Authorization") String authHeader,
                                                                            @RequestBody LocalizacaoRequestDto localizacaoRequestDto){
 
-        String token = authHeader.replace("Bearer", "");
+        String token = authHeader.replace("Bearer ", "");
 
         LocalizacaoResponseDto novaLocalizacao = localizacaoService.criarLocalizacao(localizacaoRequestDto, token);
 
@@ -28,16 +28,16 @@ public class AuthLocalizacaoController {
     }
 
     @PostMapping("/editarlocalizacao")
-    public ResponseEntity<LocalizacaoResponseDto> editarLocalizacao(@RequestBody LocalizacaoRequestDto localizacaoRequestDto){
+    public ResponseEntity<LocalizacaoResponseDto> editarLocalizacao(@RequestHeader("Authorization") String authHeader, @RequestBody LocalizacaoRequestDto localizacaoRequestDto){
         LocalizacaoResponseDto novaLocalizacao = localizacaoService.editarLocalizacao(localizacaoRequestDto);
 
         return ResponseEntity.ok().body(novaLocalizacao);
     }
 
     @GetMapping("/listarlocalizacao")
-    public ResponseEntity<List<LocalizacaoResponseDto>> listarLocalizacoesPorUsuario(@RequestHeader("Authentication") String authHeader){
+    public ResponseEntity<List<LocalizacaoResponseDto>> listarLocalizacoesPorUsuario(@RequestHeader("Authorization") String authHeader){
 
-        String token = authHeader.replace("Bearer", "");
+        String token = authHeader.replace("Bearer ", "");
 
         List<LocalizacaoResponseDto> novaLocalizacao = localizacaoService.LocalizacoesPorUsuario(token);
 

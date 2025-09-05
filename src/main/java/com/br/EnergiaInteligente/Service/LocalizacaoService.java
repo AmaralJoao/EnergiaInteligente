@@ -87,7 +87,9 @@ public class LocalizacaoService {
 
     public List<LocalizacaoResponseDto> LocalizacoesPorUsuario(String token) {
 
-        List<LocalizacaoModel> localizacoesDoUsuario = localizacaoRepository.findLocalizacoesPorusuario(autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token));
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+
+        List<LocalizacaoModel> localizacoesDoUsuario = localizacaoRepository.findLocalizacoesPorusuario(codigoPublicoUsuario);
 
         return localizacoesDoUsuario.stream()
                 .map(localizacaoMapper::toDto)

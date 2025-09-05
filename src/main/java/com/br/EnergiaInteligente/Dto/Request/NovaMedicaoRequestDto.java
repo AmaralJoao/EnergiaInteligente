@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 
 public class NovaMedicaoRequestDto {
 
-    private Long idDispositivo;
-
     private long consumo;
 
     private int tensao;
@@ -16,13 +14,7 @@ public class NovaMedicaoRequestDto {
 
     private LocalDateTime dataHoraInicioMedicao;
 
-    public Long getIdDispositivo() {
-        return idDispositivo;
-    }
-
-    public void setIdDispositivo(Long idDispositivo) {
-        this.idDispositivo = idDispositivo;
-    }
+    //private Long cdTipoMedicao;
 
     public long getConsumo() {
         return consumo;
@@ -59,6 +51,14 @@ public class NovaMedicaoRequestDto {
     public LocalDateTime getDataHoraInicioMedicao() {
         return dataHoraInicioMedicao;
     }
+
+    /*public Long getCdTipoMedicao() {
+        return cdTipoMedicao;
+    }
+
+    public void setCdTipoMedicao(Long cdTipoMedicao) {
+        this.cdTipoMedicao = cdTipoMedicao;
+    }*/
 
     public void setDataHoraInicioMedicao(LocalDateTime dataHoraInicioMedicao) {
         this.dataHoraInicioMedicao = dataHoraInicioMedicao;

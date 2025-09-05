@@ -10,6 +10,7 @@ import com.br.EnergiaInteligente.Model.DispositivoModel;
 import com.br.EnergiaInteligente.Model.MedicaoModel;
 import com.br.EnergiaInteligente.Repository.DispositivoRepository;
 import com.br.EnergiaInteligente.Repository.MedicaoRepository;
+import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,17 +25,29 @@ public class MedicaoService {
     private MedicaoRepository medicaoRepository;
     @Autowired
     private DispositivoRepository dispositivoRepository;
+    @Autowired
+    private DispositivoService dispositivoService;
+    @Autowired
+    private AutenticacaoUtils autenticacaoUtils;
 
-    public void CadastrarNovaMedicao(NovaMedicaoRequestDto medicaoRequestDto){
+    public void cadastrarNovaMedicao(NovaMedicaoRequestDto medicaoRequestDto, String apiKey){
+
+        if (!dispositivoService.apiKeyIsValida(apiKey)){
+            throw new RuntimeException("Api key nao é valida");
+        }
+
         MedicaoModel novaMedicao = medicaoMapper.requestToModel(medicaoRequestDto);
 
-        DispositivoModel dispositivo = dispositivoRepository.findByIdentificadorDispositivo(novaMedicao.getDispositivo().getIdentificadorDispositivo());
+        DispositivoModel dispositivo = dispositivoRepository.findByApiKey(apiKey);
         novaMedicao.setDispositivo(dispositivo);
 
         medicaoRepository.save(novaMedicao);
     }
 
-    public List<MedicaoPorDispositivoResponseDto> listarMedicoesPorUsuario(LocalizarMedicaoRequestDto request) {
-        return medicaoRepository.findMedicoesPorUsuarioCodigoPublicoEPeriodo(request.getCodigoUsuario(), request.getDataInicio(), request.getDataFim());
+    public List<MedicaoPorDispositivoResponseDto> listarMedicoesPorUsuario(LocalizarMedicaoRequestDto request, String token) {
+
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+
+        return medicaoRepository.findMedicoesPorUsuarioCodigoPublicoEPeriodo(codigoPublicoUsuario, request.getDataInicio(), request.getDataFim());
     }
 }

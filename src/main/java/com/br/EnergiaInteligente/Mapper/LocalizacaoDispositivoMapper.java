@@ -8,10 +8,7 @@ import com.br.EnergiaInteligente.Dto.Response.LocalizacaoDispositivoResponseDto;
 import com.br.EnergiaInteligente.Model.DispositivoModel;
 import com.br.EnergiaInteligente.Model.LocalizacaoDispositivoModel;
 import com.br.EnergiaInteligente.Model.MedicaoModel;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,  nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -19,9 +16,17 @@ public interface LocalizacaoDispositivoMapper {
 
     LocalizacaoDispositivoMapper INSTANCE = Mappers.getMapper(LocalizacaoDispositivoMapper.class);
 
-    LocalizacaoDispositivoModel requestToModel(LocalizacaoDispositivoRequestDto dto);
-
+    @Mapping(source = "codigoPublico", target = "codigoPublicoLocalizacaoDoDispositivo")
+    @Mapping(source = "nomeDaLocalizacaoDoDispositivo", target = "nomeDaLocalizacaoDoDispositivo")
     LocalizacaoDispositivoResponseDto toDto(LocalizacaoDispositivoModel model);
+
+    @Mapping(target = "codigoPublico", ignore = true) // Será gerado automaticamente
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "localizacao", ignore = true)
+    @Mapping(target = "dispositivo", ignore = true)
+    @Mapping(target = "dataInicio", ignore = true)
+    @Mapping(target = "dataFim", ignore = true)
+    LocalizacaoDispositivoModel requestToModel(LocalizacaoDispositivoRequestDto dto);
 
     void updateModelFromDto(LocalizacaoDispositivoRequestDto dto, @MappingTarget LocalizacaoDispositivoModel model);
 }

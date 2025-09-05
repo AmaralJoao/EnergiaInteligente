@@ -11,13 +11,6 @@ public class LocalizacaoResponseDto {
     private int numero;
     private String complemento;
 
-    public String getCodigoPublico() {
-        return codigoPublico;
-    }
-
-    public void setCodigoPublico(String codigoPublico) {
-        this.codigoPublico = codigoPublico;
-    }
 
     public Boolean getStatus() {
         return status;
@@ -73,5 +66,13 @@ public class LocalizacaoResponseDto {
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
+    }
+
+    public String getCodigoPublico() {
+        return codigoPublico;
+    }
+
+    public void setCodigoPublico(String codigoPublico) {
+        this.codigoPublico = codigoPublico;
     }
 }

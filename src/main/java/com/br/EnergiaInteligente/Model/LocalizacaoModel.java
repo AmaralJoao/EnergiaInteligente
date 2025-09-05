@@ -60,10 +60,9 @@ public class LocalizacaoModel {
     public LocalizacaoModel() {
     }
 
-    public LocalizacaoModel(boolean status, UsuarioModel usuario, String descricao, String cep,
-                            String estado, String cidade, String nomeDaRua, int numero,
-                            String complemento, Double latitude, Double longitude,
-                            LocalDateTime dataInicio, LocalDateTime dataFim) {
+    public LocalizacaoModel(long id, String codigoPublico, boolean status, UsuarioModel usuario, String descricao, String cep, String estado, String cidade, String nomeDaRua, int numero, String complemento, Double latitude, Double longitude, LocalDateTime dataInicio, LocalDateTime dataFim) {
+        this.id = id;
+        this.codigoPublico = codigoPublico;
         this.status = status;
         this.usuario = usuario;
         this.descricao = descricao;

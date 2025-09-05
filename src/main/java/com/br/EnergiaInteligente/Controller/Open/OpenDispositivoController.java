@@ -16,7 +16,7 @@ public class OpenDispositivoController {
     private DispositivoService dispositivoService;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<String>cadastrarDispositivo(CadastrarDispositivoRequesDto dispositivoRequesDto){
+    public ResponseEntity<String>cadastrarDispositivo(@RequestBody CadastrarDispositivoRequesDto dispositivoRequesDto){
 
         String novoDispositivo = dispositivoService.novoDispositivo(dispositivoRequesDto);
 

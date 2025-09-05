@@ -17,6 +17,8 @@ public interface DispositivoRepository extends JpaRepository<DispositivoModel, L
 
     DispositivoModel findByIdentificadorDispositivo(long identificadorPedido);
 
+    DispositivoModel findByApiKey(String apiKey);
+
     DispositivoModel findByChipId(Long chipId);
 
     Optional<DispositivoModel> findByCodigoPublico(String codigoPublico);
