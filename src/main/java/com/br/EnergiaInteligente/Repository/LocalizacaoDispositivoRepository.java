@@ -22,4 +22,10 @@ public interface LocalizacaoDispositivoRepository extends JpaRepository<Localiza
     Optional<LocalizacaoDispositivoModel> findLocalizacaoAtivaByCodigoPublicoDispositivo(@Param("codigoPublico") String codigoPublicoDoDispositivo);
 
     Optional<LocalizacaoDispositivoModel> findByDispositivoCodigoPublico(String codigoPublico);
+
+    @Query("SELECT ld FROM LocalizacaoDispositivoModel ld " +
+            "JOIN ld.localizacao l " +
+            "JOIN l.usuario u " +
+            "WHERE u.codigoPublico = :codigoPublicoUsuario")
+    Optional<LocalizacaoDispositivoModel>findByCodigoPublicoUsuario(@Param("codigoPublicoUsuario") String codigoPublicoUsuario);
 }

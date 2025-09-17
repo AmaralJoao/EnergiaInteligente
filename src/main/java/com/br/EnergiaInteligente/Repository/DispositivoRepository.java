@@ -33,6 +33,8 @@ public interface DispositivoRepository extends JpaRepository<DispositivoModel, L
             "LEFT JOIN LocalizacaoDispositivoModel ld ON ld.dispositivo.id = d.id " +
             "LEFT JOIN LocalizacaoModel l ON ld.localizacao.id = l.id " +
             "LEFT JOIN UsuarioModel u ON d.usuario.id = u.id " +
-            "WHERE u.codigoPublico = :codigoPublico")
+            "WHERE u.codigoPublico = :codigoPublico " +
+            "AND l.dataFim IS NULL " +
+            "AND ld.dataFim IS NULL")
     List<DispositivoComLocalizacaoResponseDto> findDispositivosCompletosByUsuario(String codigoPublico);
 }

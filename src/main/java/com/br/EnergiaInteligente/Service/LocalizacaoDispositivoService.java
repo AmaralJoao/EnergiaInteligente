@@ -9,6 +9,7 @@ import com.br.EnergiaInteligente.Model.LocalizacaoModel;
 import com.br.EnergiaInteligente.Repository.DispositivoRepository;
 import com.br.EnergiaInteligente.Repository.LocalizacaoDispositivoRepository;
 import com.br.EnergiaInteligente.Repository.LocalizacaoRepository;
+import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,8 @@ public class LocalizacaoDispositivoService {
     private LocalizacaoRepository localizacaoRepository;
     @Autowired
     private LocalizacaoDispositivoMapper localizacaoDispositivoMapper;
+    @Autowired
+    private AutenticacaoUtils autenticacaoUtils;
 
     public LocalizacaoDispositivoResponseDto cadastrarLocalizacaoDoDispositivo(LocalizacaoDispositivoRequestDto request) {
 
@@ -85,13 +88,16 @@ public class LocalizacaoDispositivoService {
         return localizacaoDispositivoMapper.toDto(salva);
     }
 
-    public List<LocalizacaoDispositivoResponseDto> localizacoesAntigasDoDispositivo(LocalizacaoDispositivoRequestDto localizacaoDispositivoRequestDto) {
+    public List<LocalizacaoDispositivoResponseDto> localizacoesAntigasDoDispositivo(String token) {
 
-        List<LocalizacaoDispositivoModel> localizacoesAntigasDoDispositivo = Collections.singletonList(localizacaoDispositivoRepository.findByCodigoPublicoDispositivo(localizacaoDispositivoRequestDto.getCodigoPublicoDispositivo())
-                .orElseThrow(() -> new RuntimeException("Dispositivo nao possui localizacao ativa")));
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+
+        List<LocalizacaoDispositivoModel> localizacoesAntigasDoDispositivo = Collections.singletonList(localizacaoDispositivoRepository.findByCodigoPublicoUsuario(codigoPublicoUsuario)
+                .orElseThrow(() -> new RuntimeException("usuario não possui historico de localizacoes em seus dispositivos")));
 
         return localizacoesAntigasDoDispositivo.stream()
                 .map(localizacaoDispositivoMapper::toDto)
                 .collect(Collectors.toList());
     }
+
 }

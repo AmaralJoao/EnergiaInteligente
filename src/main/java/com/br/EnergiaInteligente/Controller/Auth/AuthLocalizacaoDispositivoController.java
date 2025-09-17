@@ -30,10 +30,13 @@ public class AuthLocalizacaoDispositivoController {
         return ResponseEntity.ok().body(localizacaoEditada);
     }
 
-    @GetMapping("/listarlocalizacoes")
-    public ResponseEntity<List<LocalizacaoDispositivoResponseDto>> todasLocalizacoesDoDispositivo(@RequestBody LocalizacaoDispositivoRequestDto localizacaoDispositivoRequestDto){
+    @GetMapping("/listar")
+    public ResponseEntity<List<LocalizacaoDispositivoResponseDto>> todasLocalizacoesDoDispositivo(@RequestHeader("Authorization") String authHeader/*, @RequestBody LocalizacaoDispositivoRequestDto localizacaoDispositivoRequestDto*/){
 
-        List<LocalizacaoDispositivoResponseDto> localizacaoDoDispositivo = localizacaoDispositivoService.localizacoesAntigasDoDispositivo(localizacaoDispositivoRequestDto);
+        String token = authHeader.replace("Bearer ","");
+
+        List<LocalizacaoDispositivoResponseDto> localizacaoDoDispositivo = localizacaoDispositivoService.localizacoesAntigasDoDispositivo(token/*localizacaoDispositivoRequestDto*/);
+
 
         return ResponseEntity.ok().body(localizacaoDoDispositivo);
     }
