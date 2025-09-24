@@ -32,4 +32,8 @@ public interface MedicaoRepository extends JpaRepository<MedicaoModel, Long> {
             @Param("usuarioCodigoPublico") String usuarioCodigoPublico, // ✅ Tipo correto: String
             @Param("dataInicio") LocalDateTime dataInicio,
             @Param("dataFim") LocalDateTime dataFim);
+
+
+    @Query("SELECT m FROM MedicaoModel m JOIN m.dispositivo d WHERE d.apiKey = :apikey")
+    List<MedicaoModel> findByDispositivoApikey(@Param("apikey") String apiKey);
 }

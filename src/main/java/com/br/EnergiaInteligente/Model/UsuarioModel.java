@@ -1,7 +1,6 @@
 package com.br.EnergiaInteligente.Model;
 
 import com.br.EnergiaInteligente.Utils.GeradoIdentificadorUtil;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

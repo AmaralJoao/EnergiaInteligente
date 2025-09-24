@@ -1,0 +1,67 @@
+/* ELETRIC AI - login styles
+Save this file under: src/main/webapp/resources/css/login.css
+The JSF page references it with: <h:outputStylesheet library="css" name="login.css" />
+*/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+
+:root{
+--bg-a: #080913;
+--bg-b: #22144a;
+--card-bg: rgba(6,8,18,0.7);
+--accent-1: #00e0ff;
+--accent-2: #7a3bff;
+--muted: rgba(255,255,255,0.42);
+}
+
+
+html, body { height:100%; margin:0; font-family:'Poppins',sans-serif; }
+body {
+background: linear-gradient(135deg, #0c1120 0%, #24123b 100%);
+overflow:hidden;
+}
+
+
+.login-page{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+padding:48px 20px;
+}
+
+
+/* decorative streaks (left/right vertical glow lines) */
+.streak{ position:absolute; width:2px; border-radius:2px; background:linear-gradient(180deg, transparent, rgba(0,220,255,0.95), transparent); box-shadow:0 0 12px rgba(0,220,255,0.12); transform:skewY(-8deg);}
+.streak-1{ left:8%; top:20%; height:140px; }
+.streak-2{ right:12%; top:36%; height:180px; }
+.streak-3{ right:28%; top:60%; height:110px; }
+
+
+/* card */
+.login-card{
+width:420px;
+padding:34px;
+border-radius:14px;
+background: linear-gradient(180deg, rgba(8,10,18,0.85), rgba(6,8,16,0.6));
+position:relative;
+box-shadow:0 12px 40px rgba(6,8,20,0.7);
+border:1px solid transparent;
+overflow:hidden;
+}
+
+
+/* gradient border glow using pseudo-element */
+.login-card::after{
+content:''; position:absolute; inset:0; pointer-events:none; border-radius:14px; padding:1px;
+background: linear-gradient(90deg, rgba(0,224,255,0.12), rgba(122,59,255,0.12));
+-webkit-mask: linear-gradient(#000 0 0) content-box; mask-composite:exclude;
+}
+
+
+.brand{ text-align:center; margin-bottom:16px; }
+.logo-icon{ width:64px; height:64px; margin:0 auto 12px auto; border-radius:10px; display:flex; align-items:center; justify-content:center;
+background: linear-gradient(180deg,#00e0ff,#9846ff); box-shadow:0 8px 30px rgba(122,59,255,0.08), 0 0 18px rgba(0,220,255,0.06); }

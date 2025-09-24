@@ -1,8 +1,10 @@
 package com.br.EnergiaInteligente.Service;
 
+import com.br.EnergiaInteligente.Dto.Request.DispositivoRequesDto;
 import com.br.EnergiaInteligente.Dto.Request.LocalizarMedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Request.MedicaoRequestDto;
 import com.br.EnergiaInteligente.Dto.Request.NovaMedicaoRequestDto;
+import com.br.EnergiaInteligente.Dto.Response.DispositivoResponseDto;
 import com.br.EnergiaInteligente.Dto.Response.MedicaoPorDispositivoResponseDto;
 import com.br.EnergiaInteligente.Dto.Response.MedicaoResponseDto;
 import com.br.EnergiaInteligente.Mapper.MedicaoMapper;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MedicaoService {
@@ -49,5 +52,13 @@ public class MedicaoService {
         String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
 
         return medicaoRepository.findMedicoesPorUsuarioCodigoPublicoEPeriodo(codigoPublicoUsuario, request.getDataInicio(), request.getDataFim());
+    }
+
+    public List<MedicaoResponseDto>listarMedicoesDoDispositivo(String apikey ){
+       List<MedicaoModel> mediicoes = medicaoRepository.findByDispositivoApikey(apikey);
+
+        return mediicoes.stream()
+                .map(medicaoMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

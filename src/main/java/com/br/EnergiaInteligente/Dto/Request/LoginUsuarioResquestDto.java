@@ -2,7 +2,7 @@ package com.br.EnergiaInteligente.Dto.Request;
 
 public class LoginUsuarioResquestDto {
 
-    private String emaiUsuario;
+    private String emailUsuario;
 
     private String senha;
 
@@ -10,12 +10,12 @@ public class LoginUsuarioResquestDto {
 
     private String userAgent;
 
-    public String getEmaiUsuario() {
-        return emaiUsuario;
+    public String getEmailUsuario() {
+        return emailUsuario;
     }
 
-    public void setEmaiUsuario(String emaiUsuario) {
-        this.emaiUsuario = emaiUsuario;
+    public void setEmailUsuario(String emailUsuario) {
+        this.emailUsuario = emailUsuario;
     }
 
     public String getSenha() {

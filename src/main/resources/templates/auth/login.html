@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>ELETRIC AI - Login</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <!-- PrimeIcons (opcional para ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css"/>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+</head>
+<body>
+
+<!-- Background gradient e streaks -->
+<div class="bg-wrapper">
+    <div class="streak s1"></div>
+    <div class="streak s2"></div>
+    <div class="streak s3"></div>
+    <div class="streak s4"></div>
+</div>
+
+<main class="center-wrap">
+    <section class="card-outer">
+        <div class="card">
+            <!-- LOGO (inline SVG neon) -->
+            <div class="logo-wrap">
+                <!-- Lightning SVG -->
+                <svg class="logo-svg" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+                    <defs>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <polygon points="28,2 6,38 26,38 18,62 54,22 34,22"
+                             fill="#00f0ff" stroke="#7affff" stroke-width="1.2" filter="url(#glow)"/>
+                </svg>
+
+                <h1 class="neon-title">ELETRIC AI</h1>
+                <p class="subtitle">Sistema de Gerenciamento Elétrico Inteligente</p>
+            </div>
+
+            <!-- Form -->
+            <form th:action="@{/auth/login}" th:object="${loginRequest}" method="post" class="login-form">
+                <!-- CSRF (se Spring Security estiver ativo) -->
+                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <label class="field-label">Email</label>
+                <div class="input-wrap">
+                    <input type="email" th:field="*{emailUsuario}" placeholder="usuario@email.com" required/>
+                </div>
+
+                <label class="field-label">Senha</label>
+                <div class="input-wrap pass-wrap">
+                    <input id="senha" type="password" th:field="*{senha}" placeholder="Digite sua senha" required/>
+                    <button type="button" class="eye-btn" id="togglePwd" aria-label="Mostrar senha">
+                        <i class="pi pi-eye"></i>
+                    </button>
+                </div>
+
+                <div th:if="${erro}" class="form-error" th:text="${erro}"></div>
+
+                <button class="btn-submit" type="submit">
+                    <span class="bolt">⚡</span> Conectar ao Sistema
+                </button>
+
+                <div class="links-row">
+                    <a th:href="@{/auth/forgot}" class="link">Esqueceu sua senha?</a>
+                    <a th:href="@{/auth/register}" class="link">Criar nova conta</a>
+                </div>
+
+            </form>
+
+            <footer class="card-footer">© 2024 ELETRIC AI. Todos os direitos reservados.</footer>
+        </div>
+    </section>
+</main>
+
+<script th:src="@{/js/login.js}"></script>
+</body>
+</html>

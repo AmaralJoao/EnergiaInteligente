@@ -1,6 +1,5 @@
 package com.br.EnergiaInteligente.Dto.Request;
 
-import jakarta.persistence.Column;
 
 import java.time.LocalDateTime;
 

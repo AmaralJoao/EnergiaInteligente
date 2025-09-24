@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>ELETRIC AI - Login</title>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&amp;display=swap" rel="stylesheet" />
+
+    <!-- CSS incorporado diretamente -->
+    <style type="text/css">
+        /* ELETRIC AI - login styles */
+        :root {
+            --bg-a: #080913;
+            --bg-b: #22144a;
+            --card-bg: rgba(6,8,18,0.7);
+            --accent-1: #00e0ff;
+            --accent-2: #7a3bff;
+            --muted: rgba(255,255,255,0.42);
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c1120 0%, #24123b 100%);
+            overflow: hidden;
+        }
+
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 48px 20px;
+        }
+
+        /* decorative streaks (left/right vertical glow lines) */
+        .streak {
+            position: absolute;
+            width: 2px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, transparent, rgba(0,220,255,0.95), transparent);
+            box-shadow: 0 0 12px rgba(0,220,255,0.12);
+            transform: skewY(-8deg);
+        }
+
+        .streak-1 {
+            left: 8%;
+            top: 20%;
+            height: 140px;
+        }
+
+        .streak-2 {
+            right: 12%;
+            top: 36%;
+            height: 180px;
+        }
+
+        .streak-3 {
+            right: 28%;
+            top: 60%;
+            height: 110px;
+        }
+
+        /* card */
+        .login-card {
+            width: 420px;
+            padding: 34px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(8,10,18,0.85), rgba(6,8,16,0.6));
+            position: relative;
+            box-shadow: 0 12px 40px rgba(6,8,20,0.7);
+            border: 1px solid transparent;
+            overflow: hidden;
+        }
+
+        /* gradient border glow using pseudo-element */
+        .login-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 14px;
+            padding: 1px;
+            background: linear-gradient(90deg, rgba(0,224,255,0.12), rgba(122,59,255,0.12));
+            -webkit-mask: linear-gradient(#000 0 0) content-box;
+            mask-composite: exclude;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .logo-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 12px auto;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #00e0ff, #9846ff);
+            box-shadow: 0 8px 30px rgba(122,59,255,0.08), 0 0 18px rgba(0,220,255,0.06);
+        }
+
+        .brand h1 {
+            color: white;
+            margin: 0.5rem 0;
+            font-weight: 800;
+            font-size: 28px;
+            background: linear-gradient(90deg, #00e0ff, #9846ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: var(--accent-1);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,224,255,0.1);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .input-field::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(122,59,255,0.3);
+        }
+
+        .login-extra {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .login-extra a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .login-extra a:hover {
+            color: var(--accent-1);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--muted);
+            font-size: 0.8rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Estilos para os componentes PrimeFaces */
+        .ui-outputlabel {
+            color: white !important;
+            font-weight: 400;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .ui-messages {
+            margin-bottom: 20px;
+        }
+
+        .ui-messages-error {
+            background: rgba(255,0,0,0.1) !important;
+            border: 1px solid rgba(255,0,0,0.2) !important;
+            color: #ff6b6b !important;
+        }
+
+        .ui-messages-info {
+            background: rgba(0,224,255,0.1) !important;
+            border: 1px solid rgba(0,224,255,0.2) !important;
+            color: var(--accent-1) !important;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="login-page">
+        <!-- decorative streaks -->
+        <div class="streak streak-1" aria-hidden="true"></div>
+        <div class="streak streak-2" aria-hidden="true"></div>
+        <div class="streak streak-3" aria-hidden="true"></div>
+
+        <div class="login-card">
+            <h:form id="loginForm" prependId="false" styleClass="ui-form">
+
+                <div class="brand">
+                    <div class="logo-icon" title="Logomarca">
+                        <!-- Ícone de raio (pode substituir por imagem) -->
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 2L3 14H11L11 22L21 10H13L13 2Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <h1>ELETRIC AI</h1>
+                    <div class="subtitle">Sistema de Gerenciamento Elétrico Inteligente</div>
+                </div>
+
+                <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="false" />
+
+                <div class="form-field">
+                    <p:outputLabel for="email" value="Email" />
+                    <p:inputText id="email" value="#{loginBean.email}" placeholder="usuario@email.com"
+                                 required="true" requiredMessage="Email é obrigatório"
+                                 label="Email" styleClass="input-field" />
+                </div>
+
+                <div class="form-field">
+                    <p:outputLabel for="password" value="Senha" />
+                    <p:password id="password" value="#{loginBean.password}" placeholder="Digite sua senha"
+                                toggleMask="true" feedback="false" required="true"
+                                requiredMessage="Senha é obrigatória" styleClass="input-field" />
+                </div>
+
+                <p:commandButton value="Conectar ao Sistema" action="#{loginBean.login}"
+                                 icon="pi pi-bolt" styleClass="btn-login" ajax="false" />
+
+                <div class="login-extra">
+                    <h:link outcome="/forgot.xhtml" value="Esqueceu sua senha?" />
+                    <h:link outcome="/register.xhtml" value="Criar nova conta" />
+                </div>
+
+                <div class="login-footer">© 2024 ELETRIC AI. Todos os direitos reservados.</div>
+
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

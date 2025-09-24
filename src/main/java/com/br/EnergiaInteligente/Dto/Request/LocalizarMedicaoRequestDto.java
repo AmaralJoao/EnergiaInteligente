@@ -1,6 +1,6 @@
 package com.br.EnergiaInteligente.Dto.Request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
