@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 
 public class DispositivoResponseDto {
 
+    private Long id;
+
     private String nomeDoDispositivo;
 
     private String modeloDispositivo;
@@ -13,6 +15,14 @@ public class DispositivoResponseDto {
     private LocalizacaoDispositivoResponseDto localizacaoDispositivo;
 
     private LocalizacaoResponseDto localizacao;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNomeDoDispositivo() {
         return nomeDoDispositivo;

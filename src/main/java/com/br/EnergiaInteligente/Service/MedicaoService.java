@@ -49,7 +49,7 @@ public class MedicaoService {
 
     public List<MedicaoPorDispositivoResponseDto> listarMedicoesPorUsuario(LocalizarMedicaoRequestDto request, String token) {
 
-        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuario();
 
         return medicaoRepository.findMedicoesPorUsuarioCodigoPublicoEPeriodo(codigoPublicoUsuario, request.getDataInicio(), request.getDataFim());
     }

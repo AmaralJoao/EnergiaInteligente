@@ -27,4 +27,10 @@ public class UsuarioService {
 
         return usuarioMapper.toDto(usuarioCriado);
     }
+
+    public UsuarioResponseDto mostrarUsuario(String codigoPublicoUsuario){
+        UsuarioModel usuario = usuarioRepository.findByCodigoPublico(codigoPublicoUsuario).orElseThrow(() -> new RuntimeException("Usuario nao localizado"));
+
+        return usuarioMapper.toDto(usuario);
+    }
 }

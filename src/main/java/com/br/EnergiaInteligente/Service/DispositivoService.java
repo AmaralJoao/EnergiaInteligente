@@ -2,7 +2,6 @@ package com.br.EnergiaInteligente.Service;
 
 import com.br.EnergiaInteligente.Dto.Request.CadastrarDispositivoRequesDto;
 import com.br.EnergiaInteligente.Dto.Request.DispositivoRequesDto;
-import com.br.EnergiaInteligente.Dto.Request.VincularDispositivoRequestDto;
 import com.br.EnergiaInteligente.Dto.Response.DispositivoComLocalizacaoResponseDto;
 import com.br.EnergiaInteligente.Dto.Response.DispositivoResponseDto;
 import com.br.EnergiaInteligente.Mapper.DispositivoMapper;
@@ -54,11 +53,10 @@ public class DispositivoService {
         return dispositivoMapper.toDto(dispositivo);
     }
 
-    public DispositivoResponseDto vincularDispositivoUsuario(VincularDispositivoRequestDto vincularDispositivoRequestDto, String token){
-        String codigoPublicousuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+    public DispositivoResponseDto vincularDispositivoUsuario(Long chipId, String codigoPublicoUsuario){
 
-        DispositivoModel dispositivo = dispositivoRepository.findByChipId(vincularDispositivoRequestDto.getChipId());
-        UsuarioModel usuarioDispositivo = usuarioRepository.findByCodigoPublico(codigoPublicousuario).orElseThrow();
+        DispositivoModel dispositivo = dispositivoRepository.findByChipId(chipId);
+        UsuarioModel usuarioDispositivo = usuarioRepository.findByCodigoPublico(codigoPublicoUsuario).orElseThrow();
 
         dispositivo.setUsuario(usuarioDispositivo);
 
@@ -80,9 +78,7 @@ public class DispositivoService {
         return dispositivoRepository.findByChipId(chipId) != null;
     }
 
-    public List<DispositivoComLocalizacaoResponseDto> listarDispositivosPorUsuario(String token) {
-
-        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+    public List<DispositivoComLocalizacaoResponseDto> listarDispositivosPorUsuario(String codigoPublicoUsuario) {
 
         return dispositivoRepository.findDispositivosCompletosByUsuario(codigoPublicoUsuario);
     }

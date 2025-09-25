@@ -9,7 +9,7 @@ public class DispositivoComLocalizacaoResponseDto {
     private String nomeDaLocalizacaoDoDispositivo;
     private String cidade;
     private String nomeDaRua;
-    private Integer numero; // trocado de int -> Integer
+    private Integer numero;
     private String complemento;
 
     // Construtor para a JPQL

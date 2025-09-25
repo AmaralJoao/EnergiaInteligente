@@ -88,9 +88,8 @@ public class LocalizacaoDispositivoService {
         return localizacaoDispositivoMapper.toDto(salva);
     }
 
-    public List<LocalizacaoDispositivoResponseDto> localizacoesAntigasDoDispositivo(String token) {
+    public List<LocalizacaoDispositivoResponseDto> localizacoesAntigasDoDispositivo(String codigoPublicoUsuario) {
 
-        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
 
         List<LocalizacaoDispositivoModel> localizacoesAntigasDoDispositivo = Collections.singletonList(localizacaoDispositivoRepository.findByCodigoPublicoUsuario(codigoPublicoUsuario)
                 .orElseThrow(() -> new RuntimeException("usuario não possui historico de localizacoes em seus dispositivos")));

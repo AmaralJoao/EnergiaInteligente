@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EletricAi - Sistema de Energia Inteligente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg1: #0b0f20;
+            --bg2: #31165a;
+            --card-bg: rgba(6,8,20,0.85);
+            --accent-a: #00f0ff;
+            --accent-b: #8b5cf6;
+            --muted: #9aa3b2;
+        }
+
+        *{ box-sizing: border-box; margin:0; padding:0; font-family: 'Montserrat', sans-serif; }
+
+        body, html {
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg1) 0%, #171737 40%, var(--bg2) 100%);
+            overflow: hidden;
+            color: #cfe9ff;
+        }
+
+        .bg-wrapper {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .streak {
+            position: absolute;
+            width: 2px;
+            height: 120px;
+            background: linear-gradient(180deg, rgba(0,240,255,0) 0%, rgba(0,240,255,0.95) 50%, rgba(0,240,255,0) 100%);
+            filter: blur(0.6px);
+            opacity: .9;
+            transform: translateY(-30vh);
+            animation: floatStreak 10s linear infinite;
+        }
+        .s1 { left: 8%; top: 20%; animation-duration: 11s; }
+        .s2 { left: 52%; top: 10%; animation-duration: 13s; }
+        .s3 { left: 85%; top: 40%; animation-duration: 9s; }
+        .s4 { left: 72%; top: 64%; animation-duration: 12s; }
+
+        @keyframes floatStreak {
+            0% { transform: translateY(-40vh) scaleY(1); opacity:.0; }
+            10% { opacity: .9; }
+            50% { transform: translateY(20vh) scaleY(1.2); opacity:.9; }
+            90% { opacity: 0.0; }
+            100% { transform: translateY(40vh) scaleY(1); opacity:0; }
+        }
+
+        .main-content {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            padding-top: 100px;
+        }
+
+        .hero-section {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #00f0ff, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(139,92,246,0.3);
+            letter-spacing: 1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(200,220,255,0.7);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            min-width: 200px;
+            text-align: center;
+            border: 1px solid rgba(74, 200, 255, 0.06);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(90deg, rgba(0,240,255,0.8), rgba(139,92,246,0.8));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            filter: blur(6px);
+            opacity: .22;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #00f0ff;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00f0ff;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(200,220,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 20px;
+            color: rgba(158,171,188,0.4);
+            font-size: 0.8rem;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .stat-card { min-width: 150px; padding: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .stat-card { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+<!-- Background Effects -->
+<div class="bg-wrapper">
+    <div class="streak s1"></div>
+    <div class="streak s2"></div>
+    <div class="streak s3"></div>
+    <div class="streak s4"></div>
+</div>
+
+<!-- Navigation Header -->
+<header th:replace="pages/component/header :: header"></header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <section class="hero-section">
+        <h1 class="hero-title">Sistema Inteligente de Gestão Energética</h1>
+        <p class="hero-subtitle">
+            Monitoramento em tempo real, análises preditivas e otimização do consumo energético
+            para maximizar eficiência e reduzir custos operacionais.
+        </p>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value">98.5%</div>
+                <div class="stat-label">Eficiência Energética</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💡</div>
+                <div class="stat-value">1.2MW</div>
+                <div class="stat-label">Consumo Atual</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">R$ 42K</div>
+                <div class="stat-label">Economia Mensal</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🌱</div>
+                <div class="stat-value">15.3t</div>
+                <div class="stat-label">CO₂ Reduzido</div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    EletricAi © 2024 - Sistema de Gestão Energética Inteligente
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
+</body>
+</html>

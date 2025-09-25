@@ -42,10 +42,13 @@ public class UsuarioModel {
     @Column(name = "dtNascimento")
     private LocalDateTime dataNascimento;
 
+    @Column(name = "cpf", nullable = false, unique = true, length = 11)
+    private String cpf;
+
     public UsuarioModel() {
     }
 
-    public UsuarioModel(Long id, String senha, LocalDateTime dataCriacao, LocalDateTime atualizacao, String nomeDoUsuario, String email, String contato, LocalDateTime dataNascimento) {
+    public UsuarioModel(Long id, String senha, LocalDateTime dataCriacao, LocalDateTime atualizacao, String nomeDoUsuario, String email, String contato, LocalDateTime dataNascimento, String cpf) {
         this.id = id;
         this.senha = senha;
         this.dataCriacao = dataCriacao;
@@ -54,6 +57,7 @@ public class UsuarioModel {
         this.email = email;
         this.contato = contato;
         this.dataNascimento = dataNascimento;
+        this.cpf = cpf;
     }
 
     @PrePersist
@@ -141,5 +145,13 @@ public class UsuarioModel {
 
     public void setCodigoPublico(String codigoPublico) {
         this.codigoPublico = codigoPublico;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

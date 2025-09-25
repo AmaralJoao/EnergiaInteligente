@@ -27,13 +27,11 @@ public class LocalizacaoService {
     @Autowired
     private AutenticacaoUtils autenticacaoUtils;
 
-    public LocalizacaoResponseDto criarLocalizacao(LocalizacaoRequestDto novaLocalizacao, String token) {
+    public LocalizacaoResponseDto criarLocalizacao(LocalizacaoRequestDto novaLocalizacao, String codigoPublicoUsuario) {
 
         if (novaLocalizacao.getCodigoPublicoLocalizacao() != null){
             throw new RuntimeException("para criar uma localizacao o campo Codigo Publico deve ser NULL");
         }
-
-        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
 
 
         UsuarioModel usuario = usuarioRepository.findByCodigoPublico(codigoPublicoUsuario)
@@ -85,9 +83,7 @@ public class LocalizacaoService {
 
     }
 
-    public List<LocalizacaoResponseDto> LocalizacoesPorUsuario(String token) {
-
-        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuarioPorToken(token);
+    public List<LocalizacaoResponseDto> LocalizacoesPorUsuario(String codigoPublicoUsuario) {
 
         List<LocalizacaoModel> localizacoesDoUsuario = localizacaoRepository.findLocalizacoesPorusuario(codigoPublicoUsuario);
 

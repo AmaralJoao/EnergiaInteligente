@@ -3,6 +3,7 @@ package com.br.EnergiaInteligente.Controller;
 import com.br.EnergiaInteligente.Dto.Request.LocalizacaoDispositivoRequestDto;
 import com.br.EnergiaInteligente.Dto.Response.LocalizacaoDispositivoResponseDto;
 import com.br.EnergiaInteligente.Service.LocalizacaoDispositivoService;
+import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auth/api/localizacaodispositivo")
-public class LocalizacaoDispositivoBean {
+@RequestMapping("/localizacaodispositivo")
+public class LocalizacaoDispositivoController {
 
     @Autowired
     private LocalizacaoDispositivoService localizacaoDispositivoService;
+    @Autowired
+    private AutenticacaoUtils autenticacaoUtils;
 
     @PostMapping("/cadastrar")
     public ResponseEntity<LocalizacaoDispositivoResponseDto> cadastroLocalizacaoDoDispositivo(@RequestBody LocalizacaoDispositivoRequestDto request){
@@ -31,11 +34,11 @@ public class LocalizacaoDispositivoBean {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<List<LocalizacaoDispositivoResponseDto>> todasLocalizacoesDoDispositivo(@RequestHeader("Authorization") String authHeader/*, @RequestBody LocalizacaoDispositivoRequestDto localizacaoDispositivoRequestDto*/){
+    public ResponseEntity<List<LocalizacaoDispositivoResponseDto>> todasLocalizacoesDoDispositivo(/*, @RequestBody LocalizacaoDispositivoRequestDto localizacaoDispositivoRequestDto*/){
 
-        String token = authHeader.replace("Bearer ","");
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuario();
 
-        List<LocalizacaoDispositivoResponseDto> localizacaoDoDispositivo = localizacaoDispositivoService.localizacoesAntigasDoDispositivo(token/*localizacaoDispositivoRequestDto*/);
+        List<LocalizacaoDispositivoResponseDto> localizacaoDoDispositivo = localizacaoDispositivoService.localizacoesAntigasDoDispositivo(codigoPublicoUsuario/*localizacaoDispositivoRequestDto*/);
 
 
         return ResponseEntity.ok().body(localizacaoDoDispositivo);

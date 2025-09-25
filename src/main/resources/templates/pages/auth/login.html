@@ -50,7 +50,6 @@
 
             <!-- Form -->
             <form th:action="@{/auth/login}" th:object="${loginRequest}" method="post" class="login-form">
-                <!-- CSRF (se Spring Security estiver ativo) -->
                 <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
                 <label class="field-label">Email</label>
@@ -76,7 +75,6 @@
                     <a th:href="@{/auth/forgot}" class="link">Esqueceu sua senha?</a>
                     <a th:href="@{/auth/register}" class="link">Criar nova conta</a>
                 </div>
-
             </form>
 
             <footer class="card-footer">© 2024 ELETRIC AI. Todos os direitos reservados.</footer>

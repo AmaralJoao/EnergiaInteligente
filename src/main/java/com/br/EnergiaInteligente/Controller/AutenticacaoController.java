@@ -4,11 +4,12 @@ import com.br.EnergiaInteligente.Dto.Request.LoginUsuarioResquestDto;
 import com.br.EnergiaInteligente.Dto.Response.LoginUsuarioResponseDto;
 import com.br.EnergiaInteligente.Service.AutenticacaoService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 @RequestMapping("/auth")
@@ -18,9 +19,13 @@ public class AutenticacaoController {
     private AutenticacaoService authService;
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
+    public String loginForm(Model model, HttpServletRequest request) {
+
+        if (request.getSession().getAttribute("token") != null) {
+            return "redirect:/home/index";
+        }
         model.addAttribute("loginRequest", new LoginUsuarioResquestDto());
-        return "auth/login"; // -> templates/auth/login.html
+        return "pages/auth/login";
     }
 
     @PostMapping("/login")
@@ -35,24 +40,26 @@ public class AutenticacaoController {
                     request.getHeader("User-Agent")
             );
 
-            // Aqui você poderia salvar o token na sessão
-            request.getSession().setAttribute("token", token);
+            // Salva o token na sessão do usuário
+            HttpSession session = request.getSession(true);
+            session.setAttribute("token", token);
+            session.setAttribute("usuarioEmail", loginRequestDto.getEmailUsuario());
 
-            // Redirecionar para a página inicial protegida
-            return "redirect:/usuarios";
+            // Redireciona para a página inicial protegida
+            return "redirect:/home/index";
         } catch (Exception e) {
             model.addAttribute("erro", "Usuário ou senha inválidos!");
-            return "auth/login";
+            return "pages/auth/login";
         }
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
-        String token = (String) request.getSession().getAttribute("token");
-        if (token != null) {
-            authService.logout(token);
-            request.getSession().invalidate();
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // remove token e dados da sessão
         }
         return "redirect:/auth/login";
     }
 }
+
