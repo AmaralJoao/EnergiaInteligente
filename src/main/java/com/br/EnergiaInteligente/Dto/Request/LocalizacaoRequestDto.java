@@ -2,6 +2,7 @@ package com.br.EnergiaInteligente.Dto.Request;
 
 public class LocalizacaoRequestDto {
 
+    private Long id;
     private String codigoPublicoLocalizacao;
     private String descricao;
     private String cep;
@@ -9,6 +10,7 @@ public class LocalizacaoRequestDto {
     private String nomeDaRua;
     private int numero;
     private String complemento;
+    private boolean status;
 
     public String getCodigoPublicoLocalizacao() {
         return codigoPublicoLocalizacao;
@@ -66,4 +68,19 @@ public class LocalizacaoRequestDto {
         this.complemento = complemento;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

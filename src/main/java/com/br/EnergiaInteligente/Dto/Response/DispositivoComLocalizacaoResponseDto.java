@@ -1,7 +1,12 @@
 package com.br.EnergiaInteligente.Dto.Response;
 
+import lombok.Getter;
+import lombok.Setter;
+
+
 public class DispositivoComLocalizacaoResponseDto {
 
+    private Long id;
     private String codigoPublicoDispositivo;
     private String nomeDoDispositivo;
     private String modeloDispositivo;
@@ -12,10 +17,9 @@ public class DispositivoComLocalizacaoResponseDto {
     private Integer numero;
     private String complemento;
 
-    // Construtor para a JPQL
 
-
-    public DispositivoComLocalizacaoResponseDto(String codigoPublicoDispositivo, String nomeDoDispositivo, String modeloDispositivo, Long versaoDoDispositivo, String nomeDaLocalizacaoDoDispositivo, String cidade, String nomeDaRua, Integer numero, String complemento) {
+    public DispositivoComLocalizacaoResponseDto(Long id, String codigoPublicoDispositivo, String nomeDoDispositivo, String modeloDispositivo, Long versaoDoDispositivo, String nomeDaLocalizacaoDoDispositivo, String cidade, String nomeDaRua, Integer numero, String complemento) {
+        this.id = id;
         this.codigoPublicoDispositivo = codigoPublicoDispositivo;
         this.nomeDoDispositivo = nomeDoDispositivo;
         this.modeloDispositivo = modeloDispositivo;
@@ -27,8 +31,23 @@ public class DispositivoComLocalizacaoResponseDto {
         this.complemento = complemento;
     }
 
-    // Construtor vazio (obrigatório)
     public DispositivoComLocalizacaoResponseDto() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCodigoPublicoDispositivo() {
+        return codigoPublicoDispositivo;
+    }
+
+    public void setCodigoPublicoDispositivo(String codigoPublicoDispositivo) {
+        this.codigoPublicoDispositivo = codigoPublicoDispositivo;
+    }
 
     public String getNomeDoDispositivo() {
         return nomeDoDispositivo;
@@ -92,14 +111,5 @@ public class DispositivoComLocalizacaoResponseDto {
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
-    }
-
-
-    public String getCodigoPublicoDispositivo() {
-        return codigoPublicoDispositivo;
-    }
-
-    public void setCodigoPublicoDispositivo(String codigoPublicoDispositivo) {
-        this.codigoPublicoDispositivo = codigoPublicoDispositivo;
     }
 }

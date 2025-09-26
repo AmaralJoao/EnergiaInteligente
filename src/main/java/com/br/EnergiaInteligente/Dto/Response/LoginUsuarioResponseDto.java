@@ -1,5 +1,10 @@
 package com.br.EnergiaInteligente.Dto.Response;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class LoginUsuarioResponseDto {
 
     private String token;
@@ -8,11 +13,4 @@ public class LoginUsuarioResponseDto {
         this.token = token;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

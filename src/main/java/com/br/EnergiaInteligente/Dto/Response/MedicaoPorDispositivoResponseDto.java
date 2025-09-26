@@ -1,7 +1,12 @@
 package com.br.EnergiaInteligente.Dto.Response;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 public class MedicaoPorDispositivoResponseDto {
     private String nomeDispositivo;
     private Long consumo;
@@ -26,67 +31,4 @@ public class MedicaoPorDispositivoResponseDto {
         this.codigoPublicoDispositivo = codigoPublicoDispositivo;
     }
 
-    public String getNomeDispositivo() {
-        return nomeDispositivo;
-    }
-
-    public void setNomeDispositivo(String nomeDispositivo) {
-        this.nomeDispositivo = nomeDispositivo;
-    }
-
-    public Long getConsumo() {
-        return consumo;
-    }
-
-    public void setConsumo(Long consumo) {
-        this.consumo = consumo;
-    }
-
-    public Integer getTensao() {
-        return tensao;
-    }
-
-    public void setTensao(Integer tensao) {
-        this.tensao = tensao;
-    }
-
-    public Integer getCorrente() {
-        return corrente;
-    }
-
-    public void setCorrente(Integer corrente) {
-        this.corrente = corrente;
-    }
-
-    public String getTipoMedicao() {
-        return tipoMedicao;
-    }
-
-    public void setTipoMedicao(String tipoMedicao) {
-        this.tipoMedicao = tipoMedicao;
-    }
-
-    public LocalDateTime getDataHoraFimMedicao() {
-        return dataHoraFimMedicao;
-    }
-
-    public void setDataHoraFimMedicao(LocalDateTime dataHoraFimMedicao) {
-        this.dataHoraFimMedicao = dataHoraFimMedicao;
-    }
-
-    public LocalDateTime getDataHoraInicioMedicao() {
-        return dataHoraInicioMedicao;
-    }
-
-    public void setDataHoraInicioMedicao(LocalDateTime dataHoraInicioMedicao) {
-        this.dataHoraInicioMedicao = dataHoraInicioMedicao;
-    }
-
-    public String getCodigoPublicoDispositivo() {
-        return codigoPublicoDispositivo;
-    }
-
-    public void setCodigoPublicoDispositivo(String codigoPublicoDispositivo) {
-        this.codigoPublicoDispositivo = codigoPublicoDispositivo;
-    }
 }

@@ -7,44 +7,53 @@ import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @Controller
-@RequestMapping("/localizacao")
+@RequestMapping("/home/config")
 public class LocalizacaoController {
 
     @Autowired
     private LocalizacaoService localizacaoService;
+
     @Autowired
     AutenticacaoUtils autenticacaoUtils;
 
-    @PostMapping("/novalocalizacao")
-    public ResponseEntity<LocalizacaoResponseDto> cadastrarNovaLocalizacao(LocalizacaoRequestDto localizacaoRequestDto){
+    @GetMapping("/localizacao")
+    public String home(Model model) {
+        if (!AutenticacaoUtils.isSessaoValida()) {
+            return "redirect:/auth/login";
+        }
 
         String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuario();
+        List<LocalizacaoResponseDto> localizacoes = localizacaoService.LocalizacoesPorUsuario(codigoPublicoUsuario);
 
+        model.addAttribute("localizacoes", localizacoes);
+        return "pages/home/configuracoes/localizacao/localizacoesUsuario"; // Atualize para o caminho correto
+    }
+
+    @PostMapping("/novalocalizacao")
+    @ResponseBody
+    public ResponseEntity<LocalizacaoResponseDto> cadastrarNovaLocalizacao(@ModelAttribute LocalizacaoRequestDto localizacaoRequestDto){
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuario();
         LocalizacaoResponseDto novaLocalizacao = localizacaoService.criarLocalizacao(localizacaoRequestDto, codigoPublicoUsuario);
-
         return ResponseEntity.ok().body(novaLocalizacao);
     }
 
     @PostMapping("/editar")
-    public ResponseEntity<LocalizacaoResponseDto> editarLocalizacao(LocalizacaoRequestDto localizacaoRequestDto){
-
-        LocalizacaoResponseDto novaLocalizacao = localizacaoService.editarLocalizacao(localizacaoRequestDto);
-
-        return ResponseEntity.ok().body(novaLocalizacao);
+    @ResponseBody
+    public ResponseEntity<LocalizacaoResponseDto> editarLocalizacao(@ModelAttribute LocalizacaoRequestDto localizacaoRequestDto){
+        LocalizacaoResponseDto localizacaoEditada = localizacaoService.editarLocalizacao(localizacaoRequestDto);
+        return ResponseEntity.ok().body(localizacaoEditada);
     }
 
     @GetMapping("/localizacoes")
+    @ResponseBody
     public ResponseEntity<List<LocalizacaoResponseDto>> listarLocalizacoesPorUsuario(){
-
         String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuario();
-
-        List<LocalizacaoResponseDto> novaLocalizacao = localizacaoService.LocalizacoesPorUsuario(codigoPublicoUsuario);
-
-        return ResponseEntity.ok().body(novaLocalizacao);
+        List<LocalizacaoResponseDto> localizacoes = localizacaoService.LocalizacoesPorUsuario(codigoPublicoUsuario);
+        return ResponseEntity.ok().body(localizacoes);
     }
 }

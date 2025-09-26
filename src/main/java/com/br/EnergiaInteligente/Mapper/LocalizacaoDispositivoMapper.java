@@ -16,11 +16,11 @@ public interface LocalizacaoDispositivoMapper {
 
     LocalizacaoDispositivoMapper INSTANCE = Mappers.getMapper(LocalizacaoDispositivoMapper.class);
 
-    @Mapping(source = "codigoPublico", target = "codigoPublicoLocalizacaoDoDispositivo")
-    @Mapping(source = "nomeDaLocalizacaoDoDispositivo", target = "nomeDaLocalizacaoDoDispositivo")
+    //@Mapping(source = "codigoPublico", target = "codigoPublicoLocalizacaoDoDispositivo")
+    //@Mapping(source = "nomeDaLocalizacaoDoDispositivo", target = "nomeDaLocalizacaoDoDispositivo")
     LocalizacaoDispositivoResponseDto toDto(LocalizacaoDispositivoModel model);
 
-    @Mapping(target = "codigoPublico", ignore = true) // Será gerado automaticamente
+    @Mapping(target = "codigoPublico", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "localizacao", ignore = true)
     @Mapping(target = "dispositivo", ignore = true)

@@ -26,7 +26,7 @@ public interface DispositivoRepository extends JpaRepository<DispositivoModel, L
     boolean existsByCodigoPublico(String codigoPublico);
 
     @Query("SELECT NEW com.br.EnergiaInteligente.Dto.Response.DispositivoComLocalizacaoResponseDto(" +
-            "d.codigoPublico, d.nomeDoDispositivo, d.modeloDispositivo, d.versaoDoDispositivo, " +
+            "d.id, d.codigoPublico, d.nomeDoDispositivo, d.modeloDispositivo, d.versaoDoDispositivo, " +
             "ld.nomeDaLocalizacaoDoDispositivo, " +
             "l.cidade, l.nomeDaRua, l.numero, l.complemento) " +
             "FROM DispositivoModel d " +

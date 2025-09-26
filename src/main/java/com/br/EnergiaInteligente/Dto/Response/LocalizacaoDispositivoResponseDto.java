@@ -1,26 +1,16 @@
 package com.br.EnergiaInteligente.Dto.Response;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class LocalizacaoDispositivoResponseDto {
 
-    private String codigoPublicoLocalizacaoDoDispositivo;
+    private Long id;
+
+    private Long idDispositivo;
 
     private String nomeDaLocalizacaoDoDispositivo;
-
-
-    public String getCodigoPublicoLocalizacaoDoDispositivo() {
-        return codigoPublicoLocalizacaoDoDispositivo;
-    }
-
-    public void setCodigoPublicoLocalizacaoDoDispositivo(String codigoPublicoLocalizacaoDoDispositivo) {
-        this.codigoPublicoLocalizacaoDoDispositivo = codigoPublicoLocalizacaoDoDispositivo;
-    }
-
-    public String getNomeDaLocalizacaoDoDispositivo() {
-        return nomeDaLocalizacaoDoDispositivo;
-    }
-
-    public void setNomeDaLocalizacaoDoDispositivo(String nomeDaLocalizacaoDoDispositivo) {
-        this.nomeDaLocalizacaoDoDispositivo = nomeDaLocalizacaoDoDispositivo;
-    }
 
 }

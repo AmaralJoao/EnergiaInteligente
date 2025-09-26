@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localizações</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg1: #0b0f20;
+            --bg2: #31165a;
+            --card-bg: rgba(6,8,20,0.85);
+            --accent-a: #00f0ff;
+            --accent-b: #8b5cf6;
+            --muted: #9aa3b2;
+            --text-primary: #cfe9ff;
+            --text-secondary: rgba(200,220,255,0.7);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg1) 0%, #171737 40%, var(--bg2) 100%);
+            overflow-x: hidden;
+            color: var(--text-primary);
+        }
+
+        .bg-wrapper {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .streak {
+            position: absolute;
+            width: 2px;
+            height: 120px;
+            background: linear-gradient(180deg, rgba(0,240,255,0) 0%, rgba(0,240,255,0.95) 50%, rgba(0,240,255,0) 100%);
+            filter: blur(0.6px);
+            opacity: .9;
+            transform: translateY(-30vh);
+            animation: floatStreak 10s linear infinite;
+        }
+        .s1 { left: 8%; top: 20%; animation-duration: 11s; }
+        .s2 { left: 52%; top: 10%; animation-duration: 13s; }
+        .s3 { left: 85%; top: 40%; animation-duration: 9s; }
+        .s4 { left: 72%; top: 64%; animation-duration: 12s; }
+
+        @keyframes floatStreak {
+            0% { transform: translateY(-40vh) scaleY(1); opacity:.0; }
+            10% { opacity: .9; }
+            50% { transform: translateY(20vh) scaleY(1.2); opacity:.9; }
+            90% { opacity: 0.0; }
+            100% { transform: translateY(40vh) scaleY(1); opacity:0; }
+        }
+
+        /* Ajuste para o header padrão */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            padding: 30px;
+            min-height: calc(100vh - 80px); /* Ajuste baseado na altura do seu header */
+            margin-top: 80px; /* Espaço para o header */
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(139,92,246,0.3);
+            letter-spacing: 1px;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card-custom {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid rgba(74, 200, 255, 0.06);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-custom::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(90deg, rgba(0,240,255,0.8), rgba(139,92,246,0.8));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            filter: blur(6px);
+            opacity: .22;
+        }
+
+        .card-header-custom {
+            background: rgba(10, 15, 35, 0.7);
+            border-bottom: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .card-title-custom {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .btn-custom-primary {
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+            border: none;
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+            white-space: nowrap;
+        }
+
+        .btn-custom-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .btn-custom-secondary {
+            background: rgba(30, 40, 70, 0.7);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-custom-secondary:hover {
+            background: rgba(40, 50, 90, 0.7);
+            border-color: rgba(74, 200, 255, 0.4);
+        }
+
+        .table-custom {
+            background: transparent;
+            color: var(--text-primary);
+            margin-bottom: 0;
+            width: 100%;
+        }
+
+        .table-custom thead th {
+            background: rgba(10, 15, 35, 0.7);
+            border-bottom: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--accent-a);
+            font-weight: 600;
+            padding: 12px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table-custom tbody td {
+            border-bottom: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .table-custom tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table-custom tbody tr:hover {
+            background: rgba(30, 40, 70, 0.3);
+        }
+
+        .table-custom tbody tr.selected-row {
+            background: rgba(0, 240, 255, 0.1);
+            border-left: 3px solid var(--accent-a);
+        }
+
+        .badge-custom-success {
+            background: linear-gradient(90deg, #00b894, #00f0ff);
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .badge-custom-secondary {
+            background: linear-gradient(90deg, #6c757d, #9aa3b2);
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .btn-edit {
+            opacity: 0;
+            transition: all 0.3s ease;
+            background: rgba(30, 40, 70, 0.7);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
+        .btn-edit.active {
+            opacity: 1;
+            background: rgba(0, 240, 255, 0.1);
+            border-color: var(--accent-a);
+        }
+
+        .btn-edit:hover {
+            background: rgba(0, 240, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .filtros-container {
+            background: rgba(10, 15, 35, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(74, 200, 255, 0.1);
+        }
+
+        .form-control-custom {
+            background: rgba(20, 25, 45, 0.7);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--text-primary);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .form-control-custom:focus {
+            background: rgba(25, 30, 50, 0.7);
+            border-color: var(--accent-a);
+            box-shadow: 0 0 0 0.2rem rgba(0, 240, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .form-label-custom {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--accent-a);
+            border-color: var(--accent-a);
+        }
+
+        .modal-content-custom {
+            background: var(--card-bg);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            border-radius: 12px;
+            color: var(--text-primary);
+        }
+
+        .modal-header-custom {
+            background: rgba(10, 15, 35, 0.7);
+            border-bottom: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 20px;
+        }
+
+        .modal-title-custom {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .modal-body-custom {
+            padding: 20px;
+        }
+
+        .modal-footer-custom {
+            background: rgba(10, 15, 35, 0.7);
+            border-top: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 15px 20px;
+        }
+
+        .table-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: rgba(20, 25, 45, 0.5);
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-a), var(--accent-b));
+            border-radius: 3px;
+        }
+
+        .contador-resultados {
+            background: rgba(10, 15, 35, 0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(74, 200, 255, 0.1);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .badge-filtro {
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            margin-right: 8px;
+            margin-bottom: 5px;
+            display: inline-block;
+            font-size: 0.8rem;
+        }
+
+        .badge-filtro i {
+            margin-left: 4px;
+            cursor: pointer;
+        }
+
+        /* Ajustes para telas menores */
+        @media (max-width: 1200px) {
+            .main-content {
+                padding: 20px;
+                margin-top: 70px;
+            }
+
+            .card-header-custom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .card-header-custom > div {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+                margin-top: 60px;
+                min-height: calc(100vh - 60px);
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .page-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .table-custom {
+                font-size: 0.85rem;
+            }
+
+            .table-custom thead th,
+            .table-custom tbody td {
+                padding: 8px 10px;
+            }
+
+            .btn-custom-primary,
+            .btn-custom-secondary {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .table-container {
+                max-height: 50vh;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 10px;
+                margin-top: 60px;
+            }
+
+            .page-header {
+                margin-bottom: 20px;
+                padding: 10px 0;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .card-header-custom {
+                padding: 15px;
+            }
+
+            .card-header-custom > div {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .filtros-container {
+                padding: 15px;
+            }
+
+            .table-custom {
+                font-size: 0.8rem;
+            }
+
+            .table-custom thead th,
+            .table-custom tbody td {
+                padding: 6px 8px;
+            }
+
+            /* Ocultar coluna de número em telas muito pequenas */
+            .table-custom th:nth-child(6),
+            .table-custom td:nth-child(6) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Background Animation -->
+<div class="bg-wrapper">
+    <div class="streak s1"></div>
+    <div class="streak s2"></div>
+    <div class="streak s3"></div>
+    <div class="streak s4"></div>
+</div>
+
+<header th:replace="pages/component/header :: header"></header>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="page-header">
+            <h1 class="page-title">Gerenciamento de Localizações</h1>
+            <p class="page-subtitle">Visualize, edite e gerencie todas as localizações cadastradas no sistema</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+                <div class="card-custom">
+                    <div class="card-header-custom">
+                        <h2 class="card-title-custom">Localizações Cadastradas</h2>
+                        <div>
+                            <button type="button" class="btn btn-custom-secondary me-2" onclick="toggleFiltros()">
+                                <i class="bi bi-funnel"></i> Filtros
+                            </button>
+                            <button type="button" class="btn btn-custom-primary" onclick="abrirModalNovaLocalizacao()">
+                                <i class="bi bi-plus-circle"></i> Nova Localização
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Seção de Filtros -->
+                    <div class="filtros-container" id="filtrosContainer" style="display: none;">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="filtroDescricao" class="form-label-custom">Descrição</label>
+                                <input type="text" class="form-control form-control-custom" id="filtroDescricao" placeholder="Pesquisar por descrição...">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtroCep" class="form-label-custom">CEP</label>
+                                <input type="text" class="form-control form-control-custom" id="filtroCep" placeholder="00000-000">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtroStatus" class="form-label-custom">Status</label>
+                                <select class="form-select form-control-custom" id="filtroStatus">
+                                    <option value="">Todos</option>
+                                    <option value="true">Ativo</option>
+                                    <option value="false">Inativo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button" class="btn btn-custom-primary w-100 me-2" onclick="aplicarFiltros()">
+                                    <i class="bi bi-search"></i> Filtrar
+                                </button>
+                                <button type="button" class="btn btn-custom-secondary" onclick="limparFiltros()" title="Limpar filtros">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Filtros Ativos -->
+                        <div class="mt-3" id="filtrosAtivos" style="display: none;">
+                            <small class="text-muted">Filtros ativos:</small>
+                            <div id="badgesFiltros"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Contador de Resultados -->
+                        <div class="contador-resultados">
+                                <span class="text-muted" id="contadorResultados">
+                                    Mostrando <span id="totalRegistros" th:text="${localizacoes.size()}">0</span> registros
+                                </span>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="table table-custom">
+                                <thead>
+                                <tr>
+                                    <th width="50px"></th>
+                                    <th>Descrição</th>
+                                    <th>CEP</th>
+                                    <th>Cidade</th>
+                                    <th>Endereço</th>
+                                    <th>Número</th>
+                                    <th>Status</th>
+                                    <th width="100px">Ações</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyLocalizacoes">
+                                <tr th:each="localizacao : ${localizacoes}"
+                                    th:data-id="${localizacao.id}"
+                                    th:data-descricao="${localizacao.descricao}"
+                                    th:data-cep="${localizacao.cep}"
+                                    th:data-status="${localizacao.status}">
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" onclick="selecionarLocalizacao(this)">
+                                        </div>
+                                    </td>
+                                    <td th:text="${localizacao.descricao}">Descrição</td>
+                                    <td th:text="${localizacao.cep}">CEP</td>
+                                    <td th:text="${localizacao.cidade}">Cidade</td>
+                                    <td th:text="${localizacao.nomeDaRua}">Endereço</td>
+                                    <td th:text="${localizacao.numero}">Número</td>
+                                    <td>
+                                        <span th:if="${localizacao.status}" class="badge-custom-success">Ativo</span>
+                                        <span th:unless="${localizacao.status}" class="badge-custom-secondary">Inativo</span>
+                                    </td>
+                                    <td>
+                                        <button type="button"
+                                                class="btn btn-edit"
+                                                onclick="abrirEdicao(event, this)"
+                                                th:attr="data-id=${localizacao.id},
+                                                                 data-descricao=${localizacao.descricao},
+                                                                 data-cep=${localizacao.cep},
+                                                                 data-cidade=${localizacao.cidade},
+                                                                 data-nomedarua=${localizacao.nomeDaRua},
+                                                                 data-numero=${localizacao.numero},
+                                                                 data-complemento=${localizacao.complemento},
+                                                                 data-status=${localizacao.status}">
+                                            <i class="bi bi-pencil"></i> Editar
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Criar/Editar Localização -->
+<div class="modal fade" id="localizacaoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-content-custom">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title modal-title-custom" id="modalTitulo">Nova Localização</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+            </div>
+            <form id="formLocalizacao" method="post">
+                <div class="modal-body modal-body-custom">
+                    <input type="hidden" id="localizacaoId" name="id">
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="descricao" class="form-label-custom">Descrição *</label>
+                            <input type="text" class="form-control form-control-custom" id="descricao" name="descricao" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cep" class="form-label-custom">CEP *</label>
+                            <input type="text" class="form-control form-control-custom" id="cep" name="cep" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="cidade" class="form-label-custom">Cidade *</label>
+                            <input type="text" class="form-control form-control-custom" id="cidade" name="cidade" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nomeDaRua" class="form-label-custom">Nome da Rua *</label>
+                            <input type="text" class="form-control form-control-custom" id="nomeDaRua" name="nomeDaRua" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="numero" class="form-label-custom">Número *</label>
+                            <input type="number" class="form-control form-control-custom" id="numero" name="numero" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="complemento" class="form-label-custom">Complemento</label>
+                            <input type="text" class="form-control form-control-custom" id="complemento" name="complemento">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label-custom">Status</label>
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" id="status" name="status" checked>
+                                <label class="form-check-label form-label-custom" for="status" id="statusLabel">Ativo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-custom-primary" id="modalSubmitBtn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let localizacaoSelecionada = null;
+    let filtrosAtivos = {
+        descricao: '',
+        cep: '',
+        status: ''
+    };
+    let dadosCompletos = [];
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        carregarDadosIniciais();
+
+        document.getElementById('filtroDescricao').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') aplicarFiltros();
+        });
+
+        document.getElementById('filtroCep').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') aplicarFiltros();
+        });
+
+        // Evento para o switch de status
+        document.getElementById('status').addEventListener('change', function() {
+            document.getElementById('statusLabel').textContent = this.checked ? 'Ativo' : 'Inativo';
+        });
+
+        carregarPreferencias();
+    });
+
+    function carregarDadosIniciais() {
+        const linhas = document.querySelectorAll('#tbodyLocalizacoes tr');
+        dadosCompletos = Array.from(linhas).map(linha => ({
+            elemento: linha,
+            descricao: linha.getAttribute('data-descricao'),
+            cep: linha.getAttribute('data-cep'),
+            status: linha.getAttribute('data-status') === 'true'
+        }));
+        atualizarContador(dadosCompletos.length);
+    }
+
+    function selecionarLocalizacao(checkbox) {
+        const linha = checkbox.closest('tr');
+        const id = linha.getAttribute('data-id');
+
+        // Remove seleção anterior
+        const linhasSelecionadas = document.querySelectorAll('#tbodyLocalizacoes tr.selected-row');
+        linhasSelecionadas.forEach(linha => {
+            linha.classList.remove('selected-row');
+            const btnEditar = linha.querySelector('.btn-edit');
+            btnEditar.classList.remove('active');
+        });
+
+        // Marca/desmarca a linha atual
+        if (checkbox.checked) {
+            linha.classList.add('selected-row');
+            localizacaoSelecionada = id;
+
+            // Ativa o botão de edição
+            const btnEditar = linha.querySelector('.btn-edit');
+            btnEditar.classList.add('active');
+        } else {
+            localizacaoSelecionada = null;
+        }
+
+        // Desmarca outros checkboxes
+        const checkboxes = document.querySelectorAll('#tbodyLocalizacoes .form-check-input');
+        checkboxes.forEach(cb => {
+            if (cb !== checkbox) cb.checked = false;
+        });
+    }
+
+    function abrirModalNovaLocalizacao() {
+        // Limpa o formulário
+        document.getElementById('formLocalizacao').reset();
+        document.getElementById('localizacaoId').value = '';
+        document.getElementById('modalTitulo').textContent = 'Nova Localização';
+        document.getElementById('modalSubmitBtn').textContent = 'Criar Localização';
+        document.getElementById('status').checked = true;
+        document.getElementById('statusLabel').textContent = 'Ativo';
+
+        // Altera a action do form para criação
+        document.getElementById('formLocalizacao').action = '/home/config/novalocalizacao';
+
+        const modal = new bootstrap.Modal(document.getElementById('localizacaoModal'));
+        modal.show();
+    }
+
+    function abrirEdicao(event, button) {
+        event.stopPropagation();
+
+        // Preenche o formulário com os dados
+        document.getElementById('localizacaoId').value = button.getAttribute('data-id');
+        document.getElementById('descricao').value = button.getAttribute('data-descricao');
+        document.getElementById('cep').value = button.getAttribute('data-cep');
+        document.getElementById('cidade').value = button.getAttribute('data-cidade');
+        document.getElementById('nomeDaRua').value = button.getAttribute('data-nomedarua');
+        document.getElementById('numero').value = button.getAttribute('data-numero');
+        document.getElementById('complemento').value = button.getAttribute('data-complemento') || '';
+
+        const status = button.getAttribute('data-status') === 'true';
+        document.getElementById('status').checked = status;
+        document.getElementById('statusLabel').textContent = status ? 'Ativo' : 'Inativo';
+
+        // Altera o título e botão
+        document.getElementById('modalTitulo').textContent = 'Editar Localização';
+        document.getElementById('modalSubmitBtn').textContent = 'Salvar Alterações';
+
+        // Altera a action do form para edição
+        document.getElementById('formLocalizacao').action = '/home/config/editar';
+
+        const modal = new bootstrap.Modal(document.getElementById('localizacaoModal'));
+        modal.show();
+    }
+
+    // Submissão do formulário (para criar e editar)
+    document.getElementById('formLocalizacao').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const url = this.action;
+        const isEdicao = url.includes('/editar');
+
+        // Adiciona o status ao formData (como checkbox, precisa ser tratado)
+        formData.set('status', document.getElementById('status').checked.toString());
+
+        fetch(url, {
+            method: 'POST',
+            body: new URLSearchParams(formData),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Erro na resposta do servidor: ' + response.status);
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.id) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('localizacaoModal'));
+                modal.hide();
+
+                // Mensagem de sucesso
+                const mensagem = isEdicao ? 'Localização atualizada com sucesso!' : 'Localização criada com sucesso!';
+                mostrarMensagem(mensagem, 'success');
+
+                setTimeout(() => location.reload(true), 1000);
+            } else {
+                throw new Error('Resposta inválida do servidor');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            mostrarMensagem('Erro ao salvar localização: ' + error.message, 'error');
+        });
+    });
+
+    function mostrarMensagem(mensagem, tipo) {
+        // Remove mensagens anteriores
+        const mensagemAnterior = document.getElementById('mensagem-flutuante');
+        if (mensagemAnterior) {
+            mensagemAnterior.remove();
+        }
+
+        // Cria nova mensagem
+        const divMensagem = document.createElement('div');
+        divMensagem.id = 'mensagem-flutuante';
+        divMensagem.className = `alert alert-${tipo === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+        divMensagem.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        divMensagem.innerHTML = `
+            ${mensagem}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        document.body.appendChild(divMensagem);
+
+        setTimeout(() => {
+            if (divMensagem.parentNode) {
+                divMensagem.remove();
+            }
+        }, 5000);
+    }
+
+    // Funções de filtro
+    function toggleFiltros() {
+        const container = document.getElementById('filtrosContainer');
+        container.style.display = container.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function aplicarFiltros() {
+        const filtroDescricao = document.getElementById('filtroDescricao').value.toLowerCase();
+        const filtroCep = document.getElementById('filtroCep').value;
+        const filtroStatus = document.getElementById('filtroStatus').value;
+
+        filtrosAtivos = { descricao: filtroDescricao, cep: filtroCep, status: filtroStatus };
+
+        const dadosFiltrados = dadosCompletos.filter(localizacao => {
+            const matchDescricao = !filtroDescricao || localizacao.descricao.toLowerCase().includes(filtroDescricao);
+            const matchCep = !filtroCep || localizacao.cep.includes(filtroCep);
+            const matchStatus = !filtroStatus || localizacao.status.toString() === filtroStatus;
+            return matchDescricao && matchCep && matchStatus;
+        });
+
+        dadosCompletos.forEach(localizacao => {
+            localizacao.elemento.style.display = 'none';
+        });
+
+        dadosFiltrados.forEach(localizacao => {
+            localizacao.elemento.style.display = '';
+        });
+
+        atualizarContador(dadosFiltrados.length);
+        atualizarFiltrosAtivos();
+        salvarPreferencias();
+    }
+
+    function limparFiltros() {
+        document.getElementById('filtroDescricao').value = '';
+        document.getElementById('filtroCep').value = '';
+        document.getElementById('filtroStatus').value = '';
+        filtrosAtivos = { descricao: '', cep: '', status: '' };
+
+        dadosCompletos.forEach(localizacao => {
+            localizacao.elemento.style.display = '';
+        });
+
+        atualizarContador(dadosCompletos.length);
+        document.getElementById('filtrosAtivos').style.display = 'none';
+        salvarPreferencias();
+    }
+
+    function atualizarFiltrosAtivos() {
+        const badgesContainer = document.getElementById('badgesFiltros');
+        const filtrosAtivosContainer = document.getElementById('filtrosAtivos');
+        badgesContainer.innerHTML = '';
+
+        let temFiltroAtivo = false;
+        if (filtrosAtivos.descricao) {
+            badgesContainer.appendChild(criarBadgeFiltro('Descrição: ' + filtrosAtivos.descricao, 'descricao'));
+            temFiltroAtivo = true;
+        }
+        if (filtrosAtivos.cep) {
+            badgesContainer.appendChild(criarBadgeFiltro('CEP: ' + filtrosAtivos.cep, 'cep'));
+            temFiltroAtivo = true;
+        }
+        if (filtrosAtivos.status) {
+            const textoStatus = filtrosAtivos.status === 'true' ? 'Ativo' : 'Inativo';
+            badgesContainer.appendChild(criarBadgeFiltro('Status: ' + textoStatus, 'status'));
+            temFiltroAtivo = true;
+        }
+
+        filtrosAtivosContainer.style.display = temFiltroAtivo ? 'block' : 'none';
+    }
+
+    function criarBadgeFiltro(texto, tipo) {
+        const badge = document.createElement('span');
+        badge.className = 'badge-filtro';
+        badge.innerHTML = `${texto} <i class="bi bi-x" onclick="removerFiltro('${tipo}')"></i>`;
+        return badge;
+    }
+
+    function removerFiltro(tipo) {
+        switch(tipo) {
+            case 'descricao': document.getElementById('filtroDescricao').value = ''; break;
+            case 'cep': document.getElementById('filtroCep').value = ''; break;
+            case 'status': document.getElementById('filtroStatus').value = ''; break;
+        }
+        aplicarFiltros();
+    }
+
+    function atualizarContador(total) {
+        document.getElementById('totalRegistros').textContent = total;
+        const contador = document.getElementById('contadorResultados');
+        if (Object.values(filtrosAtivos).some(filtro => filtro !== '')) {
+            contador.innerHTML = `Mostrando <strong>${total}</strong> de <strong>${dadosCompletos.length}</strong> registros`;
+        } else {
+            contador.innerHTML = `Mostrando <strong>${total}</strong> registros`;
+        }
+    }
+
+    function salvarPreferencias() {
+        const preferencias = { filtros: filtrosAtivos };
+        localStorage.setItem('preferenciasLocalizacoes', JSON.stringify(preferencias));
+    }
+
+    function carregarPreferencias() {
+        const salvo = localStorage.getItem('preferenciasLocalizacoes');
+        if (salvo) {
+            const preferencias = JSON.parse(salvo);
+            if (preferencias.filtros) {
+                document.getElementById('filtroDescricao').value = preferencias.filtros.descricao || '';
+                document.getElementById('filtroCep').value = preferencias.filtros.cep || '';
+                document.getElementById('filtroStatus').value = preferencias.filtros.status || '';
+                setTimeout(() => aplicarFiltros(), 100);
+            }
+        }
+    }
+</script>
+</body>
+</html>

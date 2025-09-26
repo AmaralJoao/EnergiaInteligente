@@ -28,9 +28,17 @@ public class UsuarioService {
         return usuarioMapper.toDto(usuarioCriado);
     }
 
-    public UsuarioResponseDto mostrarUsuario(String codigoPublicoUsuario){
+    public UsuarioResponseDto localizarPorCodigoPublico(String codigoPublicoUsuario){
         UsuarioModel usuario = usuarioRepository.findByCodigoPublico(codigoPublicoUsuario).orElseThrow(() -> new RuntimeException("Usuario nao localizado"));
 
         return usuarioMapper.toDto(usuario);
+    }
+
+    public UsuarioResponseDto atualizarUsuario(UsuarioRequestDto usuarioRequestDto) {
+        return null;
+    }
+
+    public void alterarSenha(String codigoPublicoUsuario, String senhaAtual, String novaSenha) {
+        return;
     }
 }

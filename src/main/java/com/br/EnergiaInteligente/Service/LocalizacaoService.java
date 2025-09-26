@@ -48,11 +48,11 @@ public class LocalizacaoService {
 
     public LocalizacaoResponseDto editarLocalizacao(LocalizacaoRequestDto editarLocalizacaoDto) {
 
-        if (editarLocalizacaoDto.getCodigoPublicoLocalizacao() == null){
-            throw new RuntimeException("para editar uma localizacao o campo Codigo Publico não deve ser NULL");
+        if (editarLocalizacaoDto.getId() == null){
+            throw new RuntimeException("para editar uma localizacao o id não deve ser NULL");
         }
 
-        LocalizacaoModel localizacaoAtual = localizacaoRepository.findByCodigoPublico(editarLocalizacaoDto.getCodigoPublicoLocalizacao())
+        LocalizacaoModel localizacaoAtual = localizacaoRepository.findById(editarLocalizacaoDto.getId())
                 .orElseThrow(() -> new RuntimeException("Erro ao encontrar localizacao"));
 
         LocalizacaoModel localizacaoParaEditar = localizacaoMapper.requestToModel(editarLocalizacaoDto);
@@ -67,6 +67,7 @@ public class LocalizacaoService {
 
             // 1. Finaliza o registro atual
             localizacaoAtual.setDataFim(LocalDateTime.now());
+            localizacaoAtual.setStatus(false);
             localizacaoRepository.save(localizacaoAtual);
 
             // 2. Cria uma nova localização com os dados editados
@@ -75,6 +76,8 @@ public class LocalizacaoService {
             novaLocalizacao.setDataFim(null);
             novaLocalizacao.setId(0);
             novaLocalizacao.setCodigoPublico(null);
+            novaLocalizacao.setUsuario(localizacaoAtual.getUsuario());
+            novaLocalizacao.setStatus(true);
 
             LocalizacaoModel salva = localizacaoRepository.save(novaLocalizacao);
 

@@ -13,8 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/dispositivo")
+@RequestMapping("/home/config")
 public class DispositivoController {
+
+    @GetMapping("/dispositivo")
+    public String home() {
+        if (!AutenticacaoUtils.isSessaoValida()) {
+            return "redirect:/auth/login";
+        }
+        return "pages/home/config/dispositivo";
+    }
 
     @Autowired
     private DispositivoService dispositivoService;

@@ -1,5 +1,8 @@
 package com.br.EnergiaInteligente.Dto.Response;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 public class UsuarioResponseDto {
@@ -52,19 +55,19 @@ public class UsuarioResponseDto {
         this.contato = contato;
     }
 
-    public LocalDateTime getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(LocalDateTime dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
     public String getCpf() {
         return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public LocalDateTime getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDateTime dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 }

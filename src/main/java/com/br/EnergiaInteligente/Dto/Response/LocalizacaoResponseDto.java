@@ -3,7 +3,7 @@ package com.br.EnergiaInteligente.Dto.Response;
 public class LocalizacaoResponseDto {
 
     private Long id;
-    //private String codigoPublico;
+    private String codigoPublico;
     private Boolean status;
     private String descricao;
     private String cep;
@@ -18,6 +18,14 @@ public class LocalizacaoResponseDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCodigoPublico() {
+        return codigoPublico;
+    }
+
+    public void setCodigoPublico(String codigoPublico) {
+        this.codigoPublico = codigoPublico;
     }
 
     public Boolean getStatus() {
@@ -75,12 +83,4 @@ public class LocalizacaoResponseDto {
     public void setComplemento(String complemento) {
         this.complemento = complemento;
     }
-
-    /*public String getCodigoPublico() {
-        return codigoPublico;
-    }
-
-    public void setCodigoPublico(String codigoPublico) {
-        this.codigoPublico = codigoPublico;
-    }*/
 }

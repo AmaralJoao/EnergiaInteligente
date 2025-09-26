@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações do Usuário</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg1: #0b0f20;
+            --bg2: #31165a;
+            --card-bg: rgba(6,8,20,0.85);
+            --accent-a: #00f0ff;
+            --accent-b: #8b5cf6;
+            --muted: #9aa3b2;
+            --text-primary: #cfe9ff;
+            --text-secondary: rgba(200,220,255,0.7);
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #e84393;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg1) 0%, #171737 40%, var(--bg2) 100%);
+            overflow-x: hidden;
+            color: var(--text-primary);
+        }
+
+        .bg-wrapper {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .streak {
+            position: absolute;
+            width: 2px;
+            height: 120px;
+            background: linear-gradient(180deg, rgba(0,240,255,0) 0%, rgba(0,240,255,0.95) 50%, rgba(0,240,255,0) 100%);
+            filter: blur(0.6px);
+            opacity: .9;
+            transform: translateY(-30vh);
+            animation: floatStreak 10s linear infinite;
+        }
+        .s1 { left: 8%; top: 20%; animation-duration: 11s; }
+        .s2 { left: 52%; top: 10%; animation-duration: 13s; }
+        .s3 { left: 85%; top: 40%; animation-duration: 9s; }
+        .s4 { left: 72%; top: 64%; animation-duration: 12s; }
+
+        @keyframes floatStreak {
+            0% { transform: translateY(-40vh) scaleY(1); opacity:.0; }
+            10% { opacity: .9; }
+            50% { transform: translateY(20vh) scaleY(1.2); opacity:.9; }
+            90% { opacity: 0.0; }
+            100% { transform: translateY(40vh) scaleY(1); opacity:0; }
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 10;
+            padding: 30px;
+            min-height: calc(100vh - 80px);
+            margin-top: 80px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(139,92,246,0.3);
+            letter-spacing: 1px;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .settings-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sidebar-nav {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid rgba(74, 200, 255, 0.06);
+            padding: 20px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-nav::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(90deg, rgba(0,240,255,0.8), rgba(139,92,246,0.8));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            filter: blur(6px);
+            opacity: .22;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+
+        .nav-item:hover {
+            background: rgba(30, 40, 70, 0.3);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(0,240,255,0.1), rgba(139,92,246,0.1));
+            color: var(--accent-a);
+            border-left: 3px solid var(--accent-a);
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            width: 20px;
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card-custom {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid rgba(74, 200, 255, 0.06);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-custom::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(90deg, rgba(0,240,255,0.8), rgba(139,92,246,0.8));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            filter: blur(6px);
+            opacity: .22;
+        }
+
+        .card-header-custom {
+            background: rgba(10, 15, 35, 0.7);
+            border-bottom: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .card-title-custom {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title-custom i {
+            color: var(--accent-a);
+        }
+
+        .btn-custom-primary {
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+            border: none;
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-custom-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .btn-custom-secondary {
+            background: rgba(30, 40, 70, 0.7);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-secondary:hover {
+            background: rgba(40, 50, 90, 0.7);
+            border-color: rgba(74, 200, 255, 0.4);
+        }
+
+        .form-control-custom {
+            background: rgba(20, 25, 45, 0.7);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--text-primary);
+            border-radius: 8px;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control-custom:focus {
+            background: rgba(25, 30, 50, 0.7);
+            border-color: var(--accent-a);
+            box-shadow: 0 0 0 0.2rem rgba(0, 240, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .form-label-custom {
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .form-label-custom i {
+            color: var(--accent-a);
+            font-size: 0.9rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(10,15,35,0.8) 0%, rgba(20,25,45,0.6) 100%);
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .avatar-container {
+            position: relative;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #0b0f20;
+            font-weight: 700;
+            border: 3px solid rgba(255,255,255,0.1);
+        }
+
+        .avatar-status {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--success);
+            border: 2px solid var(--card-bg);
+        }
+
+        .profile-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, var(--text-primary), var(--accent-a));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(10, 15, 35, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(74, 200, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-a);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-high { background: var(--success); color: #0b0f20; }
+        .badge-medium { background: var(--warning); color: #0b0f20; }
+        .badge-low { background: var(--danger); color: white; }
+
+        .password-strength {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 25px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid rgba(74, 200, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(30, 40, 70, 0.3);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 240, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-a);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .activity-time {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 1200px) {
+            .settings-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .sidebar-nav {
+                position: static;
+                order: 2;
+            }
+
+            .content-area {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+                margin-top: 70px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-header-custom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 15px;
+                margin-top: 60px;
+            }
+
+            .page-title {
+                font-size: 1.7rem;
+            }
+
+            .tab-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Background Animation -->
+<div class="bg-wrapper">
+    <div class="streak s1"></div>
+    <div class="streak s2"></div>
+    <div class="streak s3"></div>
+    <div class="streak s4"></div>
+</div>
+
+<!-- Header padrão do sistema -->
+<header th:replace="pages/component/header :: header"></header>
+
+<!-- Conteúdo principal -->
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="page-header">
+            <h1 class="page-title">Configurações do Usuário</h1>
+            <p class="page-subtitle">Gerencie suas informações pessoais, segurança e preferências da conta</p>
+        </div>
+
+        <div class="settings-container">
+            <!-- Sidebar de Navegação -->
+            <div class="sidebar-nav">
+                <div class="nav-item active" onclick="showTab('perfil')">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Perfil Pessoal</span>
+                </div>
+                <div class="nav-item" onclick="showTab('seguranca')">
+                    <i class="bi bi-shield-lock"></i>
+                    <span>Segurança</span>
+                </div>
+                <div class="nav-item" onclick="showTab('preferencias')">
+                    <i class="bi bi-gear"></i>
+                    <span>Preferências</span>
+                </div>
+                <div class="nav-item" onclick="showTab('privacidade')">
+                    <i class="bi bi-eye-slash"></i>
+                    <span>Privacidade</span>
+                </div>
+                <div class="nav-item" onclick="showTab('atividade')">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Atividade</span>
+                </div>
+                <div class="nav-item" onclick="showTab('notificacoes')">
+                    <i class="bi bi-bell"></i>
+                    <span>Notificações</span>
+                </div>
+            </div>
+
+            <!-- Área de Conteúdo -->
+            <div class="content-area">
+                <!-- Aba: Perfil Pessoal -->
+                <div class="tab-content active" id="perfil-tab">
+                    <div class="card-custom">
+                        <div class="profile-header">
+                            <div class="avatar-container">
+                                <div class="avatar" id="userAvatar">
+                                    <span id="avatarInitials">US</span>
+                                </div>
+                                <div class="avatar-status"></div>
+                            </div>
+                            <div class="profile-info">
+                                <h3 id="userName">Usuário do Sistema</h3>
+                                <p id="userEmail">usuario@exemplo.com</p>
+                                <p id="userSince">Membro desde Janeiro 2024</p>
+                            </div>
+                        </div>
+
+                        <div class="card-header-custom">
+                            <h2 class="card-title-custom">
+                                <i class="bi bi-person-badge"></i>
+                                Informações Pessoais
+                            </h2>
+                            <button class="btn btn-custom-primary" onclick="editarPerfil()">
+                                <i class="bi bi-pencil"></i> Editar Perfil
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+                            <form id="formPerfil" method="post" th:action="@{/usuario/atualizar}">
+                                <input type="hidden" id="usuarioId" name="id" th:value="${usuario.id}">
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="nomeDoUsuario" class="form-label-custom">
+                                            <i class="bi bi-person"></i>Nome Completo
+                                        </label>
+                                        <input type="text" class="form-control form-control-custom" id="nomeDoUsuario"
+                                               name="nomeDoUsuario" th:value="${usuario.nomeDoUsuario}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="nomeDeUsuario" class="form-label-custom">
+                                            <i class="bi bi-at"></i>Nome de Usuário
+                                        </label>
+                                        <input type="text" class="form-control form-control-custom" id="nomeDeUsuario"
+                                               name="nomeDeUsuario" th:value="${usuario.nomeDeUsuario}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label-custom">
+                                            <i class="bi bi-envelope"></i>E-mail
+                                        </label>
+                                        <input type="email" class="form-control form-control-custom" id="email"
+                                               name="email" th:value="${usuario.email}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="contato" class="form-label-custom">
+                                            <i class="bi bi-telephone"></i>Contato
+                                        </label>
+                                        <input type="text" class="form-control form-control-custom" id="contato"
+                                               name="contato" th:value="${usuario.contato}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cpf" class="form-label-custom">
+                                            <i class="bi bi-card-text"></i>CPF
+                                        </label>
+                                        <input type="text" class="form-control form-control-custom" id="cpf"
+                                               name="cpf" th:value="${usuario.cpf}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="dataNascimento" class="form-label-custom">
+                                            <i class="bi bi-calendar"></i>Data de Nascimento
+                                        </label>
+                                        <input type="date" class="form-control form-control-custom" id="dataNascimento"
+                                               name="dataNascimento" th:value="${usuario.dataNascimento}">
+                                    </div>
+                                </div>
+
+                                <div class="text-end mt-4">
+                                    <button type="button" class="btn btn-custom-secondary me-2" onclick="cancelarEdicao()">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-custom-primary">
+                                        Salvar Alterações
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Estatísticas do Usuário -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Localizações Cadastradas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Atividades Realizadas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">95%</div>
+                            <div class="stat-label">Perfil Completo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aba: Segurança -->
+                <div class="tab-content" id="seguranca-tab">
+                    <div class="card-custom">
+                        <div class="card-header-custom">
+                            <h2 class="card-title-custom">
+                                <i class="bi bi-shield-check"></i>
+                                Configurações de Segurança
+                                <span class="security-badge badge-high">Alta Segurança</span>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="formSeguranca" method="post" th:action="@{/usuario/alterar-senha}">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="senhaAtual" class="form-label-custom">
+                                            <i class="bi bi-lock"></i>Senha Atual
+                                        </label>
+                                        <input type="password" class="form-control form-control-custom" id="senhaAtual" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="novaSenha" class="form-label-custom">
+                                            <i class="bi bi-key"></i>Nova Senha
+                                        </label>
+                                        <input type="password" class="form-control form-control-custom" id="novaSenha" required>
+                                        <div class="password-strength">
+                                            <div class="strength-bar" id="passwordStrength"></div>
+                                        </div>
+                                        <small class="text-muted">A senha deve conter pelo menos 8 caracteres</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="confirmarSenha" class="form-label-custom">
+                                            <i class="bi bi-key-fill"></i>Confirmar Nova Senha
+                                        </label>
+                                        <input type="password" class="form-control form-control-custom" id="confirmarSenha" required>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <h5 class="text-primary mb-3">Autenticação de Dois Fatores</h5>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="2faToggle" style="transform: scale(1.2);">
+                                        <label class="form-check-label form-label-custom" for="2faToggle">
+                                            Habilitar autenticação de dois fatores
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">Aumente a segurança da sua conta com verificação em duas etapas</small>
+                                </div>
+
+                                <div class="text-end mt-4">
+                                    <button type="submit" class="btn btn-custom-primary">
+                                        Atualizar Segurança
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aba: Preferências -->
+                <div class="tab-content" id="preferencias-tab">
+                    <div class="card-custom">
+                        <div class="card-header-custom">
+                            <h2 class="card-title-custom">
+                                <i class="bi bi-palette"></i>
+                                Preferências do Sistema
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Tema da Interface</label>
+                                    <select class="form-control form-control-custom" id="temaInterface">
+                                        <option value="dark">Escuro (Padrão)</option>
+                                        <option value="light">Claro</option>
+                                        <option value="auto">Automático</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Idioma</label>
+                                    <select class="form-control form-control-custom" id="idiomaSistema">
+                                        <option value="pt">Português (Brasil)</option>
+                                        <option value="en">English</option>
+                                        <option value="es">Español</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Fuso Horário</label>
+                                    <select class="form-control form-control-custom" id="fusoHorario">
+                                        <option value="America/Sao_Paulo">Brasília (GMT-3)</option>
+                                        <option value="America/New_York">Nova York (GMT-5)</option>
+                                        <option value="Europe/London">Londres (GMT+0)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Itens por Página</label>
+                                    <select class="form-control form-control-custom" id="itensPorPagina">
+                                        <option value="10">10 itens</option>
+                                        <option value="25">25 itens</option>
+                                        <option value="50">50 itens</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <h5 class="text-primary mb-3">Configurações de Acessibilidade</h5>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="altoContraste">
+                                    <label class="form-check-label form-label-custom" for="altoContraste">
+                                        Modo de alto contraste
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="leitorTela">
+                                    <label class="form-check-label form-label-custom" for="leitorTela">
+                                        Compatibilidade com leitor de tela
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="animacoesReduzidas">
+                                    <label class="form-check-label form-label-custom" for="animacoesReduzidas">
+                                        Reduzir animações
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="text-end mt-4">
+                                <button class="btn btn-custom-primary" onclick="salvarPreferencias()">
+                                    Salvar Preferências
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aba: Atividade -->
+                <div class="tab-content" id="atividade-tab">
+                    <div class="card-custom">
+                        <div class="card-header-custom">
+                            <h2 class="card-title-custom">
+                                <i class="bi bi-activity"></i>
+                                Histórico de Atividades
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="bi bi-person-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Perfil atualizado</div>
+                                    <div class="activity-time">Há 2 horas</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="bi bi-shield-lock"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Senha alterada</div>
+                                    <div class="activity-time">Há 3 dias</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Nova localização cadastrada</div>
+                                    <div class="activity-time">Há 1 semana</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="bi bi-bell"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Preferências de notificação alteradas</div>
+                                    <div class="activity-time">Há 2 semanas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Função para alternar entre abas
+    function showTab(tabName) {
+        // Remove a classe active de todas as abas e itens de navegação
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+
+        // Adiciona a classe active à aba e item de navegação selecionados
+        document.getElementById(tabName + '-tab').classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // Inicialização quando o DOM estiver carregado
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configurar avatar com iniciais do nome
+        const nomeCompleto = document.getElementById('nomeDoUsuario').value || 'Usuário Sistema';
+        const iniciais = nomeCompleto.split(' ').map(n => n[0]).join('').toUpperCase();
+        document.getElementById('avatarInitials').textContent = iniciais.substring(0, 2);
+
+        // Configurar dados do usuário
+        document.getElementById('userName').textContent = nomeCompleto;
+        document.getElementById('userEmail').textContent = document.getElementById('email').value;
+
+        // Configurar força da senha
+        document.getElementById('novaSenha').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrength');
+            let strength = 0;
+
+            if (password.length >= 8) strength += 25;
+            if (/[A-Z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 25;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+
+            strengthBar.style.width = strength + '%';
+            strengthBar.style.background = strength < 50 ? '#e84393' : strength < 75 ? '#fdcb6e' : '#00b894';
+        });
+
+        // Carregar preferências salvas
+        carregarPreferenciasSalvas();
+    });
+
+    function editarPerfil() {
+        // Habilita a edição dos campos
+        const campos = document.querySelectorAll('#formPerfil input');
+        campos.forEach(campo => {
+            campo.removeAttribute('readonly');
+            campo.style.background = 'rgba(25, 30, 50, 0.9)';
+        });
+    }
+
+    function cancelarEdicao() {
+        // Recarrega a página para cancelar as alterações
+        location.reload();
+    }
+
+    function salvarPreferencias() {
+        const preferencias = {
+            tema: document.getElementById('temaInterface').value,
+            idioma: document.getElementById('idiomaSistema').value,
+            fusoHorario: document.getElementById('fusoHorario').value,
+            itensPorPagina: document.getElementById('itensPorPagina').value,
+            altoContraste: document.getElementById('altoContraste').checked,
+            leitorTela: document.getElementById('leitorTela').checked,
+            animacoesReduzidas: document.getElementById('animacoesReduzidas').checked
+        };
+
+        localStorage.setItem('preferenciasUsuario', JSON.stringify(preferencias));
+
+        // Mostrar mensagem de sucesso
+        mostrarMensagem('Preferências salvas com sucesso!', 'success');
+    }
+
+    function carregarPreferenciasSalvas() {
+        const salvo = localStorage.getItem('preferenciasUsuario');
+        if (salvo) {
+            const preferencias = JSON.parse(salvo);
+            document.getElementById('temaInterface').value = preferencias.tema || 'dark';
+            document.getElementById('idiomaSistema').value = preferencias.idioma || 'pt';
+            document.getElementById('fusoHorario').value = preferencias.fusoHorario || 'America/Sao_Paulo';
+            document.getElementById('itensPorPagina').value = preferencias.itensPorPagina || '10';
+            document.getElementById('altoContraste').checked = preferencias.altoContraste || false;
+            document.getElementById('leitorTela').checked = preferencias.leitorTela || false;
+            document.getElementById('animacoesReduzidas').checked = preferencias.animacoesReduzidas || false;
+        }
+    }
+
+    function mostrarMensagem(mensagem, tipo) {
+        // Remove mensagens anteriores
+        const mensagemAnterior = document.getElementById('mensagem-flutuante');
+        if (mensagemAnterior) {
+            mensagemAnterior.remove();
+        }
+
+        // Cria nova mensagem
+        const divMensagem = document.createElement('div');
+        divMensagem.id = 'mensagem-flutuante';
+        divMensagem.className = `alert alert-${tipo === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+        divMensagem.style.cssText = 'position: fixed; top: 100px; right: 20px; z-index: 9999; min-width: 300px;';
+        divMensagem.innerHTML = `
+            ${mensagem}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        document.body.appendChild(divMensagem);
+
+        setTimeout(() => {
+            if (divMensagem.parentNode) {
+                divMensagem.remove();
+            }
+        }, 5000);
+    }
+
+    // Submissão do formulário de perfil
+    document.getElementById('formPerfil').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Simular envio (substituir por chamada AJAX real)
+        mostrarMensagem('Perfil atualizado com sucesso!', 'success');
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
+    });
+
+    // Submissão do formulário de segurança
+    document.getElementById('formSeguranca').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const novaSenha = document.getElementById('novaSenha').value;
+        const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+        if (novaSenha !== confirmarSenha) {
+            mostrarMensagem('As senhas não coincidem!', 'error');
+            return;
+        }
+
+        if (novaSenha.length < 8) {
+            mostrarMensagem('A senha deve ter pelo menos 8 caracteres!', 'error');
+            return;
+        }
+
+        mostrarMensagem('Senha alterada com sucesso!', 'success');
+    });
+</script>
+</body>
+</html>

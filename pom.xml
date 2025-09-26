@@ -102,7 +102,7 @@
         </dependency>
         -->
 
-		<!-- PrimeFaces + Recursos -->
+		<!-- PrimeFaces + Recursos
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
@@ -117,7 +117,7 @@
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>primeicons</artifactId>
 			<version>6.0.1</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- Lombok (opcional) -->
 		<dependency>
