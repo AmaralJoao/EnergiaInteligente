@@ -31,7 +31,7 @@ public class LocalizacaoController {
         List<LocalizacaoResponseDto> localizacoes = localizacaoService.LocalizacoesPorUsuario(codigoPublicoUsuario);
 
         model.addAttribute("localizacoes", localizacoes);
-        return "pages/home/configuracoes/localizacao/localizacoesUsuario"; // Atualize para o caminho correto
+        return "pages/home/configuracoes/localizacao/localizacoesUsuario";
     }
 
     @PostMapping("/novalocalizacao")

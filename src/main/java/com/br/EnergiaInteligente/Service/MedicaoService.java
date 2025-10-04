@@ -1,21 +1,21 @@
 package com.br.EnergiaInteligente.Service;
 
-import com.br.EnergiaInteligente.Dto.Request.DispositivoRequesDto;
 import com.br.EnergiaInteligente.Dto.Request.LocalizarMedicaoRequestDto;
-import com.br.EnergiaInteligente.Dto.Request.MedicaoRequestDto;
-import com.br.EnergiaInteligente.Dto.Request.NovaMedicaoRequestDto;
-import com.br.EnergiaInteligente.Dto.Response.DispositivoResponseDto;
-import com.br.EnergiaInteligente.Dto.Response.MedicaoPorDispositivoResponseDto;
-import com.br.EnergiaInteligente.Dto.Response.MedicaoResponseDto;
+import com.br.EnergiaInteligente.Dto.Response.*;
 import com.br.EnergiaInteligente.Mapper.MedicaoMapper;
-import com.br.EnergiaInteligente.Model.DispositivoModel;
+import com.br.EnergiaInteligente.Model.LocalizacaoModel;
 import com.br.EnergiaInteligente.Model.MedicaoModel;
 import com.br.EnergiaInteligente.Repository.DispositivoRepository;
 import com.br.EnergiaInteligente.Repository.MedicaoRepository;
 import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,25 +33,11 @@ public class MedicaoService {
     @Autowired
     private AutenticacaoUtils autenticacaoUtils;
 
-    public void cadastrarNovaMedicao(NovaMedicaoRequestDto medicaoRequestDto, String apiKey){
-
-        if (!dispositivoService.apiKeyIsValida(apiKey)){
-            throw new RuntimeException("Api key nao é valida");
-        }
-
-        MedicaoModel novaMedicao = medicaoMapper.requestToModel(medicaoRequestDto);
-
-        DispositivoModel dispositivo = dispositivoRepository.findByApiKey(apiKey);
-        novaMedicao.setDispositivo(dispositivo);
-
-        medicaoRepository.save(novaMedicao);
-    }
-
     public List<MedicaoPorDispositivoResponseDto> listarMedicoesPorUsuario(LocalizarMedicaoRequestDto request, String token) {
 
         String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuario();
 
-        return medicaoRepository.findMedicoesPorUsuarioCodigoPublicoEPeriodo(codigoPublicoUsuario, request.getDataInicio(), request.getDataFim());
+        return null; //medicaoRepository.findMedicoesPorUsuarioCodigoPublicoEPeriodo(codigoPublicoUsuario, request.getDataInicio(), request.getDataFim());
     }
 
     public List<MedicaoResponseDto>listarMedicoesDoDispositivo(String apikey ){
@@ -60,5 +46,36 @@ public class MedicaoService {
         return mediicoes.stream()
                 .map(medicaoMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<TotalMedicaoPorMesResponseDto> consumoPorMes(String codigoPublicoUsuario){
+
+        return medicaoRepository.findTotalMedicoesMensaisByCodigoPublico(codigoPublicoUsuario);
+
+    }
+
+    public TotalMedicaoDiaMesResponseDto getContagemMedicoesPorDia(String codigoPublico) {
+        return medicaoRepository.findMedicoesPorPeriodo(codigoPublico, LocalDateTime.now(),LocalDateTime.now());
+    }
+
+    public TotalMedicaoDiaMesResponseDto getContagemMedicoesDoMes(String codigoPublico) {
+        LocalDate hoje = LocalDate.now();
+
+        LocalDateTime inicioMes = hoje.with(TemporalAdjusters.firstDayOfMonth())
+                .atStartOfDay();
+
+        LocalDateTime fimMes = hoje.with(TemporalAdjusters.lastDayOfMonth())
+                .atTime(23, 59, 59);
+
+        return medicaoRepository.findMedicoesPorPeriodo(codigoPublico, inicioMes, fimMes);
+    }
+
+    public CorrenteMesResponseDto getCorrenteMaxMinMesAtual(String codigoPublico) {
+        return medicaoRepository.findCorrenteMaxMinMesAtual(codigoPublico);
+    }
+
+    public List<MedicaoResumoResponseDto> getTop5MedicoesPorConsumo(String codigoPublico) {
+        Pageable top5 = PageRequest.of(0, 5);
+        return medicaoRepository.findTop5MedicoesPorConsumo(codigoPublico, top5);
     }
 }

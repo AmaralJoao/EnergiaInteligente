@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DispositivoService {
@@ -51,6 +52,11 @@ public class DispositivoService {
     public DispositivoResponseDto listarPorChipId(Long chipId){
         DispositivoModel dispositivo = dispositivoRepository.findByChipId(chipId);
         return dispositivoMapper.toDto(dispositivo);
+    }
+
+    public Optional<DispositivoResponseDto> listarPorId(Long id) {
+        return dispositivoRepository.findById(id)
+                .map(dispositivoMapper::toDto);
     }
 
     public DispositivoResponseDto vincularDispositivoUsuario(Long chipId, String codigoPublicoUsuario){

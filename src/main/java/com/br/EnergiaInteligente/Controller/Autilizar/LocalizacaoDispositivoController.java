@@ -1,4 +1,4 @@
-package com.br.EnergiaInteligente.Controller;
+package com.br.EnergiaInteligente.Controller.Autilizar;
 
 import com.br.EnergiaInteligente.Dto.Request.LocalizacaoDispositivoRequestDto;
 import com.br.EnergiaInteligente.Dto.Response.LocalizacaoDispositivoResponseDto;

@@ -134,20 +134,42 @@
     </style>
 
     <nav class="nav-container">
+        <!-- Logo -->
         <div class="nav-logo">
             <div class="logo-icon">⚡</div>
             <div class="logo-text">EletricAi</div>
         </div>
-        <div class="nav-menu">
-            <a th:href="@{/home/index}" class="nav-item" th:classappend="${page=='index'} ? ' active'">Dashboards</a>
-            <a th:href="@{/home/relatorios}" class="nav-item" th:classappend="${page=='relatorios'} ? ' active'">Relatórios</a>
 
+        <!-- Menu Principal -->
+        <div class="nav-menu">
+            <!-- Dashboards -->
+            <a th:href="@{/dashboard}"
+               class="nav-item"
+               th:classappend="${page=='index'} ? ' active'">Dashboards</a>
+
+            <!-- Relatórios -->
+            <a th:href="@{/home/relatorios}"
+               class="nav-item"
+               th:classappend="${page=='relatorios'} ? ' active'">Relatórios</a>
+
+            <!-- Configurações com Dropdown -->
             <div class="dropdown">
-                <a class="nav-item" th:classappend="${page=='config'} ? ' active'">Configurações ▾</a>
+                <a class="nav-item"
+                   th:classappend="${page=='config'} ? ' active'">
+                    Configurações ▾
+                </a>
                 <div class="dropdown-menu">
-                    <a th:href="@{/home/config/usuarios}" class="dropdown-item">Usuários</a>
-                    <a th:href="@{/home/config/permissoes}" class="dropdown-item">Permissões</a>
-                    <a th:href="@{/home/config/sistema}" class="dropdown-item">Parâmetros do Sistema</a>
+                    <a th:href="@{/home/config/usuario}"
+                       class="dropdown-item"
+                       th:classappend="${subPage=='usuario'} ? ' active'">Usuário</a>
+
+                    <a th:href="@{/home/config/localizacao}"
+                       class="dropdown-item"
+                       th:classappend="${subPage=='localizacao'} ? ' active'">Localização</a>
+
+                    <a th:href="@{/home/config/dispositivo}"
+                       class="dropdown-item"
+                       th:classappend="${subPage=='dispositivo'} ? ' active'">Dispositivos</a>
                 </div>
             </div>
         </div>

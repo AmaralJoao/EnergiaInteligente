@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EletricAi - Sistema de Energia Inteligente</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
     <style>
         :root{
             --bg1: #0b0f20;
@@ -20,7 +19,7 @@
         body, html {
             height: 100%;
             background: linear-gradient(135deg, var(--bg1) 0%, #171737 40%, var(--bg2) 100%);
-            overflow: hidden;
+            overflow-x: hidden;
             color: #cfe9ff;
         }
 
@@ -46,22 +45,22 @@
         .s4 { left: 72%; top: 64%; animation-duration: 12s; }
 
         @keyframes floatStreak {
-            0% { transform: translateY(-40vh) scaleY(1); opacity:.0; }
-            10% { opacity: .9; }
-            50% { transform: translateY(20vh) scaleY(1.2); opacity:.9; }
-            90% { opacity: 0.0; }
+            0% { transform: translateY(-40vh) scaleY(1); opacity:0; }
+            10% { opacity: 0.9; }
+            50% { transform: translateY(20vh) scaleY(1.2); opacity:0.9; }
+            90% { opacity: 0; }
             100% { transform: translateY(40vh) scaleY(1); opacity:0; }
         }
 
         .main-content {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             position: relative;
             z-index: 10;
-            padding-top: 100px;
+            padding-top: 120px;
         }
 
         .hero-section {
@@ -71,10 +70,10 @@
         }
 
         .hero-title {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 20px;
-            background: linear-gradient(90deg, #00f0ff, #8b5cf6);
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 30px rgba(139,92,246,0.3);
@@ -92,7 +91,7 @@
         .stats-container {
             display: flex;
             gap: 30px;
-            margin-top: 50px;
+            margin-top: 30px;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -100,8 +99,8 @@
         .stat-card {
             background: var(--card-bg);
             border-radius: 12px;
-            padding: 30px;
-            min-width: 200px;
+            padding: 25px;
+            min-width: 250px;
             text-align: center;
             border: 1px solid rgba(74, 200, 255, 0.06);
             position: relative;
@@ -129,22 +128,21 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
-        .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #00f0ff;
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+            background-color: rgba(255,255,255,0.05);
+            color: #cfe9ff;
         }
 
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #00f0ff;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: rgba(200,220,255,0.6);
-            font-size: 0.9rem;
+        ul#consumoList {
+            list-style: none;
+            padding: 0;
+            font-size: 1rem;
+            color: #cfe9ff;
         }
 
         .footer {
@@ -161,7 +159,7 @@
 
         @media (max-width: 768px) {
             .hero-title { font-size: 2.5rem; }
-            .stat-card { min-width: 150px; padding: 20px; }
+            .stat-card { min-width: 200px; padding: 20px; }
         }
 
         @media (max-width: 480px) {
@@ -172,7 +170,6 @@
     </style>
 </head>
 <body>
-<!-- Background Effects -->
 <div class="bg-wrapper">
     <div class="streak s1"></div>
     <div class="streak s2"></div>
@@ -180,46 +177,23 @@
     <div class="streak s4"></div>
 </div>
 
-<!-- Navigation Header -->
 <header th:replace="pages/component/header :: header"></header>
 
-<!-- Main Content -->
-<main class="main-content">
-    <section class="hero-section">
-        <h1 class="hero-title">Sistema Inteligente de Gestão Energética</h1>
-        <p class="hero-subtitle">
-            Monitoramento em tempo real, análises preditivas e otimização do consumo energético
-            para maximizar eficiência e reduzir custos operacionais.
-        </p>
+<div class="main-content">
+    <div class="hero-section">
+        <h1 class="hero-title">Dashboard de Consumo</h1>
+    </div>
 
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-icon">📊</div>
-                <div class="stat-value">98.5%</div>
-                <div class="stat-label">Eficiência Energética</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💡</div>
-                <div class="stat-value">1.2MW</div>
-                <div class="stat-label">Consumo Atual</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💰</div>
-                <div class="stat-value">R$ 42K</div>
-                <div class="stat-label">Economia Mensal</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🌱</div>
-                <div class="stat-value">15.3t</div>
-                <div class="stat-label">CO₂ Reduzido</div>
-            </div>
-        </div>
-    </section>
-</main>
+    <div class="stats-container">
+        <div th:replace="pages/dashboard/graficos/consumoDoMesAtual :: consumoDoMesChart"></div>
+    </div>
+    <div class="stats-container">
+        <div th:replace="pages/dashboard/graficos/consumoPorMes :: consumoPorMesChart"></div>
+    </div>
+</div>
 
-<!-- Footer -->
-<footer class="footer">
-    EletricAi © 2024 - Sistema de Gestão Energética Inteligente
-</footer>
+<div class="footer">
+    &copy; 2025 MyCompany. Todos os direitos reservados.
+</div>
 </body>
 </html>

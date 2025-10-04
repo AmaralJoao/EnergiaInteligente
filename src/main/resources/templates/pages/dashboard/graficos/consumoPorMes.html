@@ -1,0 +1,79 @@
+<!-- pages/dashboard/graficos/consumoPorMes.html -->
+<div th:fragment="consumoPorMesChart">
+    <div class="stat-card">
+        <h3 style="margin-bottom: 20px;">Consumo Mensal (kWh)</h3>
+        <canvas id="consumoChart"></canvas>
+    </div>
+
+<!-- Chart.js + Plugin DataLabels -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const meses = [[${meses}]];
+    const consumos = [[${consumos}]];
+    const custos = [[${custos}]];
+
+    const ctx = document.getElementById('consumoChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: meses,
+            datasets: [{
+                label: 'Consumo (kWh)',
+                data: consumos,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                borderRadius: 8,
+            }]
+        },
+        options: {
+            indexAxis: 'y', // barras horizontais
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let idx = context.dataIndex;
+                            let custo = custos[idx];
+                            return `Consumo: ${context.formattedValue} kWh | Custo: R$ ${custo}`;
+                        }
+                    }
+                },
+                datalabels: {
+                    color: '#fff',
+                    anchor: 'end',
+                    align: 'end',
+                    formatter: function(value, context) {
+                        let idx = context.dataIndex;
+                        let custo = custos[idx];
+                        return `R$ ${custo}`;
+                    },
+                    font: {
+                        weight: 'bold',
+                        size: 13
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#cfe9ff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#cfe9ff'
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // ativa plugin
+    });
+    /*]]>*/
+</script>
