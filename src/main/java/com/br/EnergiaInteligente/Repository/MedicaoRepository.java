@@ -55,21 +55,6 @@ public interface MedicaoRepository extends JpaRepository<MedicaoModel, Long> {
             """)
     List<TotalMedicaoPorMesResponseDto> findTotalMedicoesMensaisByCodigoPublico(@Param("codigoPublico") String codigoPublico);
 
-    /*@Query("""
-                   SELECT 
-                       SUM(m.consumoKwh) AS consumoTotalKwh,
-                       SUM(m.custoTotal) AS totalValor,
-                       SUM(m.duracaoHoras) AS totalHoras,
-                       
-                   FROM MedicaoModel m
-                   JOIN m.dispositivo d
-                   JOIN d.usuario u
-            WHERE u.codigoPublico = :codigoPublico
-               AND EXTRACT(MONTH FROM m.dataHoraInicioMedicao) = EXTRACT(MONTH FROM CURRENT_DATE)
-                   AND EXTRACT(YEAR FROM m.dataHoraInicioMedicao) = EXTRACT(YEAR FROM CURRENT_DATE)
-            """)
-    TotalMedicaoDiaMesResponseDto findContagemMedicoesDoMes(@Param("codigoPublico") String codigoPublico);*/
-
     @Query("""
             SELECT 
                 SUM(m.consumoKwh) AS consumoTotalKwh,
@@ -83,7 +68,6 @@ public interface MedicaoRepository extends JpaRepository<MedicaoModel, Long> {
             """)
     TotalMedicaoDiaMesResponseDto findMedicoesPorPeriodo(@Param("codigoPublico") String codigoPublico, @Param("dataInicio") LocalDateTime dataInicio,
                                                          @Param("dataFim") LocalDateTime dataFim);
-
 
     @Query("""
                 SELECT new com.br.EnergiaInteligente.Dto.Response.MedicaoResumoResponseDto(

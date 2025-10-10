@@ -5,6 +5,7 @@ import com.br.EnergiaInteligente.Dto.Response.LocalizacaoResponseDto;
 import com.br.EnergiaInteligente.Service.LocalizacaoService;
 import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ public class LocalizacaoController {
     private LocalizacaoService localizacaoService;
 
     @Autowired
-    AutenticacaoUtils autenticacaoUtils;
+    private AutenticacaoUtils autenticacaoUtils;
 
     @GetMapping("/localizacao")
     public String home(Model model) {
@@ -56,4 +57,5 @@ public class LocalizacaoController {
         List<LocalizacaoResponseDto> localizacoes = localizacaoService.LocalizacoesPorUsuario(codigoPublicoUsuario);
         return ResponseEntity.ok().body(localizacoes);
     }
+
 }

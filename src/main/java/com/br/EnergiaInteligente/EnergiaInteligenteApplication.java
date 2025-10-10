@@ -16,7 +16,7 @@ public class EnergiaInteligenteApplication {
 		SpringApplication.run(EnergiaInteligenteApplication.class, args);
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String senha = "minhaSenhaSecreta"; // Substitua pela senha desejada
+		String senha = "admin123"; // Substitua pela senha desejada
 		String senhaCriptografada = encoder.encode(senha);
 
 		System.out.println("Hash BCrypt: " + senhaCriptografada);

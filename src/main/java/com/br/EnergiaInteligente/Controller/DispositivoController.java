@@ -4,10 +4,12 @@ import com.br.EnergiaInteligente.Dto.Request.DispositivoRequesDto;
 import com.br.EnergiaInteligente.Dto.Response.DispositivoComLocalizacaoResponseDto;
 import com.br.EnergiaInteligente.Dto.Response.DispositivoResponseDto;
 import com.br.EnergiaInteligente.Dto.Response.LocalizacaoDispositivoResponseDto;
+import com.br.EnergiaInteligente.Dto.Response.LocalizacaoResponseDto;
 import com.br.EnergiaInteligente.Service.DispositivoService;
 import com.br.EnergiaInteligente.Service.LocalizacaoDispositivoService;
 import com.br.EnergiaInteligente.Utils.AutenticacaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,5 +61,13 @@ public class DispositivoController {
                 .stream()
                 .filter(localizacao -> localizacao.getIdDispositivo().equals(id))
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/vincular")
+    @ResponseBody
+    public ResponseEntity<List<LocalizacaoResponseDto>> vincularDispositivo(@RequestParam Long chipId){
+        String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuario();
+        dispositivoService.vincularDispositivoUsuario(chipId, codigoPublicoUsuario);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
