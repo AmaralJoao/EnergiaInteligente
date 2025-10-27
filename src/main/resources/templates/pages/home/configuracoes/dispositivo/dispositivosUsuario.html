@@ -340,32 +340,59 @@
         initDetalhesModalCleanup();
         // Inicialmente oculta a coluna de ações
         toggleColunaAcoes(false);
+        // ligar listeners 'change' aos checkboxes (se existirem)
+        bindCheckboxChangeListeners();
     });
 
+    // Bind inicial aos checkboxes já renderizados
+    function bindCheckboxChangeListeners() {
+        document.querySelectorAll('#tbodyDispositivos .row-checkbox').forEach(cb => {
+            // remove listeners duplicados (seguro)
+            cb.removeEventListener('change', onCheckboxChange);
+            cb.addEventListener('change', onCheckboxChange);
+        });
+    }
+
+    function onCheckboxChange(e) {
+        // quando o checkbox é alterado (manual ou programaticamente), trate a seleção
+        handleSelect(e.target);
+    }
+
+    // ===========================
+    // Delegação de eventos na tabela
+    // ===========================
     function initEventDelegation() {
         const tbody = document.getElementById('tbodyDispositivos');
         if (!tbody) return;
 
         tbody.addEventListener('click', (e) => {
-            const cb = e.target.closest('.row-checkbox');
-            if (cb) {
-                handleSelect(cb);
+            // se veio de um botão/link/input/label dentro da linha, não dispare a seleção por linha
+            const interactive = e.target.closest('button, a, input, label, select, textarea');
+            const clickedCheckbox = e.target.closest('.row-checkbox');
+
+            // Se clicou no checkbox diretamente, deixamos o evento 'change' cuidar (já ligado).
+            if (clickedCheckbox) {
+                // Para evitar dupla execução, apenas retorne e deixe o 'change' executar handleSelect.
                 return;
             }
 
+            // Se clicou em um botão (ex: Histórico), trate ação do botão
             const detalhesBtn = e.target.closest('.btn-detalhes');
             if (detalhesBtn) {
                 abrirModalDetalhes(detalhesBtn);
                 return;
             }
 
+            // se clicou em alguma outra parte da linha, seleciona a linha (uma seleção única)
             const row = e.target.closest('tr');
             if (row && row.closest('#tbodyDispositivos')) {
                 const checkbox = row.querySelector('.row-checkbox');
-                if (checkbox) {
-                    checkbox.checked = !checkbox.checked;
-                    handleSelect(checkbox);
-                }
+                if (!checkbox) return;
+                // Caso já esteja selecionada, desmarque (toggle de linha). Se quiser apenas permitir "um selecionado sempre",
+                // comente a linha abaixo e force checkbox.checked = true
+                checkbox.checked = !checkbox.checked;
+                // dispare manualmente a ação de change para garantir consistência
+                checkbox.dispatchEvent(new Event('change', { bubbles: true }));
             }
         });
     }
@@ -374,7 +401,7 @@
         const row = checkbox.closest('tr');
         if (!row) return;
 
-        // desmarca as outras
+        // Desmarca as outras (manter apenas 1 seleção)
         document.querySelectorAll('#tbodyDispositivos .row-checkbox').forEach(cb => {
             if (cb !== checkbox) {
                 cb.checked = false;
@@ -384,7 +411,7 @@
 
         if (checkbox.checked) {
             row.classList.add('selected-row');
-            selecionadoId = row.dataset.id;
+            selecionadoId = row.dataset.id || null;
             showEditarSelecionadoBtn(true);
             // Mostra a coluna de ações quando um dispositivo é selecionado
             toggleColunaAcoes(true);
@@ -416,10 +443,16 @@
         if (show) {
             btn.classList.remove('hidden');
             btn.style.opacity = 0;
-            setTimeout(() => btn.style.opacity = 1, 100);
+            // força repaint para animação suave
+            void btn.offsetWidth;
+            btn.style.transition = 'opacity 180ms ease';
+            setTimeout(() => btn.style.opacity = 1, 20);
         } else {
             btn.style.opacity = 0;
-            setTimeout(() => btn.classList.add('hidden'), 200);
+            setTimeout(() => {
+                btn.classList.add('hidden');
+                btn.style.transition = '';
+            }, 200);
         }
     }
 
@@ -496,7 +529,6 @@
             btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
 
             try {
-                // POST to edit endpoint (ensure backend implements /home/config/dispositivo/editar)
                 const res = await fetch('/home/config/dispositivo/editar', {
                     method: 'POST',
                     headers: {
@@ -510,7 +542,6 @@
                     throw new Error(text || ('Erro: ' + res.status));
                 }
 
-                // assume backend returns updated object or status
                 const updated = await res.json().catch(() => null);
 
                 // Atualizar a linha na tabela (caso exista) - buscamos a tr com data-id
@@ -599,7 +630,6 @@
             if (response.status === 201 || response.ok) {
                 mostrarToast('Sucesso', 'Dispositivo vinculado com sucesso!', 'success');
 
-                // Fecha modal e recarrega (para consistência com backend atual)
                 const vincularModalEl = document.getElementById('vincularDispositivoModal');
                 const vincularModal = bootstrap.Modal.getOrCreateInstance(vincularModalEl);
 
