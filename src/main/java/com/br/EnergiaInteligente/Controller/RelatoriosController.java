@@ -26,7 +26,7 @@ public class RelatoriosController {
         String codigoPublicoUsuario = autenticacaoUtils.getCodigoPublicoUsuario();
 
 
-        return "pages/home/relatorios/indexRelatorios";
+        return "pages/relatorios/indexRelatorios";
     }
 
 }

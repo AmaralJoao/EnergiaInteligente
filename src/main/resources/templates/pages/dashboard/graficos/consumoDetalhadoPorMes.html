@@ -1,0 +1,241 @@
+<!-- pages/dashboard/graficos/comparativoMensal.html -->
+<div th:fragment="consumoDetalhadoMensalChart">
+    <div class="stat-card">
+        <h3 style="margin-bottom: 15px;">Comparativo Mensal - Consumo vs Custo</h3>
+        <canvas id="comparativoMensalChart"></canvas>
+    </div>
+
+    <style>
+        .stat-card {
+            background: var(--card-bg, #1e293b);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--card-border, #334155);
+        }
+
+        .stat-card h3 {
+            color: var(--text-primary, #f8fafc);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        #comparativoMensalChart {
+            width: 100% !important;
+            height: 250px !important; /* Altura reduzida */
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            #comparativoMensalChart {
+                height: 200px !important; /* Ainda mais compacto no mobile */
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-card h3 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dados do Thymeleaf
+            const meses = /*[[${meses}]]*/ [];
+            const consumos = /*[[${consumos}]]*/ [];
+            const custos = /*[[${custos}]]*/ [];
+
+            const ctx = document.getElementById('comparativoMensalChart').getContext('2d');
+
+            // Paleta de cores compacta
+            const paletaCores = [
+                '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+                '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+                '#F8C471', '#82E0AA'
+            ];
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: meses,
+                    datasets: [
+                        {
+                            label: 'Consumo (kWh)',
+                            data: consumos,
+                            borderColor: '#36A2EB',
+                            backgroundColor: 'rgba(54, 162, 235, 0.08)', // Mais transparente
+                            borderWidth: 2, // Linha mais fina
+                            tension: 0.2, // Menos curvatura
+                            fill: true,
+                            pointBackgroundColor: '#36A2EB',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 1, // Borda mais fina
+                            pointRadius: 3, // Pontos menores
+                            pointHoverRadius: 5,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Custo (R$)',
+                            data: custos,
+                            borderColor: '#FF6384',
+                            backgroundColor: 'rgba(255, 99, 132, 0.08)', // Mais transparente
+                            borderWidth: 2, // Linha mais fina
+                            tension: 0.2, // Menos curvatura
+                            fill: true,
+                            pointBackgroundColor: '#FF6384',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 1, // Borda mais fina
+                            pointRadius: 3, // Pontos menores
+                            pointHoverRadius: 5,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 5,
+                            right: 5,
+                            bottom: 5,
+                            left: 5
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#cfe9ff',
+                                usePointStyle: true,
+                                padding: 8, // Menos padding
+                                font: {
+                                    size: 10 // Fonte menor
+                                },
+                                boxWidth: 8 // Ícones menores
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#cfe9ff',
+                            borderColor: '#334155',
+                            borderWidth: 1,
+                            cornerRadius: 6,
+                            displayColors: true,
+                            padding: 8, // Tooltip mais compacto
+                            bodyFont: {
+                                size: 11
+                            },
+                            titleFont: {
+                                size: 11
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.dataset.label.includes('Consumo')) {
+                                        label += context.parsed.y.toFixed(1) + ' kWh';
+                                    } else {
+                                        label += 'R$ ' + context.parsed.y.toFixed(2);
+                                    }
+                                    return label;
+                                },
+                                title: function(tooltipItems) {
+                                    return tooltipItems[0].label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.15)',
+                                drawBorder: false,
+                                drawTicks: false
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                font: {
+                                    size: 9 // Fonte menor nos eixos
+                                },
+                                maxRotation: 45, // Rotação para labels longos
+                                padding: 2
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: false // Remove título para economizar espaço
+                            },
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.08)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                font: {
+                                    size: 9
+                                },
+                                padding: 2,
+                                callback: function(value) {
+                                    return value.toFixed(0) + ' kWh';
+                                }
+                            },
+                            beginAtZero: true
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: false // Remove título para economizar espaço
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                font: {
+                                    size: 9
+                                },
+                                padding: 2,
+                                callback: function(value) {
+                                    return 'R$ ' + value.toFixed(0); // Menos casas decimais
+                                }
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    animation: {
+                        duration: 500, // Animação mais rápida
+                        easing: 'easeOutQuad'
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.2 // Linhas mais retas
+                        }
+                    }
+                }
+            });
+        });
+        /*]]>*/
+    </script>
+</div>

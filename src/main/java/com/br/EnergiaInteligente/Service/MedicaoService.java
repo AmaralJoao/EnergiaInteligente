@@ -54,8 +54,14 @@ public class MedicaoService {
 
     }
 
+    public List<TotalMedicaoPorMesResponseDto> consumoDetalhadoPorMes(String codigoPublicoUsuario){
+
+        return medicaoRepository.findTotalMedicoesMensaisDetalhadaByCodigoPublico(codigoPublicoUsuario);
+
+    }
+
     public TotalMedicaoDiaMesResponseDto getContagemMedicoesPorDia(String codigoPublico) {
-        return medicaoRepository.findMedicoesPorPeriodo(codigoPublico, LocalDateTime.now(),LocalDateTime.now());
+        return medicaoRepository.findMedicoesPorPeriodo(codigoPublico, LocalDateTime.now(),LocalDateTime.now().plusDays(1));
     }
 
     public TotalMedicaoDiaMesResponseDto getContagemMedicoesDoMes(String codigoPublico) {

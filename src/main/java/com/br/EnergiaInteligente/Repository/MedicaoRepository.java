@@ -56,6 +56,24 @@ public interface MedicaoRepository extends JpaRepository<MedicaoModel, Long> {
     List<TotalMedicaoPorMesResponseDto> findTotalMedicoesMensaisByCodigoPublico(@Param("codigoPublico") String codigoPublico);
 
     @Query("""
+    SELECT 
+        FUNCTION('to_char', m.dataHoraInicioMedicao, 'YYYY-MM') AS mes,
+        SUM(m.consumoKwh) AS totalConsumo,
+        SUM(m.duracaoHoras) AS totalDuracao,
+        SUM(m.custoTotal) AS totalCusto
+    FROM MedicaoModel m
+    JOIN m.dispositivo d
+    JOIN d.usuario u
+    WHERE 
+        u.codigoPublico = :codigoPublico
+        AND m.dataHoraInicioMedicao >= FUNCTION('date_trunc', 'year', CURRENT_DATE)
+    GROUP BY FUNCTION('to_char', m.dataHoraInicioMedicao, 'YYYY-MM')
+    ORDER BY MIN(m.dataHoraInicioMedicao)
+""")
+    List<TotalMedicaoPorMesResponseDto> findTotalMedicoesMensaisDetalhadaByCodigoPublico(@Param("codigoPublico") String codigoPublico);
+
+
+    @Query("""
             SELECT 
                 SUM(m.consumoKwh) AS consumoTotalKwh,
                 SUM(m.custoTotal) AS totalValor,

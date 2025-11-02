@@ -49,14 +49,38 @@ public class DashboardController {
         model.addAttribute("consumos", consumos);
         model.addAttribute("custos", custos);
 
+        // --- consumo Detalhados por mês ---
+        List<TotalMedicaoPorMesResponseDto> consumoDetalhadoPorMes = medicaoService.consumoDetalhadoPorMes(codigoPublicoUsuario);
+
+        List<String> mesesDetalhados = consumoPorMes.stream()
+                .map(TotalMedicaoPorMesResponseDto::getMes)
+                .toList();
+
+        List<BigDecimal> consumosDetalhados = consumoPorMes.stream()
+                .map(TotalMedicaoPorMesResponseDto::getConsumoTotalKwh)
+                .toList();
+
+        List<BigDecimal> custosDetalhados = consumoPorMes.stream()
+                .map(TotalMedicaoPorMesResponseDto::getCustoTotalMes)
+                .toList();
+        model.addAttribute("meses", mesesDetalhados);
+        model.addAttribute("consumos", consumosDetalhados);
+        model.addAttribute("custos", custosDetalhados);
 
 
         // --- contagem de medições por dia ---
+        TotalMedicaoDiaMesResponseDto totalDia = medicaoService.getContagemMedicoesPorDia(codigoPublicoUsuario);
+
+        model.addAttribute("totalValorDia", totalDia.getTotalValor());
+        model.addAttribute("totalHorasDia", totalDia.getTotalHoras());
+        model.addAttribute("consumoTotalKwhDia", totalDia.getConsumoTotalKwh());
+
+        // --- contagem de medições por Mes ---
         TotalMedicaoDiaMesResponseDto totalMes = medicaoService.getContagemMedicoesDoMes(codigoPublicoUsuario);
 
-        model.addAttribute("totalValor", totalMes.getTotalValor());
-        model.addAttribute("totalHoras", totalMes.getTotalHoras());
-        model.addAttribute("consumoTotalKwh", totalMes.getConsumoTotalKwh());
+        model.addAttribute("totalValorMes", totalMes.getTotalValor());
+        model.addAttribute("totalHorasMes", totalMes.getTotalHoras());
+        model.addAttribute("consumoTotalKwhMes", totalMes.getConsumoTotalKwh());
 
 
         return "pages/dashboard/index";

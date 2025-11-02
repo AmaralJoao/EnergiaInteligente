@@ -315,7 +315,6 @@
                             <div class="profile-info">
                                 <h3 id="userName">Usuário do Sistema</h3>
                                 <p id="userEmail">usuario@exemplo.com</p>
-                                <p id="userSince">Membro desde Janeiro 2024</p>
                             </div>
                         </div>
 
@@ -335,7 +334,7 @@
 
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="nomeDoUsuario" class="form-label-custom">
+                                        <label for="nomeDoUsuario" class="form-label-custom" >
                                             <i class="bi bi-person"></i>Nome Completo
                                         </label>
                                         <input type="text" class="form-control form-control-custom" id="nomeDoUsuario"
@@ -379,214 +378,14 @@
                                 </div>
 
                                 <div class="text-end mt-4">
-                                    <button type="button" class="btn btn-custom-secondary me-2" onclick="cancelarEdicao()">
+                                    <button type="button" class="btn btn-custom-secondary me-2" onclick="cancelarEdicao()" readonly="${!podeEditar}" >
                                         Cancelar
                                     </button>
-                                    <button type="submit" class="btn btn-custom-primary">
+                                    <button type="submit" class="btn btn-custom-primary" readonly="${!podeEditar}">
                                         Salvar Alterações
                                     </button>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-
-                    <!-- Estatísticas do Usuário -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-value">12</div>
-                            <div class="stat-label">Localizações Cadastradas</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">156</div>
-                            <div class="stat-label">Atividades Realizadas</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">95%</div>
-                            <div class="stat-label">Perfil Completo</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aba: Segurança -->
-                <div class="tab-content" id="seguranca-tab">
-                    <div class="card-custom">
-                        <div class="card-header-custom">
-                            <h2 class="card-title-custom">
-                                <i class="bi bi-shield-check"></i>
-                                Configurações de Segurança
-                                <span class="security-badge badge-high">Alta Segurança</span>
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <form id="formSeguranca" method="post" th:action="@{/usuario/alterar-senha}">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="senhaAtual" class="form-label-custom">
-                                            <i class="bi bi-lock"></i>Senha Atual
-                                        </label>
-                                        <input type="password" class="form-control form-control-custom" id="senhaAtual" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="novaSenha" class="form-label-custom">
-                                            <i class="bi bi-key"></i>Nova Senha
-                                        </label>
-                                        <input type="password" class="form-control form-control-custom" id="novaSenha" required>
-                                        <div class="password-strength">
-                                            <div class="strength-bar" id="passwordStrength"></div>
-                                        </div>
-                                        <small class="text-muted">A senha deve conter pelo menos 8 caracteres</small>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="confirmarSenha" class="form-label-custom">
-                                            <i class="bi bi-key-fill"></i>Confirmar Nova Senha
-                                        </label>
-                                        <input type="password" class="form-control form-control-custom" id="confirmarSenha" required>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <h5 class="text-primary mb-3">Autenticação de Dois Fatores</h5>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="2faToggle" style="transform: scale(1.2);">
-                                        <label class="form-check-label form-label-custom" for="2faToggle">
-                                            Habilitar autenticação de dois fatores
-                                        </label>
-                                    </div>
-                                    <small class="text-muted">Aumente a segurança da sua conta com verificação em duas etapas</small>
-                                </div>
-
-                                <div class="text-end mt-4">
-                                    <button type="submit" class="btn btn-custom-primary">
-                                        Atualizar Segurança
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aba: Preferências -->
-                <div class="tab-content" id="preferencias-tab">
-                    <div class="card-custom">
-                        <div class="card-header-custom">
-                            <h2 class="card-title-custom">
-                                <i class="bi bi-palette"></i>
-                                Preferências do Sistema
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label-custom">Tema da Interface</label>
-                                    <select class="form-control form-control-custom" id="temaInterface">
-                                        <option value="dark">Escuro (Padrão)</option>
-                                        <option value="light">Claro</option>
-                                        <option value="auto">Automático</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label-custom">Idioma</label>
-                                    <select class="form-control form-control-custom" id="idiomaSistema">
-                                        <option value="pt">Português (Brasil)</option>
-                                        <option value="en">English</option>
-                                        <option value="es">Español</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label-custom">Fuso Horário</label>
-                                    <select class="form-control form-control-custom" id="fusoHorario">
-                                        <option value="America/Sao_Paulo">Brasília (GMT-3)</option>
-                                        <option value="America/New_York">Nova York (GMT-5)</option>
-                                        <option value="Europe/London">Londres (GMT+0)</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label-custom">Itens por Página</label>
-                                    <select class="form-control form-control-custom" id="itensPorPagina">
-                                        <option value="10">10 itens</option>
-                                        <option value="25">25 itens</option>
-                                        <option value="50">50 itens</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="mt-4">
-                                <h5 class="text-primary mb-3">Configurações de Acessibilidade</h5>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="altoContraste">
-                                    <label class="form-check-label form-label-custom" for="altoContraste">
-                                        Modo de alto contraste
-                                    </label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="leitorTela">
-                                    <label class="form-check-label form-label-custom" for="leitorTela">
-                                        Compatibilidade com leitor de tela
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="animacoesReduzidas">
-                                    <label class="form-check-label form-label-custom" for="animacoesReduzidas">
-                                        Reduzir animações
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="text-end mt-4">
-                                <button class="btn btn-custom-primary" onclick="salvarPreferencias()">
-                                    Salvar Preferências
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aba: Atividade -->
-                <div class="tab-content" id="atividade-tab">
-                    <div class="card-custom">
-                        <div class="card-header-custom">
-                            <h2 class="card-title-custom">
-                                <i class="bi bi-activity"></i>
-                                Histórico de Atividades
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="bi bi-person-check"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Perfil atualizado</div>
-                                    <div class="activity-time">Há 2 horas</div>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="bi bi-shield-lock"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Senha alterada</div>
-                                    <div class="activity-time">Há 3 dias</div>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="bi bi-geo-alt"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Nova localização cadastrada</div>
-                                    <div class="activity-time">Há 1 semana</div>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="bi bi-bell"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Preferências de notificação alteradas</div>
-                                    <div class="activity-time">Há 2 semanas</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -599,20 +398,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Função para alternar entre abas
-    function showTab(tabName) {
-        // Remove a classe active de todas as abas e itens de navegação
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-        });
 
-        // Adiciona a classe active à aba e item de navegação selecionados
-        document.getElementById(tabName + '-tab').classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
+    let podeEditar = false;
 
     // Inicialização quando o DOM estiver carregado
     document.addEventListener('DOMContentLoaded', function() {
@@ -645,48 +432,17 @@
     });
 
     function editarPerfil() {
-        // Habilita a edição dos campos
         const campos = document.querySelectorAll('#formPerfil input');
+
         campos.forEach(campo => {
             campo.removeAttribute('readonly');
-            campo.style.background = 'rgba(25, 30, 50, 0.9)';
+
         });
     }
 
     function cancelarEdicao() {
         // Recarrega a página para cancelar as alterações
         location.reload();
-    }
-
-    function salvarPreferencias() {
-        const preferencias = {
-            tema: document.getElementById('temaInterface').value,
-            idioma: document.getElementById('idiomaSistema').value,
-            fusoHorario: document.getElementById('fusoHorario').value,
-            itensPorPagina: document.getElementById('itensPorPagina').value,
-            altoContraste: document.getElementById('altoContraste').checked,
-            leitorTela: document.getElementById('leitorTela').checked,
-            animacoesReduzidas: document.getElementById('animacoesReduzidas').checked
-        };
-
-        localStorage.setItem('preferenciasUsuario', JSON.stringify(preferencias));
-
-        // Mostrar mensagem de sucesso
-        mostrarMensagem('Preferências salvas com sucesso!', 'success');
-    }
-
-    function carregarPreferenciasSalvas() {
-        const salvo = localStorage.getItem('preferenciasUsuario');
-        if (salvo) {
-            const preferencias = JSON.parse(salvo);
-            document.getElementById('temaInterface').value = preferencias.tema || 'dark';
-            document.getElementById('idiomaSistema').value = preferencias.idioma || 'pt';
-            document.getElementById('fusoHorario').value = preferencias.fusoHorario || 'America/Sao_Paulo';
-            document.getElementById('itensPorPagina').value = preferencias.itensPorPagina || '10';
-            document.getElementById('altoContraste').checked = preferencias.altoContraste || false;
-            document.getElementById('leitorTela').checked = preferencias.leitorTela || false;
-            document.getElementById('animacoesReduzidas').checked = preferencias.animacoesReduzidas || false;
-        }
     }
 
     function mostrarMensagem(mensagem, tipo) {
@@ -726,25 +482,6 @@
         }, 2000);
     });
 
-    // Submissão do formulário de segurança
-    document.getElementById('formSeguranca').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const novaSenha = document.getElementById('novaSenha').value;
-        const confirmarSenha = document.getElementById('confirmarSenha').value;
-
-        if (novaSenha !== confirmarSenha) {
-            mostrarMensagem('As senhas não coincidem!', 'error');
-            return;
-        }
-
-        if (novaSenha.length < 8) {
-            mostrarMensagem('A senha deve ter pelo menos 8 caracteres!', 'error');
-            return;
-        }
-
-        mostrarMensagem('Senha alterada com sucesso!', 'success');
-    });
 </script>
 </body>
 </html>

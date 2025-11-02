@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dispositivos</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- (estilos mantidos/adaptados do seu template) --- */
+        /* TODOS OS ESTILOS CSS PERMANECEM EXATAMENTE OS MESMOS */
         :root {
             --bg1: #0b0f20;
             --bg2: #31165a;
@@ -25,51 +25,450 @@
             --text-secondary: rgba(200,220,255,0.7);
         }
 
-        * { box-sizing: border-box; margin:0; padding:0; font-family:'Montserrat',sans-serif; }
-        body, html { height:100%; background: linear-gradient(135deg,var(--bg1) 0%,#171737 40%,var(--bg2) 100%); color: var(--text-primary); }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-        .bg-wrapper { position: fixed; inset:0; pointer-events:none; z-index:0; }
-        .streak { position:absolute; width:2px; height:120px; background: linear-gradient(180deg, rgba(0,240,255,0) 0%, rgba(0,240,255,0.95) 50%, rgba(0,240,255,0) 100%); filter: blur(0.6px); opacity:.9; transform: translateY(-30vh); animation: floatStreak 10s linear infinite; }
-        .s1 { left:8%; top:20%; animation-duration:11s; } .s2 { left:52%; top:10%; animation-duration:13s; } .s3 { left:85%; top:40%; animation-duration:9s; } .s4 { left:72%; top:64%; animation-duration:12s; }
-        @keyframes floatStreak { 0%{transform:translateY(-40vh) scaleY(1);opacity:0} 10%{opacity:.9} 50%{transform:translateY(20vh) scaleY(1.2);opacity:.9} 90%{opacity:0} 100%{transform:translateY(40vh) scaleY(1);opacity:0} }
+        body, html {
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg1) 0%, #171737 40%, var(--bg2) 100%);
+            overflow-x: hidden;
+            color: var(--text-primary);
+        }
 
-        .main-content { position:relative; z-index:10; padding:30px; min-height:calc(100vh - 80px); margin-top:80px; }
-        .page-title { font-size:2.2rem; font-weight:700; background:linear-gradient(90deg,var(--accent-a),var(--accent-b)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .bg-wrapper {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-        .card-custom { background:var(--card-bg); border-radius:12px; border:1px solid rgba(74,200,255,0.06); position:relative; overflow:visible; margin-bottom:20px; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
-        .card-header-custom { background: rgba(10,15,35,0.7); border-bottom:1px solid rgba(74,200,255,0.1); padding:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; }
-        .card-title-custom { color: var(--text-primary); font-weight:600; margin:0; font-size:1.3rem; }
+        .streak {
+            position: absolute;
+            width: 2px;
+            height: 120px;
+            background: linear-gradient(180deg, rgba(0,240,255,0) 0%, rgba(0,240,255,0.95) 50%, rgba(0,240,255,0) 100%);
+            filter: blur(0.6px);
+            opacity: .9;
+            transform: translateY(-30vh);
+            animation: floatStreak 10s linear infinite;
+        }
+        .s1 { left: 8%; top: 20%; animation-duration: 11s; }
+        .s2 { left: 52%; top: 10%; animation-duration: 13s; }
+        .s3 { left: 85%; top: 40%; animation-duration: 9s; }
+        .s4 { left: 72%; top: 64%; animation-duration: 12s; }
 
-        .btn-custom-primary { background: linear-gradient(90deg,var(--accent-a),var(--accent-b)); border:none; color:#0b0f20; font-weight:600; padding:10px 20px; border-radius:8px; transition:all 0.3s ease; box-shadow:0 4px 15px rgba(0,240,255,0.3); white-space:nowrap; }
-        .btn-custom-secondary { background: rgba(30,40,70,0.7); border:1px solid rgba(74,200,255,0.2); color:var(--text-primary); font-weight:500; padding:8px 16px; border-radius:8px; transition:all 0.3s ease; white-space:nowrap; }
-        .btn-custom-info { background: linear-gradient(90deg,#00b894,#00f0ff); border:none; color:#0b0f20; font-weight:600; padding:8px 16px; border-radius:8px; transition:all 0.3s ease; }
+        @keyframes floatStreak {
+            0% { transform: translateY(-40vh) scaleY(1); opacity:.0; }
+            10% { opacity: .9; }
+            50% { transform: translateY(20vh) scaleY(1.2); opacity:.9; }
+            90% { opacity: 0.0; }
+            100% { transform: translateY(40vh) scaleY(1); opacity:0; }
+        }
 
-        .table-custom { background:transparent; color:var(--text-primary); margin-bottom:0; width:100%; }
-        .table-custom thead th { background: rgba(10,15,35,0.7); border-bottom:1px solid rgba(74,200,255,0.2); color:var(--accent-a); font-weight:600; padding:12px 15px; position:sticky; top:0; z-index:10; }
-        .table-custom tbody td { border-bottom:1px solid rgba(74,200,255,0.1); padding:12px 15px; vertical-align:middle; }
+        /* Ajuste para o header padrão */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            padding: 30px;
+            min-height: calc(100vh - 80px); /* Ajuste baseado na altura do seu header */
+            margin-top: 80px; /* Espaço para o header */
+        }
 
-        .table-custom tbody tr.selected-row { background: rgba(0,240,255,0.06); border-left: 3px solid var(--accent-a); }
-        .codigo-publico { font-family: monospace; font-size: 0.8rem; background: rgba(0,240,255,0.1); padding: 2px 6px; border-radius: 4px; color: var(--text-primary); }
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
 
-        .modal { z-index: 3000 !important; } .modal-backdrop { z-index: 2500 !important; }
-        .modal-content-custom { background: var(--card-bg); border: 1px solid rgba(74,200,255,0.1); border-radius: 12px; color: var(--text-primary); }
-        .modal-header-custom { background: rgba(10,15,35,0.7); border-bottom: 1px solid rgba(74,200,255,0.1); }
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(139,92,246,0.3);
+            letter-spacing: 1px;
+        }
 
-        .form-control-custom { background: rgba(20,25,45,0.7); border: 1px solid rgba(74,200,255,0.2); color: var(--text-primary); border-radius: 8px; padding:8px 10px; }
-        .form-control-custom:focus { background: rgba(20,25,45,0.9); border-color: var(--accent-a); box-shadow: 0 0 0 0.2rem rgba(0,240,255,0.25); color: var(--text-primary); }
+        .page-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-        .toast-unificado { position: fixed; top: 85px; right: 20px; z-index: 4000; min-width: 300px; }
-        .hidden { display: none !important; }
+        .card-custom {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid rgba(74, 200, 255, 0.06);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
 
-        /* Novo estilo para coluna de ações oculta */
-        .coluna-acoes { transition: all 0.3s ease; }
+        .card-custom::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(90deg, rgba(0,240,255,0.8), rgba(139,92,246,0.8));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            filter: blur(6px);
+            opacity: .22;
+        }
+
+        .card-header-custom {
+            background: rgba(10, 15, 35, 0.7);
+            border-bottom: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .card-title-custom {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .btn-custom-primary {
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+            border: none;
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+            white-space: nowrap;
+        }
+
+        .btn-custom-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .btn-custom-secondary {
+            background: rgba(30, 40, 70, 0.7);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-custom-secondary:hover {
+            background: rgba(40, 50, 90, 0.7);
+            border-color: rgba(74, 200, 255, 0.4);
+        }
+
+        .table-custom {
+            background: transparent;
+            color: var(--text-primary);
+            margin-bottom: 0;
+            width: 100%;
+        }
+
+        .table-custom thead th {
+            background: rgba(10, 15, 35, 0.7);
+            border-bottom: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--accent-a);
+            font-weight: 600;
+            padding: 12px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table-custom tbody td {
+            border-bottom: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .table-custom tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table-custom tbody tr:hover {
+            background: rgba(30, 40, 70, 0.3);
+        }
+
+        .table-custom tbody tr.selected-row {
+            background: rgba(0, 240, 255, 0.1);
+            border-left: 3px solid var(--accent-a);
+        }
+
+        .badge-custom-success {
+            background: linear-gradient(90deg, #00b894, #00f0ff);
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .badge-custom-secondary {
+            background: linear-gradient(90deg, #6c757d, #9aa3b2);
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .btn-edit {
+            opacity: 0;
+            transition: all 0.3s ease;
+            background: rgba(30, 40, 70, 0.7);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
+        .btn-edit.active {
+            opacity: 1;
+            background: rgba(0, 240, 255, 0.1);
+            border-color: var(--accent-a);
+        }
+
+        .btn-edit:hover {
+            background: rgba(0, 240, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .filtros-container {
+            background: rgba(10, 15, 35, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(74, 200, 255, 0.1);
+        }
+
+        .form-control-custom {
+            background: rgba(20, 25, 45, 0.7);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            color: var(--text-primary);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .form-control-custom:focus {
+            background: rgba(25, 30, 50, 0.7);
+            border-color: var(--accent-a);
+            box-shadow: 0 0 0 0.2rem rgba(0, 240, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .form-label-custom {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--accent-a);
+            border-color: var(--accent-a);
+        }
+
+        .modal-content-custom {
+            background: var(--card-bg);
+            border: 1px solid rgba(74, 200, 255, 0.2);
+            border-radius: 12px;
+            color: var(--text-primary);
+        }
+
+        .modal-header-custom {
+            background: rgba(10, 15, 35, 0.7);
+            border-bottom: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 20px;
+        }
+
+        .modal-title-custom {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .modal-body-custom {
+            padding: 20px;
+        }
+
+        .modal-footer-custom {
+            background: rgba(10, 15, 35, 0.7);
+            border-top: 1px solid rgba(74, 200, 255, 0.1);
+            padding: 15px 20px;
+        }
+
+        .table-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: rgba(20, 25, 45, 0.5);
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-a), var(--accent-b));
+            border-radius: 3px;
+        }
+
+        .contador-resultados {
+            background: rgba(10, 15, 35, 0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(74, 200, 255, 0.1);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .badge-filtro {
+            background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+            color: #0b0f20;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            margin-right: 8px;
+            margin-bottom: 5px;
+            display: inline-block;
+            font-size: 0.8rem;
+        }
+
+        .badge-filtro i {
+            margin-left: 4px;
+            cursor: pointer;
+        }
+
+        /* Ajustes para telas menores */
+        @media (max-width: 1200px) {
+            .main-content {
+                padding: 20px;
+                margin-top: 70px;
+            }
+
+            .card-header-custom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .card-header-custom > div {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
 
         @media (max-width: 768px) {
-            .main-content { padding:20px; margin-top:70px; }
+            .main-content {
+                padding: 15px;
+                margin-top: 60px;
+                min-height: calc(100vh - 60px);
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .page-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .table-custom {
+                font-size: 0.85rem;
+            }
+
+            .table-custom thead th,
+            .table-custom tbody td {
+                padding: 8px 10px;
+            }
+
+            .btn-custom-primary,
+            .btn-custom-secondary {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .table-container {
+                max-height: 50vh;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 10px;
+                margin-top: 60px;
+            }
+
+            .page-header {
+                margin-bottom: 20px;
+                padding: 10px 0;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .card-header-custom {
+                padding: 15px;
+            }
+
+            .card-header-custom > div {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .filtros-container {
+                padding: 15px;
+            }
+
+            .table-custom {
+                font-size: 0.8rem;
+            }
+
+            .table-custom thead th,
+            .table-custom tbody td {
+                padding: 6px 8px;
+            }
+
+            /* Ocultar coluna de número em telas muito pequenas */
+            .table-custom th:nth-child(6),
+            .table-custom td:nth-child(6) {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+<!-- Background Animation -->
 <div class="bg-wrapper">
     <div class="streak s1"></div>
     <div class="streak s2"></div>
@@ -82,80 +481,103 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-12 col-xl-12">
+            <div class="col-12 col-xl-10">
                 <div class="card-custom">
                     <div class="card-header-custom">
                         <h2 class="card-title-custom">Dispositivos Cadastrados</h2>
-                        <div class="d-flex gap-2 align-items-center">
-                            <button type="button" class="btn btn-custom-primary" data-bs-toggle="modal" data-bs-target="#vincularDispositivoModal">
+                        <div>
+                            <button type="button" class="btn btn-custom-primary" onclick="abrirModalNovoDispositivo()">
                                 <i class="bi bi-plus-circle"></i> Novo Dispositivo
-                            </button>
-                            <!-- Botão Editar global (aparece quando há seleção) -->
-                            <button id="btnEditarSelecionado" class="btn btn-custom-secondary hidden">
-                                <i class="bi bi-pencil-square"></i> Editar Selecionado
                             </button>
                         </div>
                     </div>
 
-                    <div class="card-body">
-                        <div class="contador-resultados mb-3">
-                            <span class="text-muted">
-                                Mostrando <span id="totalRegistros" th:text="${dispositivos.size()}">0</span> dispositivos
-                            </span>
+                    <!-- Seção de Filtros -->
+                    <div class="filtros-container" id="filtrosContainer" style="display: none;">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="filtroNome" class="form-label-custom">Nome do Dispositivo</label>
+                                <input type="text" class="form-control form-control-custom" id="filtroNome" placeholder="Pesquisar por nome...">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtroModelo" class="form-label-custom">Modelo</label>
+                                <input type="text" class="form-control form-control-custom" id="filtroModelo" placeholder="Modelo do dispositivo">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtroLocalizacao" class="form-label-custom">Localização</label>
+                                <input type="text" class="form-control form-control-custom" id="filtroLocalizacao" placeholder="Nome da localização">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button" class="btn btn-custom-primary w-100 me-2" onclick="aplicarFiltros()">
+                                    <i class="bi bi-search"></i> Filtrar
+                                </button>
+                                <button type="button" class="btn btn-custom-secondary" onclick="limparFiltros()" title="Limpar filtros">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="table-responsive">
+                        <!-- Filtros Ativos -->
+                        <div class="mt-3" id="filtrosAtivos" style="display: none;">
+                            <small class="text-muted">Filtros ativos:</small>
+                            <div id="badgesFiltros"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Contador de Resultados -->
+                        <div class="contador-resultados">
+                                <span class="text-muted" id="contadorResultados">
+                                    Mostrando <span id="totalRegistros" th:text="${dispositivos.size()}">0</span> registros
+                                </span>
+                        </div>
+
+                        <div class="table-container">
                             <table class="table table-custom">
                                 <thead>
                                 <tr>
-                                    <th style="width:48px;"></th>
-                                    <th>ID</th>
+                                    <th width="50px"></th>
                                     <th>Código Público</th>
-                                    <th>Nome</th>
+                                    <th>Nome do Dispositivo</th>
                                     <th>Modelo</th>
                                     <th>Versão</th>
                                     <th>Localização</th>
+                                    <th>Cidade</th>
                                     <th>Endereço</th>
-                                    <th width="120px" class="coluna-acoes hidden">Ações</th>
+                                    <th>Número</th>
+                                    <th width="100px">Ações</th>
                                 </tr>
                                 </thead>
                                 <tbody id="tbodyDispositivos">
                                 <tr th:each="dispositivo : ${dispositivos}"
                                     th:data-id="${dispositivo.id}"
-                                    th:data-codigopublico="${dispositivo.codigoPublicoDispositivo}"
                                     th:data-nome="${dispositivo.nomeDoDispositivo}"
                                     th:data-modelo="${dispositivo.modeloDispositivo}"
                                     th:data-versao="${dispositivo.versaoDoDispositivo}"
-                                    th:data-localizacao="${dispositivo.nomeDaLocalizacaoDoDispositivo}"
-                                    th:data-rua="${dispositivo.nomeDaRua}"
-                                    th:data-numero="${dispositivo.numero}"
-                                    th:data-cidade="${dispositivo.cidade}"
-                                    th:data-complemento="${dispositivo.complemento}">
+                                    th:data-codigo-publico="${dispositivo.codigoPublicoDispositivo}">
                                     <td>
                                         <div class="form-check">
-                                            <input class="form-check-input row-checkbox" type="checkbox" />
+                                            <input class="form-check-input" type="checkbox" onclick="selecionarDispositivo(this)">
                                         </div>
                                     </td>
-                                    <td><span class="text-muted-custom" th:text="${dispositivo.id}">ID</span></td>
-                                    <td><span class="codigo-publico" th:text="${dispositivo.codigoPublicoDispositivo}">CÓD</span></td>
-                                    <td><strong th:text="${dispositivo.nomeDoDispositivo}">Nome</strong></td>
+                                    <td th:text="${dispositivo.codigoPublicoDispositivo}">Código</td>
+                                    <td th:text="${dispositivo.nomeDoDispositivo}">Nome</td>
                                     <td th:text="${dispositivo.modeloDispositivo}">Modelo</td>
-                                    <td><span class="badge-custom-secondary" th:text="${dispositivo.versaoDoDispositivo}">Versão</span></td>
+                                    <td th:text="${dispositivo.versaoDoDispositivo}">Versão</td>
+                                    <td th:text="${dispositivo.nomeDaLocalizacaoDoDispositivo}">Localização</td>
+                                    <td th:text="${dispositivo.cidade}">Cidade</td>
+                                    <td th:text="${dispositivo.nomeDaRua}">Endereço</td>
+                                    <td th:text="${dispositivo.numero}">Número</td>
                                     <td>
-                                        <span th:if="${dispositivo.nomeDaLocalizacaoDoDispositivo}" th:text="${dispositivo.nomeDaLocalizacaoDoDispositivo}">Local</span>
-                                        <span th:unless="${dispositivo.nomeDaLocalizacaoDoDispositivo}" class="text-muted-custom">Sem localização</span>
-                                    </td>
-                                    <td>
-                                        <div class="endereco-completo" th:if="${dispositivo.cidade}">
-                                            <div th:text="${dispositivo.nomeDaRua} + ', ' + ${dispositivo.numero}">Rua, Nº</div>
-                                            <div th:text="${dispositivo.cidade}">Cidade</div>
-                                        </div>
-                                        <span th:unless="${dispositivo.cidade}" class="text-muted-custom">Endereço não informado</span>
-                                    </td>
-                                    <td class="coluna-acoes hidden">
-                                        <button type="button" class="btn btn-custom-info btn-sm btn-detalhes"
-                                                th:attr="data-id=${dispositivo.id}">
-                                            <i class="bi bi-clock-history"></i> Histórico
+                                        <button type="button"
+                                                class="btn btn-edit"
+                                                onclick="abrirEdicao(event, this)"
+                                                th:attr="data-id=${dispositivo.id},
+                                                         data-nome=${dispositivo.nomeDoDispositivo},
+                                                         data-modelo=${dispositivo.modeloDispositivo},
+                                                         data-versao=${dispositivo.versaoDoDispositivo},
+                                                         data-codigo-publico=${dispositivo.codigoPublicoDispositivo}">
+                                            <i class="bi bi-pencil"></i> Editar
                                         </button>
                                     </td>
                                 </tr>
@@ -169,589 +591,380 @@
     </div>
 </div>
 
-<!-- TOAST UNIFICADO (usado pelo JS) -->
-<div class="toast-unificado">
-    <div id="toastUnificadoEl" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body" id="toastUnificadoBody"></div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
-
-<!-- MODALS -->
-
-<!-- Modal Vincular Dispositivo -->
-<div class="modal fade" id="vincularDispositivoModal" tabindex="-1" aria-labelledby="vincularDispositivoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal-content-custom">
-            <div class="modal-header modal-header-custom">
-                <h5 class="modal-title modal-title-custom" id="vincularDispositivoModalLabel">Vincular Novo Dispositivo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
-            </div>
-            <div class="modal-body modal-body-custom">
-                <form id="vincularDispositivoForm" novalidate>
-                    <div class="mb-3">
-                        <label for="chipId" class="form-label-custom">
-                            <i class="bi bi-cpu"></i> Chip ID do Dispositivo
-                        </label>
-                        <input type="number" class="form-control form-control-custom" id="chipId" name="chipId"
-                               placeholder="Digite o número do chipId" required min="1" step="1"/>
-                        <div class="form-text text-muted-custom">
-                            Informe o código único do dispositivo físico
-                        </div>
-                        <div class="invalid-feedback" id="chipIdError">Por favor, insira um chipId válido (número positivo).</div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer modal-footer-custom">
-                <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Cancelar
-                </button>
-                <button type="button" class="btn btn-custom-primary" id="btnVincular">
-                    <i class="bi bi-link-45deg"></i> Vincular Dispositivo
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Editar Dispositivo -->
-<div class="modal fade" id="editarDispositivoModal" tabindex="-1" aria-hidden="true">
+<!-- Modal para Criar/Editar Dispositivo -->
+<div class="modal fade" id="dispositivoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title modal-title-custom" id="editarModalTitulo">Editar Dispositivo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar" style="filter: invert(1);"></button>
+                <h5 class="modal-title modal-title-custom" id="modalTitulo">Novo Dispositivo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
             </div>
-            <form id="editarDispositivoForm">
-                <input type="hidden" id="editarId" name="id"/>
+            <form id="formDispositivo" method="post">
                 <div class="modal-body modal-body-custom">
-                    <div class="row g-3">
+                    <input type="hidden" id="dispositivoId" name="id">
+
+                    <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label-custom">Código Público</label>
-                            <input type="text" id="editarCodigoPublico" name="codigoPublico" class="form-control form-control-custom" readonly/>
+                            <label for="nomeDoDispositivo" class="form-label-custom">Nome do Dispositivo *</label>
+                            <input type="text" class="form-control form-control-custom" id="nomeDoDispositivo" name="nomeDoDispositivo" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label-custom">Nome</label>
-                            <input type="text" id="editarNome" name="nomeDoDispositivo" class="form-control form-control-custom" required/>
+                            <label for="modeloDispositivo" class="form-label-custom">Modelo *</label>
+                            <input type="text" class="form-control form-control-custom" id="modeloDispositivo" name="modeloDispositivo" required>
                         </div>
                     </div>
 
-                    <div class="row g-3 mt-2">
-                        <div class="col-md-4">
-                            <label class="form-label-custom">Modelo</label>
-                            <input type="text" id="editarModelo" name="modeloDispositivo" class="form-control form-control-custom"/>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="versaoDoDispositivo" class="form-label-custom">Versão *</label>
+                            <input type="number" class="form-control form-control-custom" id="versaoDoDispositivo" name="versaoDoDispositivo" required>
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label-custom">Versão</label>
-                            <input type="number" id="editarVersao" name="versaoDoDispositivo" class="form-control form-control-custom" min="0" step="1"/>
+                        <div class="col-md-6">
+                            <label for="codigoPublicoDispositivo" class="form-label-custom">Código Público</label>
+                            <input type="text" class="form-control form-control-custom" id="codigoPublicoDispositivo" name="codigoPublicoDispositivo" readonly>
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label-custom">Localização</label>
-                            <input type="text" id="editarLocalizacao" name="nomeDaLocalizacaoDoDispositivo" class="form-control form-control-custom"/>
+                    </div>
+
+                    <!-- Seção para Vincular Dispositivo -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <hr>
+                            <h6 class="text-muted mb-3">Vincular Dispositivo</h6>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="chipId" class="form-label-custom">Chip ID *</label>
+                            <input type="number" class="form-control form-control-custom" id="chipId" name="chipId" required>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer modal-footer-custom">
                     <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-custom-primary" id="btnSalvarEdicao">Salvar Alterações</button>
+                    <button type="submit" class="btn btn-custom-primary" id="modalSubmitBtn">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Modal Histórico de Localizações (detalhes) -->
-<div class="modal fade" id="detalhesModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content modal-content-custom">
-            <div class="modal-header modal-header-custom">
-                <h5 class="modal-title modal-title-custom">
-                    <i class="bi bi-clock-history"></i> Histórico de Localizações
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
-            </div>
-            <div class="modal-body modal-body-custom">
-                <div class="card-custom mb-4">
-                    <div class="card-header-custom">
-                        <h6 class="card-title-custom mb-0">Informações do Dispositivo</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4 mb-2">
-                                <strong class="form-label-custom">ID:</strong>
-                                <span id="detailId" class="ms-2">-</span>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <strong class="form-label-custom">Código Público:</strong>
-                                <span id="detailCodigoPublico" class="ms-2 codigo-publico">-</span>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <strong class="form-label-custom">Nome:</strong>
-                                <span id="detailNome" class="ms-2">-</span>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <strong class="form-label-custom">Modelo:</strong>
-                                <span id="detailModelo" class="ms-2">-</span>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <strong class="form-label-custom">Versão:</strong>
-                                <span id="detailVersao" class="ms-2 badge-custom-secondary">-</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-custom">
-                    <div class="card-header-custom">
-                        <h6 class="card-title-custom mb-0">Histórico de Localizações</h6>
-                    </div>
-                    <div class="card-body">
-                        <div id="localizacoesContainer">
-                            <div class="loading-spinner">
-                                <i class="bi bi-arrow-repeat spinner"></i> Carregando histórico de localizações...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer modal-footer-custom">
-                <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Bootstrap JS (bundle includes Popper) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // ===========================
-    // Variáveis e inicialização
-    // ===========================
-    let selecionadoId = null;
+    let dispositivoSelecionado = null;
+    let filtrosAtivos = {
+        nome: '',
+        modelo: '',
+        localizacao: ''
+    };
+    let dadosCompletos = [];
 
-    document.addEventListener('DOMContentLoaded', () => {
-        initEventDelegation();
-        initVincular();
-        initEditarSelecionadoBtn();
-        initEditarForm();
-        initDetalhesModalCleanup();
-        // Inicialmente oculta a coluna de ações
-        toggleColunaAcoes(false);
-        // ligar listeners 'change' aos checkboxes (se existirem)
-        bindCheckboxChangeListeners();
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        carregarDadosIniciais();
+
+        document.getElementById('filtroNome').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') aplicarFiltros();
+        });
+
+        document.getElementById('filtroModelo').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') aplicarFiltros();
+        });
+
+        document.getElementById('filtroLocalizacao').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') aplicarFiltros();
+        });
+
+        carregarPreferencias();
     });
 
-    // Bind inicial aos checkboxes já renderizados
-    function bindCheckboxChangeListeners() {
-        document.querySelectorAll('#tbodyDispositivos .row-checkbox').forEach(cb => {
-            // remove listeners duplicados (seguro)
-            cb.removeEventListener('change', onCheckboxChange);
-            cb.addEventListener('change', onCheckboxChange);
-        });
+    function carregarDadosIniciais() {
+        const linhas = document.querySelectorAll('#tbodyDispositivos tr');
+        dadosCompletos = Array.from(linhas).map(linha => ({
+            elemento: linha,
+            nome: linha.getAttribute('data-nome'),
+            modelo: linha.getAttribute('data-modelo'),
+            codigoPublico: linha.getAttribute('data-codigo-publico')
+        }));
+        atualizarContador(dadosCompletos.length);
     }
 
-    function onCheckboxChange(e) {
-        // quando o checkbox é alterado (manual ou programaticamente), trate a seleção
-        handleSelect(e.target);
-    }
+    function selecionarDispositivo(checkbox) {
+        const linha = checkbox.closest('tr');
+        const id = linha.getAttribute('data-id');
 
-    // ===========================
-    // Delegação de eventos na tabela
-    // ===========================
-    function initEventDelegation() {
-        const tbody = document.getElementById('tbodyDispositivos');
-        if (!tbody) return;
-
-        tbody.addEventListener('click', (e) => {
-            // se veio de um botão/link/input/label dentro da linha, não dispare a seleção por linha
-            const interactive = e.target.closest('button, a, input, label, select, textarea');
-            const clickedCheckbox = e.target.closest('.row-checkbox');
-
-            // Se clicou no checkbox diretamente, deixamos o evento 'change' cuidar (já ligado).
-            if (clickedCheckbox) {
-                // Para evitar dupla execução, apenas retorne e deixe o 'change' executar handleSelect.
-                return;
-            }
-
-            // Se clicou em um botão (ex: Histórico), trate ação do botão
-            const detalhesBtn = e.target.closest('.btn-detalhes');
-            if (detalhesBtn) {
-                abrirModalDetalhes(detalhesBtn);
-                return;
-            }
-
-            // se clicou em alguma outra parte da linha, seleciona a linha (uma seleção única)
-            const row = e.target.closest('tr');
-            if (row && row.closest('#tbodyDispositivos')) {
-                const checkbox = row.querySelector('.row-checkbox');
-                if (!checkbox) return;
-                // Caso já esteja selecionada, desmarque (toggle de linha). Se quiser apenas permitir "um selecionado sempre",
-                // comente a linha abaixo e force checkbox.checked = true
-                checkbox.checked = !checkbox.checked;
-                // dispare manualmente a ação de change para garantir consistência
-                checkbox.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-        });
-    }
-
-    function handleSelect(checkbox) {
-        const row = checkbox.closest('tr');
-        if (!row) return;
-
-        // Desmarca as outras (manter apenas 1 seleção)
-        document.querySelectorAll('#tbodyDispositivos .row-checkbox').forEach(cb => {
-            if (cb !== checkbox) {
-                cb.checked = false;
-                cb.closest('tr')?.classList.remove('selected-row');
-            }
+        // Remove seleção anterior
+        const linhasSelecionadas = document.querySelectorAll('#tbodyDispositivos tr.selected-row');
+        linhasSelecionadas.forEach(linha => {
+            linha.classList.remove('selected-row');
+            const btnEditar = linha.querySelector('.btn-edit');
+            btnEditar.classList.remove('active');
         });
 
+        // Marca/desmarca a linha atual
         if (checkbox.checked) {
-            row.classList.add('selected-row');
-            selecionadoId = row.dataset.id || null;
-            showEditarSelecionadoBtn(true);
-            // Mostra a coluna de ações quando um dispositivo é selecionado
-            toggleColunaAcoes(true);
-        } else {
-            row.classList.remove('selected-row');
-            selecionadoId = null;
-            showEditarSelecionadoBtn(false);
-            // Oculta a coluna de ações quando nenhum dispositivo está selecionado
-            toggleColunaAcoes(false);
-        }
-    }
+            linha.classList.add('selected-row');
+            dispositivoSelecionado = id;
 
-    // Função para mostrar/ocultar a coluna de ações
-    function toggleColunaAcoes(mostrar) {
-        const colunasAcoes = document.querySelectorAll('.coluna-acoes');
-        colunasAcoes.forEach(coluna => {
-            if (mostrar) {
-                coluna.classList.remove('hidden');
-            } else {
-                coluna.classList.add('hidden');
-            }
+            // Ativa o botão de edição
+            const btnEditar = linha.querySelector('.btn-edit');
+            btnEditar.classList.add('active');
+        } else {
+            dispositivoSelecionado = null;
+        }
+
+        // Desmarca outros checkboxes
+        const checkboxes = document.querySelectorAll('#tbodyDispositivos .form-check-input');
+        checkboxes.forEach(cb => {
+            if (cb !== checkbox) cb.checked = false;
         });
     }
 
-    function showEditarSelecionadoBtn(show) {
-        const btn = document.getElementById('btnEditarSelecionado');
-        if (!btn) return;
+    function abrirModalNovoDispositivo() {
+        // Limpa o formulário
+        document.getElementById('formDispositivo').reset();
+        document.getElementById('dispositivoId').value = '';
+        document.getElementById('modalTitulo').textContent = 'Novo Dispositivo';
+        document.getElementById('modalSubmitBtn').textContent = 'Criar Dispositivo';
+        document.getElementById('codigoPublicoDispositivo').value = 'Gerado automaticamente';
 
-        if (show) {
-            btn.classList.remove('hidden');
-            btn.style.opacity = 0;
-            // força repaint para animação suave
-            void btn.offsetWidth;
-            btn.style.transition = 'opacity 180ms ease';
-            setTimeout(() => btn.style.opacity = 1, 20);
-        } else {
-            btn.style.opacity = 0;
-            setTimeout(() => {
-                btn.classList.add('hidden');
-                btn.style.transition = '';
-            }, 200);
-        }
+        // Altera a action do form para criação
+        document.getElementById('formDispositivo').action = '/home/config/dispositivo';
+
+        const modal = new bootstrap.Modal(document.getElementById('dispositivoModal'));
+        modal.show();
     }
 
-    function initEditarSelecionadoBtn() {
-        const btn = document.getElementById('btnEditarSelecionado');
-        if (!btn) return;
+    function abrirEdicao(event, button) {
+        event.stopPropagation();
 
-        btn.addEventListener('click', () => {
-            if (!selecionadoId) {
-                mostrarToast('Atenção', 'Selecione um dispositivo antes de editar.', 'info');
+        // Preenche o formulário com os dados
+        document.getElementById('dispositivoId').value = button.getAttribute('data-id');
+        document.getElementById('nomeDoDispositivo').value = button.getAttribute('data-nome');
+        document.getElementById('modeloDispositivo').value = button.getAttribute('data-modelo');
+        document.getElementById('versaoDoDispositivo').value = button.getAttribute('data-versao');
+        document.getElementById('codigoPublicoDispositivo').value = button.getAttribute('data-codigo-publico');
+
+        // Altera o título e botão
+        document.getElementById('modalTitulo').textContent = 'Editar Dispositivo';
+        document.getElementById('modalSubmitBtn').textContent = 'Salvar Alterações';
+
+        // Altera a action do form para edição
+        document.getElementById('formDispositivo').action = '/home/config/dispositivo/editar';
+
+        const modal = new bootstrap.Modal(document.getElementById('dispositivoModal'));
+        modal.show();
+    }
+
+    // Submissão do formulário (para criar e editar)
+    document.getElementById('formDispositivo').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const url = this.action;
+        const isEdicao = url.includes('/editar');
+
+        // Para vincular dispositivo
+        if (!isEdicao) {
+            const chipId = document.getElementById('chipId').value;
+            if (chipId) {
+                vincularDispositivo(chipId);
                 return;
             }
-            openEditModalById(selecionadoId);
-        });
-    }
-
-    // ===========================
-    // Abrir modal de edição por id (usa GET)
-    // ===========================
-    async function openEditModalById(id) {
-        try {
-            const res = await fetch(`/home/config/dispositivo/${id}`, {
-                method: 'GET',
-                headers: { 'Accept': 'application/json' }
-            });
-            if (!res.ok) throw new Error('Falha ao obter dados do dispositivo');
-
-            const data = await res.json();
-            // Preenche o formulário
-            document.getElementById('editarId').value = data.id || '';
-            document.getElementById('editarCodigoPublico').value = data.codigoPublicoDispositivo || (data.codigoPublico || '');
-            document.getElementById('editarNome').value = data.nomeDoDispositivo || data.nome || '';
-            document.getElementById('editarModelo').value = data.modeloDispositivo || data.modelo || '';
-            document.getElementById('editarVersao').value = data.versaoDoDispositivo || data.versao || '';
-            document.getElementById('editarLocalizacao').value = data.nomeDaLocalizacaoDoDispositivo || data.nomeDaLocalizacao || '';
-
-            // Abre modal
-            const modalEl = document.getElementById('editarDispositivoModal');
-            const modal = new bootstrap.Modal(modalEl);
-            modal.show();
-        } catch (err) {
-            console.error(err);
-            mostrarToast('Erro', 'Não foi possível carregar os dados do dispositivo.', 'error');
-        }
-    }
-
-    // ===========================
-    // Form de edição (submit)
-    // ===========================
-    function initEditarForm() {
-        const form = document.getElementById('editarDispositivoForm');
-        if (!form) return;
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('editarId').value;
-            if (!id) {
-                mostrarToast('Erro', 'ID do dispositivo ausente.', 'error');
-                return;
-            }
-
-            // Preparar payload
-            const payload = {
-                id: id,
-                nomeDoDispositivo: document.getElementById('editarNome').value.trim(),
-                modeloDispositivo: document.getElementById('editarModelo').value.trim(),
-                versaoDoDispositivo: document.getElementById('editarVersao').value ? Number(document.getElementById('editarVersao').value) : null,
-                nomeDaLocalizacaoDoDispositivo: document.getElementById('editarLocalizacao').value.trim()
-            };
-
-            const btn = document.getElementById('btnSalvarEdicao');
-            const originalText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
-
-            try {
-                const res = await fetch('/home/config/dispositivo/editar', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!res.ok) {
-                    const text = await res.text().catch(() => '');
-                    throw new Error(text || ('Erro: ' + res.status));
-                }
-
-                const updated = await res.json().catch(() => null);
-
-                // Atualizar a linha na tabela (caso exista) - buscamos a tr com data-id
-                const tr = document.querySelector(`#tbodyDispositivos tr[data-id="${id}"]`);
-                if (tr) {
-                    // atualiza atributos e texto visível
-                    tr.dataset.nome = payload.nomeDoDispositivo;
-                    tr.dataset.modelo = payload.modeloDispositivo;
-                    tr.dataset.versao = payload.versaoDoDispositivo;
-                    tr.dataset.localizacao = payload.nomeDaLocalizacaoDoDispositivo;
-
-                    tr.querySelector('td:nth-child(4)')?.querySelector('strong')?.textContent = payload.nomeDoDispositivo || '';
-                    tr.querySelector('td:nth-child(5)') && (tr.querySelector('td:nth-child(5)').textContent = payload.modeloDispositivo || '');
-                    tr.querySelector('td:nth-child(6)') && (tr.querySelector('td:nth-child(6)').textContent = payload.versaoDoDispositivo || '');
-                    tr.querySelector('td:nth-child(7)') && (tr.querySelector('td:nth-child(7)').textContent = payload.nomeDaLocalizacaoDoDispositivo || 'Sem localização');
-                }
-
-                mostrarToast('Sucesso', 'Dispositivo atualizado com sucesso!', 'success');
-
-                // fecha modal
-                const modalEl = document.getElementById('editarDispositivoModal');
-                bootstrap.Modal.getInstance(modalEl)?.hide();
-
-            } catch (err) {
-                console.error(err);
-                mostrarToast('Erro', err.message || 'Falha ao salvar dispositivo.', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-            }
-        });
-    }
-
-    // ===========================
-    // Vincular dispositivo (modal)
-    // ===========================
-    function initVincular() {
-        const chipInput = document.getElementById('chipId');
-        const vincularBtn = document.getElementById('btnVincular');
-        const vincularModalEl = document.getElementById('vincularDispositivoModal');
-
-        chipInput?.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                vincularDispositivo();
-            }
-        });
-
-        chipInput?.addEventListener('input', function() { this.classList.remove('is-invalid'); });
-
-        vincularBtn?.addEventListener('click', vincularDispositivo);
-
-        vincularModalEl?.addEventListener('show.bs.modal', function() {
-            chipInput?.classList.remove('is-invalid');
-            if (chipInput) chipInput.value = '';
-        });
-    }
-
-    async function vincularDispositivo() {
-        const chipInput = document.getElementById('chipId');
-        if (!chipInput) return;
-        const chipId = chipInput.value.trim();
-        const vincularBtn = document.getElementById('btnVincular');
-
-        if (!chipId || isNaN(chipId) || Number(chipId) <= 0) {
-            chipInput.classList.add('is-invalid');
-            return;
         }
 
-        vincularBtn.disabled = true;
-        const originalBtnHTML = vincularBtn.innerHTML;
-        vincularBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Vinculando...';
+        fetch(url, {
+            method: 'POST',
+            body: new URLSearchParams(formData),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Erro na resposta do servidor: ' + response.status);
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.id) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('dispositivoModal'));
+                modal.hide();
 
-        try {
-            const formBody = new URLSearchParams();
-            formBody.append('chipId', chipId);
+                // Mensagem de sucesso
+                const mensagem = isEdicao ? 'Dispositivo atualizado com sucesso!' : 'Dispositivo criado com sucesso!';
+                mostrarMensagem(mensagem, 'success');
 
-            const response = await fetch('/home/config/vincular', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: formBody.toString()
-            });
-
-            if (response.status === 201 || response.ok) {
-                mostrarToast('Sucesso', 'Dispositivo vinculado com sucesso!', 'success');
-
-                const vincularModalEl = document.getElementById('vincularDispositivoModal');
-                const vincularModal = bootstrap.Modal.getOrCreateInstance(vincularModalEl);
-
-                setTimeout(() => {
-                    vincularModal.hide();
-                    chipInput.value = '';
-                    // reload para refletir novo dispositivo (backend atual retorna 201 sem body)
-                    location.reload();
-                }, 900);
-            } else if (response.status === 400) {
-                throw new Error('ChipId inválido ou já vinculado');
-            } else if (response.status === 404) {
-                throw new Error('Dispositivo não encontrado');
-            } else if (response.status === 409) {
-                throw new Error('Dispositivo já vinculado a outro usuário');
+                setTimeout(() => location.reload(true), 1000);
             } else {
-                let text = 'Erro ao vincular dispositivo';
-                try { text = await response.text() || text; } catch (e) {}
-                throw new Error(text);
+                throw new Error('Resposta inválida do servidor');
             }
-        } catch (error) {
-            console.error(error);
-            mostrarToast('Erro', error.message || 'Erro ao vincular', 'error');
-        } finally {
-            vincularBtn.disabled = false;
-            vincularBtn.innerHTML = originalBtnHTML;
-        }
-    }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            mostrarMensagem('Erro ao salvar dispositivo: ' + error.message, 'error');
+        });
+    });
 
-    // ===========================
-    // Modal detalhes / histórico
-    // ===========================
-    function abrirModalDetalhes(button) {
-        const dispositivoId = button.getAttribute('data-id');
-        if (!dispositivoId) return;
-
-        const linha = button.closest('tr');
-        const dispositivoData = {
-            id: linha?.dataset.id || '',
-            codigoPublico: linha?.dataset.codigopublico || linha?.querySelector('td:nth-child(3)')?.textContent?.trim() || '',
-            nome: linha?.dataset.nome || linha?.querySelector('td:nth-child(4)')?.textContent?.trim() || '',
-            modelo: linha?.dataset.modelo || linha?.querySelector('td:nth-child(5)')?.textContent?.trim() || '',
-            versao: linha?.dataset.versao || linha?.querySelector('td:nth-child(6)')?.textContent?.trim() || ''
-        };
-
-        document.getElementById('detailId').textContent = dispositivoData.id;
-        document.getElementById('detailCodigoPublico').textContent = dispositivoData.codigoPublico;
-        document.getElementById('detailNome').textContent = dispositivoData.nome;
-        document.getElementById('detailModelo').textContent = dispositivoData.modelo;
-        document.getElementById('detailVersao').textContent = dispositivoData.versao;
-
-        carregarLocalizacoes(dispositivoId);
-
-        const detalhesModalEl = document.getElementById('detalhesModal');
-        const detalhesModal = new bootstrap.Modal(detalhesModalEl);
-        detalhesModal.show();
-    }
-
-    function carregarLocalizacoes(dispositivoId) {
-        const container = document.getElementById('localizacoesContainer');
-        container.innerHTML = '<div class="loading-spinner"><i class="bi bi-arrow-repeat spinner"></i> Carregando histórico...</div>';
-
-        fetch(`/home/config/dispositivo/${dispositivoId}/localizacoes`, { method: 'GET', headers: { 'Accept': 'application/json' } })
-            .then(response => response.ok ? response.json() : Promise.reject(response))
-            .then(localizacoes => {
-                container.innerHTML = localizacoes.length ?
-                    localizacoes.map((loc, i) => `
-                        <div class="localizacao-item">
-                            <div class="localizacao-header">
-                                <span class="localizacao-nome"><i class="bi bi-geo-alt"></i> ${loc.nomeDaLocalizacaoDoDispositivo || 'Localização não nomeada'}</span>
-                                <span class="badge-custom-secondary">${i + 1}</span>
-                            </div>
-                            <div class="localizacao-datas">
-                                <strong>Período:</strong> ${formatarData(loc.dataInicio)} até ${loc.dataFim ? formatarData(loc.dataFim) : 'Atual'}
-                            </div>
-                        </div>
-                    `).join('') :
-                    '<div class="text-center text-muted py-4">Nenhuma localização registrada.</div>';
-            })
-            .catch(() => {
-                container.innerHTML = '<div class="text-center text-danger py-4">Erro ao carregar histórico.</div>';
-            });
-    }
-
-    function formatarData(dataString) {
-        if (!dataString) return 'N/A';
-        try {
-            const data = new Date(dataString);
-            return data.toLocaleDateString('pt-BR') + ' ' + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        } catch {
-            return dataString;
-        }
-    }
-
-    function initDetalhesModalCleanup() {
-        document.getElementById('detalhesModal')?.addEventListener('hidden.bs.modal', function() {
-            document.getElementById('localizacoesContainer').innerHTML = '';
+    function vincularDispositivo(chipId) {
+        fetch('/home/config/vincular', {
+            method: 'POST',
+            body: new URLSearchParams({ chipId: chipId }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(response => {
+            if (response.status === 201) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('dispositivoModal'));
+                modal.hide();
+                mostrarMensagem('Dispositivo vinculado com sucesso!', 'success');
+                setTimeout(() => location.reload(true), 1000);
+            } else {
+                throw new Error('Erro ao vincular dispositivo');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            mostrarMensagem('Erro ao vincular dispositivo: ' + error.message, 'error');
         });
     }
 
-    // ===========================
-    // Toast helper (unificado)
-    // tipo: 'success'|'error'|'info'
-    // ===========================
-    function mostrarToast(titulo, mensagem, tipo = 'info') {
-        const toastEl = document.getElementById('toastUnificadoEl');
-        const body = document.getElementById('toastUnificadoBody');
-        if (!toastEl || !body) {
-            alert(titulo + ' - ' + mensagem);
-            return;
+    function mostrarMensagem(mensagem, tipo) {
+        // Remove mensagens anteriores
+        const mensagemAnterior = document.getElementById('mensagem-flutuante');
+        if (mensagemAnterior) {
+            mensagemAnterior.remove();
         }
 
-        const icon = {
-            success: '✅ ',
-            error: '⚠️ ',
-            info: 'ℹ️ '
-        }[tipo] || '';
+        // Cria nova mensagem
+        const divMensagem = document.createElement('div');
+        divMensagem.id = 'mensagem-flutuante';
+        divMensagem.className = `alert alert-${tipo === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+        divMensagem.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        divMensagem.innerHTML = `
+            ${mensagem}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
 
-        body.textContent = `${icon}${titulo} — ${mensagem}`;
+        document.body.appendChild(divMensagem);
 
-        const bsToast = new bootstrap.Toast(toastEl, { delay: 4500 });
-        bsToast.show();
+        setTimeout(() => {
+            if (divMensagem.parentNode) {
+                divMensagem.remove();
+            }
+        }, 5000);
+    }
+
+    // Funções de filtro
+    function toggleFiltros() {
+        const container = document.getElementById('filtrosContainer');
+        container.style.display = container.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function aplicarFiltros() {
+        const filtroNome = document.getElementById('filtroNome').value.toLowerCase();
+        const filtroModelo = document.getElementById('filtroModelo').value.toLowerCase();
+        const filtroLocalizacao = document.getElementById('filtroLocalizacao').value.toLowerCase();
+
+        filtrosAtivos = { nome: filtroNome, modelo: filtroModelo, localizacao: filtroLocalizacao };
+
+        const dadosFiltrados = dadosCompletos.filter(dispositivo => {
+            const matchNome = !filtroNome || dispositivo.nome.toLowerCase().includes(filtroNome);
+            const matchModelo = !filtroModelo || dispositivo.modelo.toLowerCase().includes(filtroModelo);
+            const matchLocalizacao = !filtroLocalizacao || dispositivo.elemento.textContent.toLowerCase().includes(filtroLocalizacao);
+            return matchNome && matchModelo && matchLocalizacao;
+        });
+
+        dadosCompletos.forEach(dispositivo => {
+            dispositivo.elemento.style.display = 'none';
+        });
+
+        dadosFiltrados.forEach(dispositivo => {
+            dispositivo.elemento.style.display = '';
+        });
+
+        atualizarContador(dadosFiltrados.length);
+        atualizarFiltrosAtivos();
+        salvarPreferencias();
+    }
+
+    function limparFiltros() {
+        document.getElementById('filtroNome').value = '';
+        document.getElementById('filtroModelo').value = '';
+        document.getElementById('filtroLocalizacao').value = '';
+        filtrosAtivos = { nome: '', modelo: '', localizacao: '' };
+
+        dadosCompletos.forEach(dispositivo => {
+            dispositivo.elemento.style.display = '';
+        });
+
+        atualizarContador(dadosCompletos.length);
+        document.getElementById('filtrosAtivos').style.display = 'none';
+        salvarPreferencias();
+    }
+
+    function atualizarFiltrosAtivos() {
+        const badgesContainer = document.getElementById('badgesFiltros');
+        const filtrosAtivosContainer = document.getElementById('filtrosAtivos');
+        badgesContainer.innerHTML = '';
+
+        let temFiltroAtivo = false;
+        if (filtrosAtivos.nome) {
+            badgesContainer.appendChild(criarBadgeFiltro('Nome: ' + filtrosAtivos.nome, 'nome'));
+            temFiltroAtivo = true;
+        }
+        if (filtrosAtivos.modelo) {
+            badgesContainer.appendChild(criarBadgeFiltro('Modelo: ' + filtrosAtivos.modelo, 'modelo'));
+            temFiltroAtivo = true;
+        }
+        if (filtrosAtivos.localizacao) {
+            badgesContainer.appendChild(criarBadgeFiltro('Localização: ' + filtrosAtivos.localizacao, 'localizacao'));
+            temFiltroAtivo = true;
+        }
+
+        filtrosAtivosContainer.style.display = temFiltroAtivo ? 'block' : 'none';
+    }
+
+    function criarBadgeFiltro(texto, tipo) {
+        const badge = document.createElement('span');
+        badge.className = 'badge-filtro';
+        badge.innerHTML = `${texto} <i class="bi bi-x" onclick="removerFiltro('${tipo}')"></i>`;
+        return badge;
+    }
+
+    function removerFiltro(tipo) {
+        switch(tipo) {
+            case 'nome': document.getElementById('filtroNome').value = ''; break;
+            case 'modelo': document.getElementById('filtroModelo').value = ''; break;
+            case 'localizacao': document.getElementById('filtroLocalizacao').value = ''; break;
+        }
+        aplicarFiltros();
+    }
+
+    function atualizarContador(total) {
+        document.getElementById('totalRegistros').textContent = total;
+        const contador = document.getElementById('contadorResultados');
+        if (Object.values(filtrosAtivos).some(filtro => filtro !== '')) {
+            contador.innerHTML = `Mostrando <strong>${total}</strong> de <strong>${dadosCompletos.length}</strong> registros`;
+        } else {
+            contador.innerHTML = `Mostrando <strong>${total}</strong> registros`;
+        }
+    }
+
+    function salvarPreferencias() {
+        const preferencias = { filtros: filtrosAtivos };
+        localStorage.setItem('preferenciasDispositivos', JSON.stringify(preferencias));
+    }
+
+    function carregarPreferencias() {
+        const salvo = localStorage.getItem('preferenciasDispositivos');
+        if (salvo) {
+            const preferencias = JSON.parse(salvo);
+            if (preferencias.filtros) {
+                document.getElementById('filtroNome').value = preferencias.filtros.nome || '';
+                document.getElementById('filtroModelo').value = preferencias.filtros.modelo || '';
+                document.getElementById('filtroLocalizacao').value = preferencias.filtros.localizacao || '';
+                setTimeout(() => aplicarFiltros(), 100);
+            }
+        }
     }
 </script>
 </body>

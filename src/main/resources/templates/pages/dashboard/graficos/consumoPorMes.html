@@ -5,75 +5,168 @@
         <canvas id="consumoChart"></canvas>
     </div>
 
-<!-- Chart.js + Plugin DataLabels -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <style>
+        .stat-card {
+            background: var(--card-bg, #1e293b);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--card-border, #334155);
+        }
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    const meses = [[${meses}]];
-    const consumos = [[${consumos}]];
-    const custos = [[${custos}]];
+        .stat-card h3 {
+            color: var(--text-primary, #f8fafc);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
 
-    const ctx = document.getElementById('consumoChart').getContext('2d');
+        #consumoChart {
+            width: 100% !important;
+            height: 300px !important; /* Altura aumentada */
+        }
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: meses,
-            datasets: [{
-                label: 'Consumo (kWh)',
-                data: consumos,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1,
-                borderRadius: 8,
-            }]
-        },
-        options: {
-            indexAxis: 'y', // barras horizontais
-            responsive: true,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
+        /* Responsividade */
+        @media (max-width: 768px) {
+            #consumoChart {
+                height: 400px !important; /* Altura mantida no mobile */
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+        }
+    </style>
+
+    <!-- Chart.js + Plugin DataLabels -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const meses = [[${meses}]];
+        const consumos = [[${consumos}]];
+        const custos = [[${custos}]];
+
+        const ctx = document.getElementById('consumoChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Consumo (kWh)',
+                    data: consumos,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    borderRadius: 6,
+                    barThickness: 25, // Barras mais espessas
+                }]
+            },
+            options: {
+                indexAxis: 'y', // barras horizontais
+                responsive: true,
+                maintainAspectRatio: false, // Importante para altura customizada
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 20,
+                        top: 10,
+                        bottom: 10
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                        titleColor: '#f8fafc',
+                        bodyColor: '#cfe9ff',
+                        borderColor: '#334155',
+                        borderWidth: 1,
+                        cornerRadius: 6,
+                        padding: 12,
+                        bodyFont: {
+                            size: 13
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                let idx = context.dataIndex;
+                                let custo = custos[idx];
+                                return `Consumo: ${context.formattedValue} kWh | Custo: R$ ${custo}`;
+                            },
+                            title: function(tooltipItems) {
+                                return `Mês: ${tooltipItems[0].label}`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        anchor: 'end',
+                        align: 'end',
+                        formatter: function(value, context) {
                             let idx = context.dataIndex;
                             let custo = custos[idx];
-                            return `Consumo: ${context.formattedValue} kWh | Custo: R$ ${custo}`;
+                            return `R$ ${custo}`;
+                        },
+                        font: {
+                            weight: 'bold',
+                            size: 12
+                        },
+                        padding: {
+                            right: 5
                         }
                     }
                 },
-                datalabels: {
-                    color: '#fff',
-                    anchor: 'end',
-                    align: 'end',
-                    formatter: function(value, context) {
-                        let idx = context.dataIndex;
-                        let custo = custos[idx];
-                        return `R$ ${custo}`;
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(148, 163, 184, 0.2)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#cfe9ff',
+                            font: {
+                                size: 12
+                            },
+                            callback: function(value) {
+                                return value + ' kWh';
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Consumo (kWh)',
+                            color: '#cfe9ff',
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            }
+                        }
                     },
-                    font: {
-                        weight: 'bold',
-                        size: 13
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: {
-                        color: '#cfe9ff'
+                    y: {
+                        grid: {
+                            color: 'rgba(148, 163, 184, 0.1)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#cfe9ff',
+                            font: {
+                                size: 12
+                            }
+                        }
                     }
                 },
-                y: {
-                    ticks: {
-                        color: '#cfe9ff'
-                    }
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
                 }
-            }
-        },
-        plugins: [ChartDataLabels] // ativa plugin
-    });
-    /*]]>*/
-</script>
+            },
+            plugins: [ChartDataLabels] // ativa plugin
+        });
+        /*]]>*/
+    </script>
+</div>

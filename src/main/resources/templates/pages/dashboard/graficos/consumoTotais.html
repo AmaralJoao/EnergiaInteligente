@@ -1,4 +1,6 @@
-<div th:fragment="consumoDoMesChart" class="stats-container" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="consumoTotaisChart(totalValor, totalHoras, consumoTotalKwh)" class="stats-container">
+    <!-- Título opcional para identificar cada instância -->
+
     <div class="stat-card">
         <h3>Total Gasto</h3>
         <p th:text="${totalValor}">0</p>
@@ -10,7 +12,7 @@
     </div>
 
     <div class="stat-card">
-        <h3>Total consumo(Kwh) </h3>
+        <h3>Total consumo(Kwh)</h3>
         <p th:text="${consumoTotalKwh}">0,0</p>
     </div>
 </div>
